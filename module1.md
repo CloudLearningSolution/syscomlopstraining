@@ -312,7 +312,7 @@ Try filters for:
 ### Step 1.1: Billing Account Setup and Navigation (20 minutes)
 
 1. Open your web browser
-2. Navigate to the Google Cloud Console and sign in: [Google Cloud Console](https://console.cloud.google.com/)
+2. Navigate to the Google Cloud Console (https://console.cloud.google.com/) and sign in: [Google Cloud Console](https://console.cloud.google.com/)
 
 ![Google Cloud Console Welcome Page](/GCP_Console_Welcome.png)
 
