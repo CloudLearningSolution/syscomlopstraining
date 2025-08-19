@@ -295,7 +295,7 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Click the terminal icon in the top navigation bar
 
-![Google Cloud Console Welcome Page](media/images/)
+![Google Cloud Console Welcome Page](CloudShell.png)
 
 ### 13. Explore Regions and Zones via CLI
 
@@ -356,177 +356,110 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 - Validated against [Google Cloud Regions and Zones Documentation](https://cloud.google.com/compute/docs/regions-zones)
 ---
 
-# Lab 2.4: Google Cloud Edge Network and Cloud CDN Exploration
+# 🧪 Lab 2.4: Google Cloud Edge Network and Cloud CDN Exploration
+
+**Duration:** 45 minutes  
+**Objective:** Explore Google Cloud’s edge infrastructure and understand how Cloud CDN accelerates content delivery using globally distributed edge locations—without finalizing resource creation.
 
 ---
 
-## Duration
+## 1. Prerequisites
 
-**30 minutes**
+- Google Cloud Console access with project-level permissions  
 
-## Objective
+- Cloud Shell enabled  
 
-Implement global content delivery using Google's edge network.
+- Basic understanding of networking and CDN principles  
 
----
+- Ensure the Cloud CDN API is enabled for your project  
 
-## Prerequisites
-
-- Google Cloud Console access with project access rights
-- Cloud Shell access enabled
-- Basic understanding of CDN concepts
+- No load balancer or backend service creation required  
 
 ---
 
-## Theory Review
+## 2. Theory Overview
 
-- Google Cloud operates **202+ network edge locations** across 200+ countries and territories
-- **Cloud CDN:** 100+ cache locations for content delivery
-- **Media CDN:** 3,000+ locations for video streaming and large file downloads
-- Global load balancing with **Anycast IP addresses**
-- Integration with Google’s private global network backbone
+- Google Cloud’s edge network includes over 200 edge locations globally  
 
+- Edge PoPs (Points of Presence) cache and serve content closer to users  
 
-## 🧪 Hands-On Lab
+- Cloud CDN integrates with HTTP(S) Load Balancing to deliver content via edge caches  
 
-### Part 1: Cloud Storage Setup for CDN Origin (10 minutes)
+- CDN reduces latency, offloads origin servers, and improves user experience  
 
-#### ✅ Step 1: Create Cloud Storage Bucket via Console
+---
 
-**Navigate to Cloud Storage:**
+## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
 
-1. Go to **Cloud Storage > Buckets**
-2. Click **Create bucket**
+### 10. Access Google Cloud Console
 
-**Configure Storage Bucket:**
+- Navigate to [Google Cloud Console](https://console.cloud.google.com)  
 
-- Name: `ml-cdn-content-[random-number]`
-- Location type: Multi-region
-- Default storage class: Standard
-- Access control: Fine-grained
-- Click **Create**
+- Select your project using the Project Picker  
 
-**Upload Sample Content:**
+### 11. Activate Cloud Shell
 
-1. Click your bucket name
-2. Click **Upload files**
-3. Upload an image, video, or HTML file
-4. Click **Upload**
+- Click the terminal icon in the top navigation bar  
 
-**Make Content Publicly Accessible:**
+### 12. Review Edge Location Coverage
 
-1. Select the uploaded file
-2. Click **Permissions** tab
-3. Click **Grant access**
-4. New principals: `allUsers`
-5. Role: `Storage Object Viewer`
-6. Click **Save**
+- Visit [Google Cloud CDN Locations](https://cloud.google.com/cdn/docs/locations)  
 
+- Note geographic distribution and latency zones  
 
-### Part 2: Cloud CDN Configuration (15 minutes)
+### 13. Navigate to Load Balancing
 
-#### 🌐 Step 2: Create HTTP Load Balancer with CDN via Console
+- Go to **Network Services > Load Balancing**  
 
-**Navigate to Load Balancing:**
+- Click **Create Load Balancer**  
 
-1. Go to **Network Services > Load balancing**
-2. Click **Create load balancer**
+- Select **Start configuration** for HTTP(S) Load Balancer  
 
-**Choose Load Balancer Type:**
+- Review backend options and CDN toggle  
 
-- Select **Global external Application Load Balancer**
-- Click **Configure**
+- Cancel before proceeding past this screen  
 
-**Configure Backend (Enable Cloud CDN):**
+### 14. Explore CDN Settings
 
-- Name: `ml-cdn-backend`
-- Backend type: Cloud Storage bucket
-- Cloud Storage bucket: Select your bucket
-- Enable **Cloud CDN**
-- Cache mode: `CACHE_ALL_STATIC`
-- Default TTL: `3600 seconds`
+- Toggle **Enable Cloud CDN**  
 
-**Configure Frontend:**
+- Review cache key policies and TTL settings  
 
-- Name: `ml-cdn-frontend`
-- Protocol: HTTP
-- Port: 80
-- IP Address: Create IP address (`ml-cdn-ip`)
+- Observe logging and monitoring options  
 
-**Review and Create:**
+- Cancel configuration before saving  
 
-- Name: `ml-cdn-lb`
-- Click **Create**
+### 15. Inspect Existing CDN-Enabled Backends (if available)
 
+- Run: gcloud compute backend-services list --filter="cdnPolicy.enable:true" --format="table(name,protocol,cdnPolicy.cacheMode)"
 
-#### 🔍 Step 3: Verify CDN Configuration via Cloud Shell
+4. Deliverables
 
-**List Load Balancers:**
+- Notes on CDN activation and configuration
 
-```python
-gcloud compute url-maps list --format="table(name,defaultService)"
+- Observations on cache behavior and latency
 
-gcloud compute url-maps describe ml-cdn-lb --global
+Summary of edge location coverage and performance benefits
 
-gcloud compute backend-services list --global --format="table(name,enableCDN,cdnPolicy.cacheMode)"
+5. Supplemental Materials
 
-Part 3: CDN Performance Testing (5 minutes)
-```
+- Runbook: runbooks/gcp-cloud-cdn-exploration.md
 
-📊 Step 4: Test CDN Performance via Cloud Shell
+- Playbook: playbooks/gcp-edge-network-strategy.md
 
-Get Load Balancer IP:
+6. Notes and Warnings
 
-```python
+- Do not finalize load balancer or backend service creation during this lab
 
-LB_IP=$(gcloud compute addresses describe ml-cdn-ip --global --format="value(address)")
-echo "Load Balancer IP: $LB_IP"
-```
+- Cloud CDN only works with HTTP(S) load balancers
 
-Test CDN Cache Behavior:
+- Edge locations are managed by Google and not directly configurable
 
-# First request (cache miss)
-```python
-echo "First request (cache miss):"
-curl -I http://$LB_IP/your-file.jpg | grep -E "(HTTP|Cache-Control|Age|X-Cache)"
-```
+- Cache behavior may vary based on content type and headers
 
-# Second request (cache hit)
-```python
-echo "Second request (cache hit):"
-curl -I http://$LB_IP/your-file.jpg | grep -E "(HTTP|Cache-Control|Age|X-Cache)"
-```
+7. Verification Source
 
-Test Global Distribution:
+- Validated against Google Cloud CDN Documentation
 
-```python
-curl -o /dev/null -s -w "Total time: %{time_total}s\n" http://$LB_IP/your-file.jpg
-```
-
-🌍 Step 5: Configure Custom Domain and SSL via Console
-1. **Reserve Global IP Address:**
-   - Go to **VPC Network > IP addresses**
-   - Click **Reserve external static address**
-   - Name: `ml-cdn-ssl-ip`
-   - Type: Global
-   - Click **Reserve**
-
-2. **Create SSL Certificate (Recommended: Google-managed):**
-   - Go to **Network Security > SSL certificates**
-   - Click **Create SSL certificate**
-   - Name: `ml-cdn-ssl-cert`
-   - Mode: Google-managed
-   - Domains: Enter your domain name
-   - Click **Create**
-3. **Update Load Balancer for HTTPS:**
-   - Go to **Network Services > Load balancing**
-   - Click on `ml-cdn-lb`
-   - Click **Edit**
-   - Add new frontend:
-     - Name: `ml-cdn-https-frontend`
-     - Protocol: HTTPS
-     - Port: 443
-     - IP address: `ml-cdn-ssl-ip`
-     - Certificate: `ml-cdn-ssl-cert`
-   - Click **Update**
+- Verified using Edge Locations Reference
 ---
