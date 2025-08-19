@@ -459,7 +459,7 @@ Summary of edge location coverage and performance benefits
 
 7. Verification Source
 
-- Validated against Google Cloud CDN Documentation
+- Validated against Google Cloud CDN Documentation: [Google Cloud CDN & Edge ](https://cloud.google.com/cdn/docs/overview)
 
 - Verified using Edge Locations Reference
 ---
