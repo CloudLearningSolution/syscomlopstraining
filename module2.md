@@ -293,11 +293,45 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ### 12. Activate Cloud Shell
 
-- Click the terminal icon in the top navigation bar
+- Enter Workstations in the search bar.
 
-![Google Cloud Console Welcome Page](CloudShell.png)
+![Google Cloud Console Welcome Page](workstations.png)
+
+- Select Create workstation
+
+- Enter a unique display name
+
+- Select test-configuration
+
+- In the configuration field drop down, select test-configuration
+
+- Select Create. Note: Creation may take several minutes to complete.
+
+- Select Start, located in the All workstations section, below the Quick actions column. Note: Creation may take several minutes to complete.
+
+- Select Launch, afterwards, using the new workstation select the menu icon to access options, select terminal from the options.
+
+![Google Cloud Console Welcome Page](terminal-workstation.png)
+
+- Review the terminal area.
 
 ### 13. Explore Regions and Zones via CLI
+
+- Run: `gcloud auth login`
+
+- Select the clickable link. Afterwards, select Open, upon selection a new browser session will start. Follow the prompts in the new session to login and get a verification code.
+
+![Google Cloud Console Welcome Page](gcloud_auth_CloudSDK.png)
+
+- Select Continue
+
+- Follow the prompts and provide username or password if required.
+
+- Select Copy. Note: The credential is a verfication code.
+
+- Paste the verification code into the terminal
+
+- Run: `gcloud config set project mfav2-374520`
 
 - Run: `gcloud compute regions list --format="table(name,status,zones.len():label=ZONES)"`
 
