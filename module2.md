@@ -1,4 +1,4 @@
-# Week 2: Core Architecture - Hands-On Workshop
+# MLOPS Model Migration Workshop – Week 2: Core Architecture - Hands-On Workshop
 
 ---
 
