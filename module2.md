@@ -291,7 +291,7 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ![Google Cloud Console Welcome Page](Project_Picker.png)
 
-### 12. Activate Cloud Shell
+### 12. Activate Cloud Shell or Use Cloud Workstations
 
 - Enter Workstations in the search bar.
 
@@ -401,7 +401,7 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Google Cloud Console access with project-level permissions  
 
-- Cloud Shell enabled  
+- Cloud Shell enabled or Cloud Workstations created and launched
 
 - Basic understanding of networking and CDN principles  
 
@@ -431,9 +431,11 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Select your project using the Project Picker  
 
-### 11. Activate Cloud Shell
+### 11. Activate Cloud Shell or Utilize Cloud Workstations
 
-- Click the terminal icon in the top navigation bar  
+- Click the terminal icon in the top navigation bar. Note: If you cannot launch the cloud shell or encounter warnings or errors, use cloud workstations.
+
+- Review lab 2.3, task number 12 and 13. Note: 
 
 ### 12. Review Edge Location Coverage
 
