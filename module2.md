@@ -65,7 +65,7 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ### 10. Access AWS Console
 
-- Navigate to [AWS Console](https://console.aws.amazon.com)
+- Navigate to [AWS Console](https://799101906606.signin.aws.amazon.com/console)
 
 - Launch CloudShell from the top navigation bar
 
@@ -172,7 +172,7 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ### 10. Access AWS Console
 
-- Navigate to [AWS Console](https://console.aws.amazon.com)
+- Navigate to [AWS Console](https://799101906606.signin.aws.amazon.com/console)
 
 - Launch CloudShell from the top navigation bar
 
@@ -335,11 +335,11 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Run: `gcloud compute regions list --format="table(name,status,zones.len():label=ZONES)"`
 
-- Run: `gcloud compute regions describe us-central1`
+- Run: `gcloud compute regions describe us-east1`
 
 - Run: `gcloud compute zones list --format="table(name,region,status)"`
 
-- Run: `gcloud compute zones list --filter="region:us-central1" --format="table(name,status)"`
+- Run: `gcloud compute zones list --filter="region:us-east1" --format="table(name,status)"`
 
 ### 14. Inspect Region-Zone Mapping via Console
 
@@ -351,9 +351,9 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ### 15. Check Service Availability
 
-- Run: `gcloud ai models list --region=us-central1 2>/dev/null || echo "Vertex AI not available in this region"`
+- Run: `gcloud ai models list --region=us-east1 2>/dev/null || echo "Vertex AI not available in this region"`
 
-- Run: `gcloud compute machine-types list --zones=us-central1-a --filter="name:n1-standard"`
+- Run: `gcloud compute machine-types list --zones=us-east1-a --filter="name:n1-standard"`
 
 ---
 
@@ -433,9 +433,9 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ### 11. Activate Cloud Shell or Utilize Cloud Workstations
 
-- Click the terminal icon in the top navigation bar. Note: If you cannot launch the cloud shell or encounter warnings or errors, use cloud workstations.
+- Note: If you cannot launch the cloud shell or encounter warnings or errors, use cloud workstations.
 
-- Review lab 2.3, task number 12 and 13. Note: 
+- Review the previous instructions for lab 2.3, task number 12 and 13. Note: If you did not delete the cloud workstation, continue by selecting start for the stopped workstation and then select launch.
 
 ### 12. Review Edge Location Coverage
 
@@ -443,25 +443,29 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Note geographic distribution and latency zones  
 
-### 13. Navigate to Load Balancing
+### 13. Navigate to Cloud CDN
 
-- Go to **Network Services > Load Balancing**  
+- Search for **Cloud CDN**  
 
-- Click **Create Load Balancer**  
+- Click **Add origin**  
 
-- Select **Start configuration** for HTTP(S) Load Balancer  
+- In the Define your backend bucket section, Select **Browse** from the Cloud Storage bucket field.  
 
-- Review backend options and CDN toggle  
+- In the Select bucket side panel, select **groundeddiabetes**. Afterwards choose **Select**
 
-- Cancel before proceeding past this screen  
+- In the Origin name field, enter a unique name.
 
-### 14. Explore CDN Settings
+- Select **Next**
 
-- Toggle **Enable Cloud CDN**  
+- Select the **Create new load balancer for me** button
 
-- Review cache key policies and TTL settings  
+- Enter a unique name in the **Load Balancer name** field.
 
-- Observe logging and monitoring options  
+- Select **Next**
+
+- Review Cache Performance **Basic options** 
+
+- Review cache key and TTL settings  
 
 - Cancel configuration before saving  
 
@@ -497,5 +501,4 @@ Summary of edge location coverage and performance benefits
 
 - Validated against Google Cloud CDN Documentation: [Google Cloud CDN & Edge ](https://cloud.google.com/cdn/docs/overview)
 
-- Verified using Edge Locations Reference
 ---
