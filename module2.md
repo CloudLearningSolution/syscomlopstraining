@@ -204,7 +204,7 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 ### 14. Compare Edge Location Coverage
 
-- Identify 3 cities with edge locations from the AWS map
+- Identify 3 cities with edge locations from the AWS map : https://aws.amazon.com/about-aws/global-infrastructure/
 
 - Note proximity to major user populations
 
