@@ -309,6 +309,8 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Select Start, located in the All workstations section, below the Quick actions column. Note: Creation may take several minutes to complete.
 
+![Google Cloud Console Welcome Page](launchCloudWorkstation.png)
+
 - Select Launch, afterwards, using the new workstation select the menu icon to access options, select terminal from the options.
 
 ![Google Cloud Console Welcome Page](terminal-workstation.png)
