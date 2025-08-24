@@ -805,3 +805,103 @@ GPU instances require quota and billing setup—explore only
 
 7. Verification Source
 Verified against Google Cloud Compute Engine Documentation
+
+---
+
+# 🧪 Lab 2.8: Cloud Storage Classes and Object Lifecycle Management
+
+**Duration:** 30 minutes  
+**Objective:** Explore Google Cloud Storage classes and lifecycle rule configurations to optimize cost and retention for ML datasets—without finalizing resource creation.
+
+---
+
+## 1. Prerequisites
+
+- Google Cloud Console access with Storage permissions  
+
+- Cloud Shell enabled  
+
+- Familiarity with object storage and data retention strategies  
+
+- Billing enabled (for simulation only—no resource creation)  
+
+- No lifecycle rule creation required  
+
+---
+
+## 2. Theory Overview
+
+- Cloud Storage offers multiple classes based on access frequency and availability  
+
+- Storage classes include: Standard, Nearline, Coldline, Archive  
+
+- Each class has minimum storage durations and retrieval fees  
+
+- Lifecycle rules automate transitions and deletions based on object age or conditions  
+
+- Actions include: SetStorageClass, Delete, AbortIncompleteMultipartUpload  
+
+---
+
+## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
+
+### 10. Access Cloud Storage Console
+
+- Navigate to [Cloud Storage > Buckets](https://console.cloud.google.com/storage)  
+
+- Select or simulate a bucket (e.g., `ml-datasets`)  
+
+### 11. Open Lifecycle Rules Panel
+
+- Click the bucket name  
+
+- Go to **Lifecycle** tab  
+
+- Click **+ Add a rule**  
+
+### 12. Explore Lifecycle Rule Configuration
+
+- Condition: Age > 30 days  
+
+- Action: Change storage class to Nearline  
+
+- Add second rule:  
+
+  - Age > 90 days → Coldline  
+
+  - Age > 365 days → Delete  
+
+- Cancel before saving  
+
+### 13. Review Pricing
+
+- Visit [Cloud Storage Pricing](https://cloud.google.com/storage/pricing)  
+
+- Compare cost for storing 1 TB over 12 months across classes  
+
+### 14. Inspect via CLI (Optional)
+
+- Run:  
+`gsutil lifecycle get gs://[YOUR_BUCKET_NAME]`
+
+4. Deliverables
+Summary of lifecycle rule configuration explored
+
+Pricing comparison table for storage classes
+
+CLI output of existing lifecycle rules (if applicable)
+
+5. Supplemental Materials
+Runbook: runbooks/gcp-storage-lifecycle-exploration.md
+
+Playbook: playbooks/gcp-storage-optimization-strategy.md
+
+6. Notes and Warnings
+Do not finalize lifecycle rule creation during this lab
+
+Minimum storage durations may incur early deletion fees
+
+Lifecycle rules should be scoped carefully using conditions
+
+7. Verification Source
+Verified against Google Cloud Storage Lifecycle Documentation
