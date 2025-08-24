@@ -598,3 +598,108 @@ Always validate instance compatibility with ML frameworks (e.g., TensorFlow, PyT
 
 7. Verification Source
 Verified against AWS EC2 Instance Types and Accelerated Computing Guidance
+
+---
+
+# 🧪 Lab 2.6: S3 Storage Classes and Lifecycle Management
+
+**Duration:** 30 minutes  
+**Objective:** Explore Amazon S3 storage tiers and lifecycle rule configurations to optimize cost for ML datasets—without finalizing resource creation.
+
+---
+
+## 1. Prerequisites
+
+- AWS Management Console access with S3 permissions  
+
+- CloudShell or AWS CLI enabled  
+
+- Sample bucket available or simulated for exploration  
+
+- Familiarity with object storage concepts and cost optimization strategies  
+
+- No lifecycle rule creation or bucket modification required  
+
+---
+
+## 2. Theory Overview
+
+- Amazon S3 offers multiple storage classes tailored to access patterns and cost  
+
+- Lifecycle rules automate transitions and deletions based on object age or tags  
+
+- Storage Class Comparison:  
+
+| Storage Class               | Use Case                          | Durability         | Availability | Retrieval Time     | Cost (per GB/month) |
+|----------------------------|-----------------------------------|--------------------|--------------|--------------------|----------------------|
+| Standard                   | Frequent access                   | 99.999999999%      | 99.99%       | Immediate          | High                 |
+| Intelligent-Tiering        | Unknown/changing access patterns  | 99.999999999%      | 99.9–99.99%  | Immediate          | Variable             |
+| Standard-IA                | Infrequent access                 | 99.999999999%      | 99.9%        | Immediate          | Lower                |
+| One Zone-IA                | Infrequent, single AZ             | 99.999999999%      | 99.5%        | Immediate          | Lowest IA            |
+| Glacier                    | Archival, occasional retrieval    | 99.999999999%      | N/A          | Minutes–hours      | Very low             |
+| Glacier Deep Archive       | Long-term archival                | 99.999999999%      | N/A          | Hours              | Lowest               |
+
+---
+
+## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
+
+### 9. Access S3 Console
+
+- Navigate to [S3 Buckets](https://console.aws.amazon.com/s3)  
+
+- Select or simulate a bucket (e.g., `ml-training-data`)  
+
+### 10. Open the Management Tab
+
+- Click the bucket name  
+
+- Navigate to **Management > Lifecycle rules**  
+
+- Click **Create lifecycle rule**  
+
+### 11. Explore Lifecycle Rule Configuration
+
+- Rule name: `ml-lifecycle-demo`  
+
+- Filter: Prefix = `ml-data/`  
+
+- Transitions:  
+  - Move to Standard-IA after 30 days  
+  - Move to Glacier after 90 days  
+
+- Expiration: Delete after 365 days  
+
+- Cancel before saving  
+
+### 12. Review Pricing
+
+- Visit [S3 Pricing](https://aws.amazon.com/s3/pricing/)  
+
+- Compare cost for storing 1 TB over 12 months across classes  
+
+### 13. Inspect Existing Lifecycle Rules (Optional)
+
+- Run:  
+```bash
+aws s3api get-bucket-lifecycle-configuration --bucket [YOUR_BUCKET_NAME]
+4. Deliverables
+Summary of lifecycle rule configuration explored
+
+Pricing comparison table for storage classes
+
+CLI output of existing lifecycle rules (if applicable)
+
+5. Supplemental Materials
+Runbook: runbooks/aws-s3-lifecycle-exploration.md
+
+Playbook: playbooks/aws-storage-optimization-strategy.md
+
+6. Notes and Warnings
+Do not finalize lifecycle rule creation during this lab
+
+Lifecycle transitions may incur retrieval fees—review pricing carefully
+
+Use tags and prefixes to scope rules narrowly in production environments
+
+7. Verification Source
+Verified against Amazon S3 Lifecycle Configuration Documentation
