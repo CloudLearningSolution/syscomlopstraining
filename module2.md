@@ -504,3 +504,98 @@ Summary of edge location coverage and performance benefits
 - Validated against Google Cloud CDN Documentation: [Google Cloud CDN & Edge ](https://cloud.google.com/cdn/docs/overview)
 
 ---
+
+# 🧪 Lab 2.5: EC2 Instance Types and Sizing for ML Workloads
+
+**Duration:** 45 minutes  
+**Objective:** Explore EC2 instance families optimized for machine learning workloads, focusing on sizing strategies, accelerator options, and pricing—without launching any instances.
+
+---
+
+## 1. Prerequisites
+
+- AWS Console access with read-only permissions  
+
+- Familiarity with EC2 concepts and ML workload characteristics  
+
+- No EC2 instance launch or billing-incurring actions required  
+
+- AWS CLI installed in CloudShell or local environment  
+
+---
+
+## 2. Theory Overview
+
+- ML workloads vary in compute, memory, and accelerator needs  
+
+- EC2 instance families include general purpose, compute optimized, memory optimized, and accelerated computing  
+
+- GPU-based instances (e.g., `p4`, `g5`) are ideal for training deep learning models  
+
+- Inferentia-based instances (e.g., `inf1`) are optimized for inference  
+
+- Sizing depends on model complexity, batch size, and training duration  
+
+---
+
+## 3. Hands-On Exploration Steps (Do Not Launch Instances)
+
+### 10. Access AWS Console
+
+- Navigate to [AWS EC2 Dashboard](https://console.aws.amazon.com/ec2/)  
+
+- Select **Instances > Launch Instance**  
+
+- Cancel before finalizing any configuration  
+
+### 11. Explore Instance Types
+
+- Go to **Instance Types** tab  
+
+- Filter by **Accelerated Computing**  
+
+- Review specs for `p4d`, `g5`, `inf1`, and `trn1`  
+
+### 12. Use AWS CLI to List ML-Optimized Instances
+
+- Run:  
+```bash
+aws ec2 describe-instance-types \
+  --filters Name=processor-info.supported-gpus,Values=*"NVIDIA"* \
+  --query 'InstanceTypes[*].InstanceType' \
+  --output table
+13. Review Pricing and Regional Availability
+Visit AWS Pricing Calculator
+
+Compare hourly costs for GPU vs CPU instances
+
+Note availability zones for ML-optimized types
+
+14. Examine Instance Limits
+Go to Limits tab in EC2 Dashboard
+
+Check quotas for GPU instances in your region
+
+4. Deliverables
+Summary of instance types suitable for ML training vs inference
+
+Notes on pricing, accelerator support, and regional availability
+
+CLI output showing GPU-enabled instance types
+
+5. Supplemental Materials
+Runbook: runbooks/aws-ec2-ml-sizing.md
+
+Playbook: playbooks/aws-ml-instance-selection.md
+
+6. Notes and Warnings
+Do not launch EC2 instances during this lab
+
+GPU instances may have limited availability in some regions
+
+Pricing varies significantly based on accelerator type and tenancy
+
+Always validate instance compatibility with ML frameworks (e.g., TensorFlow, PyTorch)
+
+7. Verification Source
+Verified against AWS EC2 Instance Types and Accelerated Computing Guidance
