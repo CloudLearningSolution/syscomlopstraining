@@ -507,7 +507,6 @@ Summary of edge location coverage and performance benefits
 
 # 🧪 Lab 2.5: EC2 Instance Types and Sizing for ML Workloads
 
-**Duration:** 45 minutes  
 **Objective:** Explore EC2 instance families optimized for machine learning workloads, focusing on sizing strategies, accelerator options, and pricing—without launching any instances.
 
 ---
@@ -559,11 +558,11 @@ Summary of edge location coverage and performance benefits
 ### 12. Use AWS CLI to List ML-Optimized Instances
 
 - Run:  
-```bash
-aws ec2 describe-instance-types \
+`aws ec2 describe-instance-types \
   --filters Name=processor-info.supported-gpus,Values=*"NVIDIA"* \
   --query 'InstanceTypes[*].InstanceType' \
-  --output table
+  --output table`
+  
 13. Review Pricing and Regional Availability
 Visit AWS Pricing Calculator
 
