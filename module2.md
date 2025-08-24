@@ -679,9 +679,9 @@ Verified against AWS EC2 Instance Types and Accelerated Computing Guidance
 
 ### 13. Inspect Existing Lifecycle Rules (Optional)
 
-- Run:  
-```bash
-aws s3api get-bucket-lifecycle-configuration --bucket [YOUR_BUCKET_NAME]
+- Run:
+`aws s3api get-bucket-lifecycle-configuration --bucket [YOUR_BUCKET_NAME]`
+
 4. Deliverables
 Summary of lifecycle rule configuration explored
 
