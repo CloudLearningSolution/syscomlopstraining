@@ -245,7 +245,7 @@ The learning doesn't stop after 16 weeks:
 
 - [ ] Complete account setup (AWS, GCP, GitHub)
 - [ ] Install required tools and CLI utilities
-- [ ] Join training Slack workspace
+- [ ] Join targeted training Teams workspace
 - [ ] Introduce yourself to the community
 - [ ] Clone training repository and review Week 1 materials
 - [ ] Attend orientation session and meet your mentor
