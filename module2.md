@@ -1,4 +1,4 @@
-# MLOPS Model Migration Workshop – Week 2: Core Architecture - Hands-On Workshop
+# Machine Learning Operations Playbook Adoption Workshop – Week 2: Core Architecture - Hands-On Workshop
 
 ---
 
