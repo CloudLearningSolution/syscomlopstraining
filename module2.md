@@ -703,3 +703,105 @@ Use tags and prefixes to scope rules narrowly in production environments
 
 7. Verification Source
 Verified against Amazon S3 Lifecycle Configuration Documentation
+
+---
+
+# 🧪 Lab 2.7: Compute Engine Machine Types and Custom Configurations
+
+**Duration:** 30 minutes  
+**Objective:** Explore Google Cloud Compute Engine machine families, sizing strategies, and custom VM configurations for ML workloads—without finalizing resource creation.
+
+---
+
+## 1. Prerequisites
+
+- Google Cloud Console access with Compute Engine permissions  
+
+- Cloud Shell enabled  
+
+- Familiarity with VM sizing and ML workload characteristics  
+
+- Billing enabled (for simulation only—no resource creation)  
+
+- No VM instance creation required  
+
+---
+
+## 2. Theory Overview
+
+- Compute Engine offers predefined and custom machine types across multiple families  
+
+- General-purpose families (E2, N2, N2D, N4) support custom configurations  
+
+- Accelerator-optimized families (G2) support GPU workloads  
+
+- Custom machine types allow fine-grained control over vCPU and memory  
+
+- Extended memory is available for select series with pricing implications  
+
+---
+
+## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
+
+### 10. Access Compute Engine Console
+
+- Navigate to [Compute Engine > VM Instances](https://console.cloud.google.com/compute/instances)  
+
+- Click **Create Instance** (do not complete creation)  
+
+### 11. Explore Machine Type Options
+
+- Under **Machine configuration**, review:  
+
+  - Series: E2, N2, N2D, N4  
+
+  - Preset types: standard, highmem, highcpu  
+
+  - Click **Customize** to manually set vCPU and memory  
+
+### 12. Simulate ML Workload Sizing
+
+- Example configuration:  
+
+  - vCPU: 8  
+
+  - Memory: 64 GB  
+
+  - Family: N2  
+
+- Observe estimated monthly cost (do not proceed to deploy)  
+
+### 13. Review GPU Options (Optional)
+
+- Under **CPU platform and GPU**, explore G2 family  
+
+- Note GPU types: NVIDIA L4, A100  
+
+- Do not attach GPUs or finalize instance  
+
+### 14. Inspect via CLI (Optional)
+
+- Run:  
+`gcloud compute machine-types list --zones=us-central1-a`
+
+4. Deliverables
+Summary of machine families and sizing options explored
+
+Screenshot or notes from custom configuration simulation
+
+CLI output of available machine types (if applicable)
+
+5. Supplemental Materials
+Runbook: runbooks/gcp-compute-machine-types.md
+
+Playbook: playbooks/gcp-ml-instance-sizing-strategy.md
+
+6. Notes and Warnings
+Do not finalize VM creation during this lab
+
+Custom configurations may affect pricing and availability
+
+GPU instances require quota and billing setup—explore only
+
+7. Verification Source
+Verified against Google Cloud Compute Engine Documentation
