@@ -708,7 +708,6 @@ Verified against Amazon S3 Lifecycle Configuration Documentation
 
 # 🧪 Lab 2.7: Compute Engine Machine Types and Custom Configurations
 
-**Duration:** 30 minutes  
 **Objective:** Explore Google Cloud Compute Engine machine families, sizing strategies, and custom VM configurations for ML workloads—without finalizing resource creation.
 
 ---
@@ -716,28 +715,34 @@ Verified against Amazon S3 Lifecycle Configuration Documentation
 ## 1. Prerequisites
 
 - Google Cloud Console access with Compute Engine permissions  
-
 - Cloud Shell enabled  
-
 - Familiarity with VM sizing and ML workload characteristics  
-
 - Billing enabled (for simulation only—no resource creation)  
-
 - No VM instance creation required  
 
 ---
 
 ## 2. Theory Overview
 
+### Machine Family Categories
 - Compute Engine offers predefined and custom machine types across multiple families  
+- **General-purpose families** (E2, N2, N2D, N4, C3, C3D, C4, C4A, C4D) support custom configurations  
+- **Accelerator-optimized families** (A3, A2, G2) provide fixed GPU configurations  
+- **Memory-optimized families** (M1, M2, M3, M4) for memory-intensive workloads  
+- **Compute-optimized families** (C2, C2D, H3) for compute-intensive tasks  
+- **Cost-optimized families** (T2A, T2D, E2) for budget-conscious workloads  
 
-- General-purpose families (E2, N2, N2D, N4) support custom configurations  
-
-- Accelerator-optimized families (G2) support GPU workloads  
-
+### Key Features
 - Custom machine types allow fine-grained control over vCPU and memory  
+- Extended memory is available for N4, N2, N2D, and N1 series (not E2 or G2)  
+- **Default Vertex AI configuration:** e2-standard-4 (4 vCPUs, 16GB memory)  
+- GPU availability varies by zone and requires specific machine series  
 
-- Extended memory is available for select series with pricing implications  
+### Current GPU Options (2025)
+- **NVIDIA L4**: Cost-effective inference, video processing (G2 series)  
+- **NVIDIA A100**: High-performance training and inference (A2 series)  
+- **NVIDIA H100/H200**: Latest generation for demanding AI workloads (A3 series)  
+- **Legacy GPUs**: T4, V100, P4, P100 (N1 series only)  
 
 ---
 
@@ -746,65 +751,194 @@ Verified against Amazon S3 Lifecycle Configuration Documentation
 ### 10. Access Compute Engine Console
 
 - Navigate to [Compute Engine > VM Instances](https://console.cloud.google.com/compute/instances)  
-
 - Click **Create Instance** (do not complete creation)  
 
 ### 11. Explore Machine Type Options
 
-- Under **Machine configuration**, review:  
-
-  - Series: E2, N2, N2D, N4  
-
-  - Preset types: standard, highmem, highcpu  
-
-  - Click **Customize** to manually set vCPU and memory  
+- Under **Machine configuration**, review current series:  
+  - **General-purpose**: E2, N2, N2D, N4, C3, C3D, C4  
+  - **Preset types**: standard, highmem, highcpu  
+  - Click **Customize** to manually set vCPU and memory  
+  - Note pricing differences between series  
 
 ### 12. Simulate ML Workload Sizing
 
-- Example configuration:  
+#### Example Configuration 1: Training Workload
+- vCPU: 16  
+- Memory: 128 GB  
+- Family: N4 (latest general-purpose)  
+- Observe estimated monthly cost  
 
-  - vCPU: 8  
+#### Example Configuration 2: Inference Workload  
+- vCPU: 8  
+- Memory: 32 GB  
+- Family: E2 (cost-optimized)  
+- Compare pricing with N4 equivalent  
 
-  - Memory: 64 GB  
+### 13. Review GPU Options
 
-  - Family: N2  
+#### A3 Series (Latest - 2025)
+- Under **Machine configuration**, select **A3**  
+- Note: NVIDIA H100/H200 GPUs (fixed configurations)  
+- Observe pricing for high-end AI workloads  
 
-- Observe estimated monthly cost (do not proceed to deploy)  
+#### G2 Series (Cost-Effective)
+- Under **Machine configuration**, select **G2**  
+- Note: NVIDIA L4 GPUs (1, 2, 4, or 8 GPUs)  
+- Custom memory range available  
 
-### 13. Review GPU Options (Optional)
+#### A2 Series (Established)
+- Review A2 options with NVIDIA A100 GPUs  
+- Note: Fixed configurations (1, 2, 4, 8, or 16 GPUs)  
 
-- Under **CPU platform and GPU**, explore G2 family  
+### 14. Explore Extended Memory Options
 
-- Note GPU types: NVIDIA L4, A100  
+- Select N4 or N2 series  
+- Under **Machine type**, select **Custom**  
+- Increase memory beyond standard ratios  
+- Note the "-ext" designation for extended memory  
+- Observe pricing premium for extended configurations  
 
-- Do not attach GPUs or finalize instance  
+### 15. Check Regional GPU Availability
 
-### 14. Inspect via CLI (Optional)
+- In **Advanced options**, change **Region** and **Zone**  
+- Note how GPU availability changes by location  
+- Example: Compare `us-central1-a` vs `asia-east1-a`  
 
-- Run:  
-`gcloud compute machine-types list --zones=us-central1-a`
+### 16. Inspect via CLI (Optional)
 
-4. Deliverables
-Summary of machine families and sizing options explored
+#### List Available Machine Types
+```bash
+gcloud compute machine-types list --zones=us-central1-a --format="table(name,guestCpus,memoryMb)"
+```
 
-Screenshot or notes from custom configuration simulation
+#### List GPU Types by Zone
+```bash
+gcloud compute accelerator-types list --zones=us-central1-a
+```
 
-CLI output of available machine types (if applicable)
+#### Check Quotas
+```bash
+gcloud compute project-info describe --format="table(quotas.metric,quotas.limit,quotas.usage)"
+```
 
-5. Supplemental Materials
-Runbook: runbooks/gcp-compute-machine-types.md
+---
 
-Playbook: playbooks/gcp-ml-instance-sizing-strategy.md
+## 4. Vertex AI Integration Notes
 
-6. Notes and Warnings
-Do not finalize VM creation during this lab
+### Pipeline Training Jobs
+- Default machine type: **e2-standard-4** (4 vCPUs, 16GB memory)  
+- CustomJob supports up to 96 vCPUs and 624GB memory  
+- GPU support requires A2, N1, or G2 machine types  
 
-Custom configurations may affect pricing and availability
+### Vertex AI Workbench
+- Supports configurable machine types for notebooks  
+- Both CPU-only and GPU-enabled instances available  
+- Automatic GPU driver installation option  
 
-GPU instances require quota and billing setup—explore only
+### Best Practices
+- Start with E2 for cost optimization  
+- Use N4 for balanced performance  
+- Choose G2 for cost-effective AI inference  
+- Select A3 for demanding training workloads  
 
-7. Verification Source
-Verified against Google Cloud Compute Engine Documentation
+---
+
+## 5. Deliverables
+
+- Summary of machine families and sizing options explored  
+- Screenshots or notes from custom configuration simulations  
+- Comparison table of pricing across different series  
+- CLI output of available machine types and GPUs (if applicable)  
+- Regional availability observations  
+
+---
+
+## 6. Supplemental Materials
+
+- Runbook: `runbooks/gcp-compute-machine-types.md`  
+- Playbook: `playbooks/gcp-ml-instance-sizing-strategy.md`  
+- Reference: [GPU regions and zones availability](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones)  
+
+---
+
+## 7. Notes and Warnings
+
+- **Do not finalize VM creation during this lab**  
+- Custom configurations incur a 5% pricing premium over predefined types  
+- Extended memory does not qualify for committed use discounts  
+- GPU instances require quota approval and billing setup—explore only  
+- **GPU availability varies significantly by zone**—always check before deployment  
+- Some newer GPU types (H100, H200) may have limited availability  
+
+---
+
+## 8. Verification Source
+
+- Verified against Google Cloud Compute Engine Documentation (Updated August 2025)  
+- Cross-referenced with Vertex AI machine type specifications  
+- GPU availability confirmed via Google Cloud Console and CLI  
+
+---
+
+## 9. Quick Reference
+
+### Machine Series by Use Case (2025) - GCP vs AWS Comparison
+
+#### **Google Cloud Platform (GCP)**
+| Use Case | Recommended Series | GPU Options | Notes |
+|----------|-------------------|-------------|--------|
+| Development/Testing | E2 | None | Most cost-effective |
+| General ML Training | N4, N2 | Add via N1 | Balanced performance |
+| Cost-Optimized Inference | G2 | NVIDIA L4 | Built-in GPUs |
+| High-Performance Training | A3 | NVIDIA H100/H200 | Latest generation |
+| Large-Scale Training | A2 | NVIDIA A100 | Established option |
+| Memory-Intensive | N2D, N4 | Add via N1 | Extended memory support |
+
+#### **Amazon Web Services (AWS SageMaker)**
+| Use Case | Recommended Series | GPU Options | Notes | GCP Equivalent |
+|----------|-------------------|-------------|--------|---------------|
+| Development/Testing | ml.t3.medium | None | Default CPU instance, free tier | E2 |
+| General ML Training | ml.m5, ml.c5 | Add ml.g4dn | Balanced compute/memory | N4, N2 |
+| Cost-Optimized Inference | ml.g4dn, ml.g5 | NVIDIA T4, A10G | Built-in GPUs | G2 |
+| High-Performance Training | ml.p4d, ml.p5 | NVIDIA A100, H100 | UltraCluster support | A3, A2 |
+| Large-Scale Training | ml.p4d.24xlarge | 8x NVIDIA A100 | Multi-node capability | A2 |
+| Memory-Intensive | ml.r5, ml.r6i | Add via ml.p* | High memory ratios | N2D, N4 |
+| Custom Silicon Inference | ml.inf1, ml.inf2 | AWS Inferentia 1/2 | Cost-effective inference | No direct equivalent |
+| Custom Silicon Training | ml.trn1, ml.trn2 | AWS Trainium | 50% cost savings | No direct equivalent |
+
+#### **Key Differences & Mapping:**
+
+**Compute Families:**
+- **GCP E2** ↔ **AWS ml.t3**: Cost-optimized, burstable
+- **GCP N4/N2** ↔ **AWS ml.m5/ml.c5**: General purpose, balanced resources  
+- **GCP G2** ↔ **AWS ml.g4dn/ml.g5**: GPU-optimized for inference
+- **GCP A3** ↔ **AWS ml.p5**: Latest generation high-end training
+- **GCP A2** ↔ **AWS ml.p4d**: Established high-performance training
+
+**GPU Comparison:**
+- **GCP NVIDIA L4** ↔ **AWS NVIDIA T4**: Cost-effective inference
+- **GCP NVIDIA A100** ↔ **AWS NVIDIA A100**: Same GPU, different platforms
+- **GCP NVIDIA H100/H200** ↔ **AWS NVIDIA H100**: Latest generation training
+
+**Unique to AWS:**
+- **ml.inf1/inf2**: AWS Inferentia chips for cost-effective inference
+- **ml.trn1/trn2**: AWS Trainium chips for training cost savings
+- **UltraCluster**: Multi-node scaling up to thousands of GPUs
+
+**Unique to GCP:**
+- **Extended memory**: Higher memory-to-CPU ratios on select series
+- **Custom machine types**: Fine-grained vCPU/memory control
+- **Titanium integration**: Hardware acceleration for networking
+
+#### **Pricing Model Differences:**
+- **GCP**: Pay-per-second, custom configurations, sustained use discounts
+- **AWS**: Pay-per-hour, predefined sizes, Savings Plans and Spot instances
+
+### Default Configurations
+- **Vertex AI CustomJob**: e2-standard-4 (4 vCPUs, 16GB)  
+- **Minimum for GPU workloads**: Avoid small instances (e.g., n1-highmem-2) with GPUs  
+- **Maximum CustomJob**: 96 vCPUs, 624GB memory
 
 ---
 
