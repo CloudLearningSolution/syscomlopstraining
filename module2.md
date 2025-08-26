@@ -756,6 +756,10 @@ Verified against Amazon S3 Lifecycle Configuration Documentation
 
 ![Google Cloud Console Welcome Page](Project_Picker.png)
 
+---
+
+![Google Cloud Console Welcome Page](/Project_Name_Selected.png)
+
 - Use Cloud Workstations
 
 - Enter Workstations in the search bar.
