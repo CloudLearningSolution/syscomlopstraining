@@ -574,41 +574,41 @@ Summary of edge location coverage and performance benefits
   --query 'InstanceTypes[?GpuInfo != null].{InstanceType:InstanceType, GPU:GpuInfo.Gpus[0].Name, Count:GpuInfo.Gpus[0].Count}' \
   --output table`
   
-13. Review Pricing and Regional Availability
-Visit AWS Pricing Calculator
+13. (Optional) Review Pricing and Regional Availability
+- Visit AWS Pricing Calculator
 
-Compare hourly costs for GPU vs CPU instances
+- Compare hourly costs for GPU vs CPU instances
 
-Note availability zones for ML-optimized types
+- Note availability zones for ML-optimized types
 
 14. Examine Instance Limits
-Go to Limits tab in EC2 Dashboard
+- Go to Limits tab in EC2 Dashboard
 
-Check quotas for GPU instances in your region
+- Check quotas for GPU instances in your region
 
 4. Deliverables
-Summary of instance types suitable for ML training vs inference
+- Summary of instance types suitable for ML training vs inference
 
-Notes on pricing, accelerator support, and regional availability
+- Notes on pricing, GPU accelerator support, and regional availability
 
-CLI output showing GPU-enabled instance types
+- CLI output showing GPU-enabled instance types
 
 5. Supplemental Materials
-Runbook: runbooks/aws-ec2-ml-sizing.md
+- Runbook: runbooks/aws-ec2-ml-sizing.md
 
-Playbook: playbooks/aws-ml-instance-selection.md
+- Playbook: playbooks/aws-ml-instance-selection.md
 
 6. Notes and Warnings
-Do not launch EC2 instances during this lab
+- Do not launch EC2 instances during this lab
 
-GPU instances may have limited availability in some regions
+- GPU instances may have limited availability in some regions
 
-Pricing varies significantly based on accelerator type and tenancy
+- Pricing varies significantly based on GPU accelerator type and tenancy
 
-Always validate instance compatibility with ML frameworks (e.g., TensorFlow, PyTorch)
+- Always validate instance compatibility with ML frameworks (e.g., TensorFlow, PyTorch)
 
 7. Verification Source
-Verified against AWS EC2 Instance Types and Accelerated Computing Guidance
+Verified against AWS EC2 Instance Types and [GPU Accelerated Computing Guidance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/gpu-instances-started.html)
 
 ---
 
@@ -658,62 +658,73 @@ Verified against AWS EC2 Instance Types and Accelerated Computing Guidance
 
 - Navigate to [S3 Buckets](https://console.aws.amazon.com/s3)  
 
-- Select or simulate a bucket (e.g., `ml-training-data`)  
+- Select bucket (e.g., `theiiadiabetesaws`)
 
 ### 10. Open the Management Tab
 
 - Click the bucket name  
 
-- Navigate to **Management > Lifecycle rules**  
+- Select the tab named **Management** >  and review **Lifecycle rules**
 
 - Click **Create lifecycle rule**  
 
 ### 11. Explore Lifecycle Rule Configuration
 
-- Rule name: `ml-lifecycle-demo`  
+- Enter Rule name: `ml-lifecycle-demo`  
 
-- Filter: Prefix = `ml-data/`  
+- Filter: Prefix = `/` . For example: `raw/`
 
-- Transitions:  
-  - Move to Standard-IA after 30 days  
-  - Move to Glacier after 90 days  
+- Transitions:
 
-- Expiration: Delete after 365 days  
+  - Select **Transition current versions of objects between storage classes**
+  
+  Note: Select **I acknowledge that this lifecyce rule will incur a transition cost per request
+  
+  - In the **Transition current versions of objects between storage classes**
+    
+  - Update Choose storage class transitions to Standard-IA after 30 days
+    
+  - Select **Add transition**
+    
+  - Update Choose storage class transitions to Glacier Flexible Retrieval after 90 days
+    
+  - Cancel before saving  
 
-- Cancel before saving  
-
-### 12. Review Pricing
+### 12. (Optional) Review Pricing
 
 - Visit [S3 Pricing](https://aws.amazon.com/s3/pricing/)  
 
-- Compare cost for storing 1 TB over 12 months across classes  
+- Compare cost for storing data over 12 months across classes  
 
 ### 13. Inspect Existing Lifecycle Rules (Optional)
 
 - Run:
+
+- Note: The following command is expected to fail because you were instructed cancel before saving your lifecycle rule.
+  
 `aws s3api get-bucket-lifecycle-configuration --bucket [YOUR_BUCKET_NAME]`
 
 4. Deliverables
-Summary of lifecycle rule configuration explored
+- Summary of lifecycle rule configuration explored
 
-Pricing comparison table for storage classes
+- Pricing comparison table for storage classes
 
-CLI output of existing lifecycle rules (if applicable)
+- CLI output of existing lifecycle rules (if applicable)
 
 5. Supplemental Materials
-Runbook: runbooks/aws-s3-lifecycle-exploration.md
+- Runbook: runbooks/aws-s3-lifecycle-exploration.md
 
-Playbook: playbooks/aws-storage-optimization-strategy.md
+- Playbook: playbooks/aws-storage-optimization-strategy.md
 
 6. Notes and Warnings
-Do not finalize lifecycle rule creation during this lab
+- Do not finalize lifecycle rule creation during this lab
 
-Lifecycle transitions may incur retrieval fees—review pricing carefully
+- Lifecycle transitions may incur retrieval fees—review pricing carefully
 
-Use tags and prefixes to scope rules narrowly in production environments
+- Use tags and prefixes to scope rules narrowly in production environments
 
 7. Verification Source
-Verified against Amazon S3 Lifecycle Configuration Documentation
+- Verified against Amazon S3 Lifecycle Configuration Documentation
 
 ---
 
