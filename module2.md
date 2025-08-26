@@ -750,7 +750,7 @@ Verified against Amazon S3 Lifecycle Configuration Documentation
 
 - Access Google Cloud Console
 
-- Navigate to [Google Cloud Console](https://console.cloud.google.com)
+- Navigate to [Google Cloud Console](https://console.cloud.google.com) https://console.cloud.google.com
 
 - Use the Project Picker to select your project
 
