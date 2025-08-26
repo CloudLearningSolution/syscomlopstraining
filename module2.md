@@ -543,24 +543,35 @@ Summary of edge location coverage and performance benefits
 
 - Navigate to [AWS EC2 Dashboard](https://console.aws.amazon.com/ec2/)  
 
-- Select **Instances > Launch Instance**  
+- Select **Instances > Launch Instance**
 
-- Cancel before finalizing any configuration  
+- Select the area displaying an instance type. For example: t3.micro
+
+- In the search field, enter g5. Review the instance type details.
+
+- Do not launch an instance. Cancel before finalizing any configuration  
 
 ### 11. Explore Instance Types
 
-- Go to **Instance Types** tab  
+- Search for EC2 if you cannot navigate back to the EC2 Dashboard
 
-- Filter by **Accelerated Computing**  
+- Select **Instance Types**
 
-- Review specs for `p4d`, `g5`, `inf1`, and `trn1`  
+- Select **Instance type finder**
+
+- Select the drop down menue from **Workload type** field, and then select **Machine Learning.**
+
+- Leave the rest of the fields with thier default settings.
+
+- Select **Get instance type advice**
+
+- Review the **Additional information** 
 
 ### 12. Use AWS CLI to List ML-Optimized Instances
 
 - Run:  
 `aws ec2 describe-instance-types \
-  --filters Name=processor-info.supported-gpus,Values=*"NVIDIA"* \
-  --query 'InstanceTypes[*].InstanceType' \
+  --query 'InstanceTypes[?GpuInfo != null].{InstanceType:InstanceType, GPU:GpuInfo.Gpus[0].Name, Count:GpuInfo.Gpus[0].Count}' \
   --output table`
   
 13. Review Pricing and Regional Availability
