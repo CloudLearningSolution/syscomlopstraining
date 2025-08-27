@@ -828,16 +828,25 @@ Verified against AWS EC2 Instance Types and [GPU Accelerated Computing Guidance]
 
 ### 10. Access Compute Engine Console
 
-- Navigate to [Compute Engine > VM Instances](https://console.cloud.google.com/compute/instances)  
+- Navigate to [Compute Engine > VM Instances](https://console.cloud.google.com/compute/instances)
+- Alternatively, search for **Compute Engine**
 - Click **Create Instance** (do not complete creation)  
 
 ### 11. Explore Machine Type Options
 
-- Under **Machine configuration**, review current series:  
-  - **General-purpose**: E2, N2, N2D, N4, C3, C3D, C4  
-  - **Preset types**: standard, highmem, highcpu  
-  - Click **Customize** to manually set vCPU and memory  
-  - Note pricing differences between series  
+- Under **Machine configuration**, review current series:
+  
+  - **General-purpose**: E2, N2, N2D, N4, C3, C3D, C4, etc.
+    
+  - Navigate below Machine types for common workloads, optimized for cost and flexibility, and locate **Machine type**
+    
+  - In the **Machine type** area review **Preset types**: shared-core, standard, highmem, highcpu
+    
+  - Click **Customize** to manually set vCPU and memory
+    
+  - Note pricing differences between series including Preset or Custom by reviewing **Monthly estimate**
+    
+- Note: Notice that logging, monitoring (metrics), and snapshot are additional varying costs.
 
 ### 12. Simulate ML Workload Sizing
 
