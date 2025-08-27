@@ -854,43 +854,61 @@ Verified against AWS EC2 Instance Types and [GPU Accelerated Computing Guidance]
 - vCPU: 16  
 - Memory: 128 GB  
 - Family: N4 (latest general-purpose)  
-- Observe estimated monthly cost  
+- Observe estimated monthly cost
+
+Challenge Activity Question: 
+
+Do you recommend using **Preset** to support your machine learning operation training workload system requirements? Yes or No. Please explain your answer using the Teams chat.
 
 #### Example Configuration 2: Inference Workload  
 - vCPU: 8  
 - Memory: 32 GB  
 - Family: E2 (cost-optimized)  
-- Compare pricing with N4 equivalent  
+- Compare pricing with N4 equivalent
+
+Challenge Activity Question: 
+
+What is the cost difference? Please explain your answer using the Teams chat.
 
 ### 13. Review GPU Options
 
 #### A3 Series (Latest - 2025)
-- Under **Machine configuration**, select **A3**  
-- Note: NVIDIA H100/H200 GPUs (fixed configurations)  
-- Observe pricing for high-end AI workloads  
+- Under **Machine configuration**, select **GPUs**  
+- Review: NVIDIA H100/H200 GPUs (fixed configurations)
+- Review: **Machine type** section and review the drop down options. (e.g. `a3-highgpu`)
+- Observe **Monthly estimate.** 
 
 #### G2 Series (Cost-Effective)
-- Under **Machine configuration**, select **G2**  
-- Note: NVIDIA L4 GPUs (1, 2, 4, or 8 GPUs)  
-- Custom memory range available  
+- Under **Machine configuration**, select **GPUs**  
+- Review: NVIDIA L4 GPUs (1, 2, 4, or 8 GPUs)
+- Review **Preset** and **Custom** vCPU and memory range options. 
 
 #### A2 Series (Established)
-- Review A2 options with NVIDIA A100 GPUs  
-- Note: Fixed configurations (1, 2, 4, 8, or 16 GPUs)  
+- Under **Machine configuration**, select **GPUs**
+- Review NVIDIA A100 GPUs
+- Make note of the Machine types. (e.g. a2-highgpu-1g)
+- Note: Fixed configurations (1, 2, 4, 8, or 16 GPUs)
+
+Challenge Activity Question: 
+
+What is the machine type name for NVIDIA A100 GPUs including 1 GPUs and 85 GB memory, and the name if I need 16 GPUs ? Please explain your answer using the Teams chat.
+
+- Note: Here is some insight regarding machine type names. In the CLI and SDK the syntax for machine type differs. For example ( `--accelerator=count=16,type=nvidia-tesla-a100 ` ) . It is important to know the machine type name to locate the SDK syntax version.
 
 ### 14. Explore Extended Memory Options
 
-- Select N4 or N2 series  
+- Select **General purpose**
+- Select N2 series  
 - Under **Machine type**, select **Custom**  
-- Increase memory beyond standard ratios  
-- Note the "-ext" designation for extended memory  
-- Observe pricing premium for extended configurations  
+- Under Cores and Memory, select **Extend Memory** 
+- Note the the significant increase to memory range in GB  
 
 ### 15. Check Regional GPU Availability
 
-- In **Advanced options**, change **Region** and **Zone**  
+- Select GPUs
+- In **Machine configuration**, change **Region** and **Zone**  
 - Note how GPU availability changes by location  
-- Example: Compare `us-central1-a` vs `asia-east1-a`  
+- Example: Compare `us-central1-a` vs `us-east1-b`  
 
 ### 16. Inspect via CLI (Optional)
 
