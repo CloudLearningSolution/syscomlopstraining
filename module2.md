@@ -1060,8 +1060,7 @@ gcloud compute regions describe us-central1 --format="table(quotas.metric,quotas
 
 ### Default Configurations
 - **Vertex AI CustomJob**: e2-standard-4 (4 vCPUs, 16GB)  
-- **Minimum for GPU workloads**: Avoid small instances (e.g., n1-highmem-2) with GPUs  
-- **Maximum CustomJob**: 96 vCPUs, 624GB memory
+- **Minimum for GPU workloads**: Avoid small instances (e.g., n1-highmem-2) with GPUs
 
 ---
 
@@ -1104,33 +1103,50 @@ gcloud compute regions describe us-central1 --format="table(quotas.metric,quotas
 
 ### 10. Access Cloud Storage Console
 
-- Navigate to [Cloud Storage > Buckets](https://console.cloud.google.com/storage)  
+- Navigate to [Cloud Storage > Buckets](https://console.cloud.google.com/storage)
 
-- Select or simulate a bucket (e.g., `ml-datasets`)  
+- Alternatively, search for storage.
+
+- Select buckets and review available bucket options(e.g., `ml-datasets`)
+
+- Select the bucket named `groundeddiabetes`
 
 ### 11. Open Lifecycle Rules Panel
 
-- Click the bucket name  
+- Click the bucket name 
 
-- Go to **Lifecycle** tab  
+- Go to **Lifecycle** tab
 
 - Click **+ Add a rule**  
 
 ### 12. Explore Lifecycle Rule Configuration
 
-- Condition: Age > 30 days  
+- In the **Select an action**
 
-- Action: Change storage class to Nearline  
+- Select Continue
 
+- Select **Set storage class to Nearline**
+
+- Set Condition: Age > 30 days
+
+  - Select **Create**
+    
 - Add second rule:  
 
-  - Age > 90 days → Coldline  
+  - Age > 90 days → Coldline 
 
-  - Age > 365 days → Delete  
+  - Select **Create**
 
-- Cancel before saving  
+  - Age > 365 days → Delete
+  
+  - Select **Create**
 
-### 13. Review Pricing
+- Select **Delete all** and confirm.
+
+### (Optional) BigQuery and GCS for ML
+  - Presenter Demonstration
+
+### 13. (Optional) Review Pricing
 
 - Visit [Cloud Storage Pricing](https://cloud.google.com/storage/pricing)  
 
@@ -1142,23 +1158,23 @@ gcloud compute regions describe us-central1 --format="table(quotas.metric,quotas
 `gsutil lifecycle get gs://[YOUR_BUCKET_NAME]`
 
 4. Deliverables
-Summary of lifecycle rule configuration explored
+- Summary of lifecycle rule configuration explored
 
-Pricing comparison table for storage classes
+- Pricing comparison table for storage classes
 
-CLI output of existing lifecycle rules (if applicable)
+- CLI output of existing lifecycle rules (if applicable)
 
 5. Supplemental Materials
-Runbook: runbooks/gcp-storage-lifecycle-exploration.md
+- Runbook: runbooks/gcp-storage-lifecycle-exploration.md
 
-Playbook: playbooks/gcp-storage-optimization-strategy.md
+- Playbook: playbooks/gcp-storage-optimization-strategy.md
 
 6. Notes and Warnings
-Do not finalize lifecycle rule creation during this lab
+- Do not finalize lifecycle rule creation during this lab
 
-Minimum storage durations may incur early deletion fees
+- Minimum storage durations may incur early deletion fees
 
-Lifecycle rules should be scoped carefully using conditions
+- Lifecycle rules should be scoped carefully using conditions
 
 7. Verification Source
-Verified against Google Cloud Storage Lifecycle Documentation
+- Verified against Google Cloud Storage Lifecycle Documentation
