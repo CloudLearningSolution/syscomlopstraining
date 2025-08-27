@@ -790,6 +790,8 @@ Verified against AWS EC2 Instance Types and [GPU Accelerated Computing Guidance]
 
 - Select Create workstation
 
+- Enter a unique ID name (e.g. your first name and variable characters)
+
 - Enter a unique display name
 
 - Select test-configuration
@@ -893,7 +895,7 @@ Challenge Activity Question:
 
 What is the machine type name for NVIDIA A100 GPUs including 1 GPUs and 85 GB memory, and the name if I need 16 GPUs ? Please explain your answer using the Teams chat.
 
-- Note: Here is some insight regarding machine type names. In the CLI and SDK the syntax for machine type differs. For example ( `--accelerator=count=16,type=nvidia-tesla-a100 ` ) . It is important to know the machine type name to locate the SDK syntax version.
+- Note: Here is some insight regarding machine type names. In the CLI and SDK the syntax for machine type may differ. For example ( `--accelerator=count=16,type=nvidia-tesla-a100 ` ) . It is important to know the machine type name to locate the SDK syntax version.
 
 ### 14. Explore Extended Memory Options
 
@@ -919,33 +921,49 @@ gcloud compute machine-types list --zones=us-central1-a --format="table(name,gue
 
 #### List GPU Types by Zone
 ```bash
-gcloud compute accelerator-types list --zones=us-central1-a
+gcloud compute accelerator-types list --filter="zone:us-central1"
 ```
 
 #### Check Quotas
 ```bash
-gcloud compute project-info describe --format="table(quotas.metric,quotas.limit,quotas.usage)"
+gcloud compute regions describe us-central1 --format="table(quotas.metric,quotas.limit,quotas.usage)" --flatten="quotas[]"
 ```
 
 ---
 
+### (Optional) Vertex AI Pipeline Machine Type
+
+- Presenter will demonstrate
+
 ## 4. Vertex AI Integration Notes
 
-### Pipeline Training Jobs
+### Automated CICD Pipeline training and deployment Job components. (e.g. preprocess_data_op, train_model_op, evaluate_model_op, model_approved_op, register_model_op, deployment_model_op)
+- Serverless (Most flexible and supports varying use cases)
 - Default machine type: **e2-standard-4** (4 vCPUs, 16GB memory)  
-- CustomJob supports up to 96 vCPUs and 624GB memory  
-- GPU support requires A2, N1, or G2 machine types  
+- CustomJob supports varying vCPUs and memory ranges
+- GPU support requires A2, N1, or G2 machine types
 
-### Vertex AI Workbench
+# MLOPS Levels of optimization
+- MLOPS Level 0: Manual process
+  - Utilizes Vertex AI Workbench
+- MLOPS Level 1: ML Pipeline automation
+  - Utilizes Vertex AI Pipelines
+- MLOPS Level 2: CI/CD Pipeline automation
+  - Utilizes CI/CD Orchestration with Vertex AI pipline automation
+  - Best Practice : https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning#mlops_level_2_cicd_pipeline_automation
+
+### Vertex AI Workbench (Less Flexible Server)
 - Supports configurable machine types for notebooks  
 - Both CPU-only and GPU-enabled instances available  
 - Automatic GPU driver installation option  
 
 ### Best Practices
-- Start with E2 for cost optimization  
+- Start with E2 for cost optimization and Pipelines for automation
 - Use N4 for balanced performance  
 - Choose G2 for cost-effective AI inference  
-- Select A3 for demanding training workloads  
+- Select A3 for demanding training workloads
+- Use Vertex AI Workbench for exploratory data analysis during short term expirementation including sampling.
+**Note:** Do not run Vertex AI Workbench long term or persist disk usage. Shutdown or remove to control significant cost expenditures.
 
 ---
 
