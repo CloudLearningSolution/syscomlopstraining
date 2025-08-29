@@ -1,6 +1,6 @@
 # Week 3: Identity and Access Management – Platform Enablement (Provisioning) Hands-On Workshop
 
-#**Presenter Demonstration**
+# **Presenter Demonstration**
 # 🧪 Lab 3.1: AWS Management Console IAM Configuration for SageMaker
 
 **Objective:** Explore the IAM roles, trust relationships, and managed policies that enable Amazon SageMaker—without creating or modifying any IAM resources.
