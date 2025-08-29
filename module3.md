@@ -30,13 +30,13 @@
 
 ## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
 
-### 10. Open the IAM Console
+- Open the AWS Console
 
 - Search for IAM, and then select **Roles**  
 
 - Search for **AmazonSageMaker** in the Roles list  
 
-### 11. Review an Existing SageMaker Execution Role
+## 4. Review an Existing SageMaker Execution Role
 
 - Click a role named like `AmazonSageMaker-ExecutionRole-*`  
 
@@ -44,7 +44,7 @@
 
 - Confirm `Service: sagemaker.amazonaws.com` under **Trusted entities**  
 
-### 12. Inspect Attached Policies
+## 5. Inspect Attached Policies
 
 - Select the **Permissions** tab  
 
@@ -86,6 +86,69 @@
   https://docs.aws.amazon.com/sagemaker/latest/dg/security_iam_service-with-iam.html  
 
 ---
+
+# **Presenter Demonstration**
+
+# 🧪 Lab 3.2: AWS CLI and SDK Authentication Setup for SageMaker
+
+**Objective:** Validate AWS CLI/SDK authentication for SageMaker by inspecting credential configurations and making read-only calls—without launching any SageMaker jobs.
+
+---
+
+## 1. Prerequisites
+
+- AWS CLI v2 installed (or use AWS CloudShell)
+- **SageMaker execution role** with appropriate permissions
+
+---
+
+## 2. Theory Overview
+
+- **SageMaker requires specific IAM roles** for training jobs, endpoints, and notebook instances
+
+---
+
+## 3. SageMaker-Specific Authentication Requirements
+
+### Key SageMaker Policies:
+- `AmazonSageMakerFullAccess` - Full SageMaker permissions
+- `AmazonSageMakerReadOnly` - Read-only access for monitoring
+- `AmazonS3FullAccess` - Required for data access and model storage
+- Custom execution roles for training jobs and endpoints
+
+## Hands-On Exploration Steps
+
+## 4. Check available SageMaker execution roles
+- Run: `aws iam list-roles --query 'Roles[?contains(RoleName, `SageMaker`)].{RoleName:RoleName,Arn:Arn}' --output table`
+
+## 5. Verify SageMaker service permissions
+- Run: `aws sagemaker describe-domain --domain-id $(aws sagemaker list-domains --query 'Domains[0].DomainId' --output text) 2>/dev/null || echo "No SageMaker Studio domain found"`
+
+## 6. Validate SageMaker Execution Role
+
+- Get SageMaker execution role ARN
+
+- Run: `ROLE_ARN=$(aws iam list-roles --query 'Roles[?contains(RoleName, `SageMaker`)].Arn | [0]' --output text)`
+
+## 7. Verify role exists and has trust policy
+- Run: `aws iam get-role --role-name $(basename $ROLE_ARN) --query 'Role.AssumeRolePolicyDocument'`
+
+## 8. Check attached policies
+- Run: `aws iam list-attached-role-policies --role-name $(basename $ROLE_ARN)`
+
+## Notes and Warnings
+- Do not create or launch any SageMaker jobs
+
+- Avoid committing real credentials in shared scripts
+
+- Use read-only calls to confirm permissions
+
+## Verification Source
+
+- Verified against AWS CLI and Boto3 documentation https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
+
+---
+
 ## 🧪 Lab 3.4: Google Cloud Console IAM Configuration for Vertex AI
 
 **Duration:** TBD minutes  
