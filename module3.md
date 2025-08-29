@@ -149,8 +149,58 @@
 
 ---
 
-## 🧪 Lab 3.4: Google Cloud Console IAM Configuration for Vertex AI
+# 🧪 Lab 3.4: Google Cloud Console IAM Configuration for Vertex AI
 
-**Duration:** TBD minutes  
-**Objective:** Explore predefined and custom IAM roles for Vertex AI in the Google Cloud Console
+**Objective:** Explore predefined and custom IAM roles for Vertex AI in the Google Cloud Console—without granting or revoking any permissions.
+
+---
+
+## 1. Prerequisites
+
+- Google Cloud Console access
+
+- Familiarity with GCP IAM concepts (roles, bindings, principals)  
+
+- No actual role assignments or removals  
+
+---
+
+## 2. Theory Overview
+
+- Vertex AI provides predefined roles such as `Vertex AI User`  
+
+- Custom roles enable least-privilege access  
+
+- IAM bindings link principals (users, service accounts) to roles at project or resource level  
+
+---
+## Hands-On Exploration Steps (Do Not Finalize Resources)
+
+## 3. Open the IAM Page
+
+- Search for IAM 
+
+- Observe project-level IAM principals and their bindings
+
+## 4: Filter for AI/ML Roles
+- Click **Filter** → Enter **Role**
+- Enter `Vertex AI` to see Vertex AI roles
+- Select `Vertex AI User` to see role binded to principal
+
+## 5: Examine Vertex AI Role Details
+- Click on **Roles** in the navigation nodes
+- In the field after Filter, Enter `Vertex AI Administrator`, and then select it.
+- Review **assigned permissions** note permissions like:
+  - `aiplatform.datasets.list`
+  - `aiplatform.trainingjobs.create`
+  - `aiplatform.models.predict`
+ 
+## 6: Examine Service Accounts
+- Navigate to **IAM**
+- Click **Filter** → Enter **Role**
+- Enter `Vertex AI` to see Vertex AI roles
+- Select `Vertex AI Administrator` to see role binded to principals
+- Review principal named: `github-actions-runner@mfav2-374520.iam.gserviceaccount.com`
+- Review principal named: `vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com`
+- Review each principals Role and Conditions.
 ---
