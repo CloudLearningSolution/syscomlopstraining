@@ -331,6 +331,8 @@ This hands-on workshop builds upon the cost management foundation from Module 1 
 
 - Select Copy. Note: The credential is a verfication code.
 
+![Google Cloud Console Welcome Page](gcloud-auth-code.png)
+
 - Paste the verification code into the terminal
 
 - Run: `gcloud config set project mfav2-374520`
