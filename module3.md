@@ -178,7 +178,59 @@
 
 ## 3. Open the IAM Page
 
-- Search for IAM 
+- Navigate to [Google Cloud Console](https://console.cloud.google.com)
+
+- Use the Project Picker to select your project
+
+![Google Cloud Console Welcome Page](Project_Picker.png)
+
+### 12. Activate Cloud Shell or Use Cloud Workstations
+
+- Enter Workstations in the search bar.
+
+![Google Cloud Console Welcome Page](workstations.png)
+
+- Select Create workstation
+
+- Enter a unique display name
+
+- Select test-configuration
+
+- In the configuration field drop down, select test-configuration
+
+- Select Create. Note: Creation may take several minutes to complete.
+
+- Select Start, located in the All workstations section, below the Quick actions column. Note: Creation may take several minutes to complete.
+
+![Google Cloud Console Welcome Page](launchCloudWorkstation.png)
+
+- Select Launch, afterwards, using the new workstation select the menu icon to access options, select terminal from the options.
+
+![Google Cloud Console Welcome Page](terminal-workstation.png)
+
+- Review the terminal area.
+
+- Run: `gcloud auth login`
+
+- Select the clickable link. Afterwards, select Open, upon selection a new browser session will start. Follow the prompts in the new session to login and get a verification code.
+
+![Google Cloud Console Welcome Page](gcloud_auth_CloudSDK.png)
+
+- Select Continue
+
+- Follow the prompts and provide username or password if required.
+
+- Select Copy. Note: The credential is a verfication code.
+
+![Google Cloud Console Welcome Page](gcloud-auth-code.png)
+
+- Paste the verification code into the terminal
+
+- Run: `gcloud config set project mfav2-374520`
+
+- Navigate back to the Google Cloud Console
+
+- Search for IAM
 
 - Observe project-level IAM principals and their bindings
 
@@ -204,3 +256,98 @@
 - Review principal named: `vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com`
 - Review each principals Role and Conditions.
 ---
+
+# 🧪 Lab 3.5: gcloud CLI and SDK Authentication Setup for Vertex AI
+
+**Objective:** Verify gcloud CLI and SDK for Vertex AI calls—without modifying project-level IAM.
+
+---
+
+## 1. Prerequisites
+
+- Google Cloud SDK installed or use Cloud Shell  
+
+- Vertex AI API enabled for your project  
+
+- No changes to service accounts or roles  
+
+---
+
+## 2. Theory Overview
+
+- gcloud CLI uses user credentials via `gcloud auth login`  
+
+- ADC supports `gcloud auth application-default login` for client libraries  
+
+- Commands inherit credentials from the active gcloud context or ADC  
+
+---
+
+## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
+
+### 10. Check Active gcloud Credentials
+
+- Run: `gcloud auth list`
+- Run: `gcloud config list project`
+
+---
+
+# 🧪 Lab 3.6: Vertex AI Service Account and Role Management
+
+**Duration:** 30 minutes  
+**Objective:** Examine service accounts used by Vertex AI and the IAM bindings granting them roles—without creating or deleting any service accounts. Includes Terraform-based provisioning steps for current and new GCP projects.
+
+---
+
+## 1. Prerequisites
+
+- Google Cloud Console & Cloud Shell access  
+
+- IAM Viewer and Service Account Admin (read-only) roles  
+
+- Vertex AI APIs enabled  
+
+- Terraform CLI installed and authenticated via ADC or service account impersonation  
+
+---
+
+## 2. Theory Overview
+
+- Vertex AI uses managed service agents (e.g., `service-PROJECT_NUMBER@gcp-sa-aiplatform.iam.gserviceaccount.com`)  
+
+- Custom training and prediction jobs run under user-managed or default service accounts  
+
+- Common roles bindings include `roles/aiplatform.admin`, `roles/iam.serviceAccountUser`, and `roles/storage.objectViewer`  
+
+- Terraform can provision service accounts and bind IAM roles across one or more projects  
+
+---
+
+## 3. Hands-On Exploration Steps (Do Not Finalize Resources)
+
+### 10. List Service Accounts
+
+- Run:  `gcloud iam service-accounts list`
+
+Note managed agent and user-created accounts
+
+11. Inspect IAM Bindings
+- Run:
+`gcloud projects get-iam-policy YOUR_PROJECT_ID \
+  --format="table(bindings.role, bindings.members)"`
+
+Filter for the service account email
+
+11. View Default Vertex AI Service Agent
+    
+In the Console, go to IAM → search gcp-sa-aiplatform
+
+Inspect roles granted (e.g., Vertex AI Service Agent)
+
+13. Simulate Creating a Custom Service Account
+In the Console, go to IAM & Admin → Service Accounts → Create Service Account
+
+Review form fields (do not click Create)
+
+4. Terraform Provisioning Steps
+14. Create a Service Account in the Current Project
