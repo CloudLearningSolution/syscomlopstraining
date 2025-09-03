@@ -589,3 +589,63 @@ project_id = "mfav2-374520"
 region     = "us-east1"
 EOF
 ```
+
+# Part 4: Execute Terraform
+- Step 9: Verify Key File and Initialize Terraform
+- bash# Verify the key file exists and has correct permissions
+- Run: ```ls -la ~/terraform-ops-key.json```
+- Run: ```chmod 600 ~/terraform-ops-key.json```
+
+# Initialize the Terraform working directory
+- Run: ```terraform init```
+
+# Verify initialization
+- Run: ```ls -la```
+
+- Step 10: Validate Configuration
+- bash# Validate the Terraform configuration
+- Run: ```terraform validate```
+
+# Format the code (good practice)
+- Run: ```terraform fmt```
+
+- Step 11: Plan the Deployment
+- bash# Generate and show the execution plan
+- Run: ```terraform plan```
+
+# Save the plan to a file for review
+- Run: ```terraform plan -out=tfplan```
+
+# Review the saved plan
+- Run: ```terraform show tfplan```
+
+- Step 12: Apply the Configuration
+- 
+- Apply the saved plan
+- 
+- Run: ```terraform apply tfplan```
+
+- Type 'yes' when prompted to confirm
+
+# Part 5: Verification
+- Step 13: Verify Service Accounts Created
+- List service accounts to see the new ones (replace DT01 with your identifier)
+- Run: ```gcloud iam service-accounts list --project=mfav2-374520 --filter="displayName:DT01"```
+
+# Show Terraform state
+```terraform show```
+
+# List resources in state
+```terraform state list```
+
+# Part 6: Cleanup
+- Step 16: Destroy Resources
+- Plan the destruction
+
+```terraform plan -destroy```
+
+# Destroy the resources
+
+```terraform destroy```
+
+- Type 'yes' when prompted to confirm
