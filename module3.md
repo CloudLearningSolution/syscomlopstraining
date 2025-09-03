@@ -351,5 +351,43 @@ In the Console, go to IAM & Admin → Service Accounts → Create Service Accoun
 
 Review form fields (do not click Create)
 
-4. Terraform Provisioning Steps
-14. Create a Service Account in the Current Project
+4. Vertex AI Service Account Provisioning with Terraform
+
+- Step 1: Verify Cloud Workstation Setup
+- bash# Verify you're authenticated
+- Run
+```gcloud auth list```
+
+- # Set the project (should already be set in workstation)
+- Run
+```gcloud config set project mfav2-374520```
+
+- # Verify project access
+-Run
+```gcloud projects describe mfav2-374520```
+
+- Step 2: Install/Verify Terraform
+# Install required packages first
+- Run: ```sudo apt-get update```
+- Run: ```sudo apt-get install -y software-properties-common gnupg lsb-release wget```
+
+# Add HashiCorp GPG key
+- Run: ```wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg```
+
+# Add HashiCorp repository manually
+- Run:
+```echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list```
+
+# Update package list
+- Run:
+```sudo apt-get update```
+
+# Install Terraform
+- Run:
+```sudo apt-get install -y terraform```
+
+# Verify installation
+- Run:
+```terraform version```
+
+
