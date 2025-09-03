@@ -333,9 +333,11 @@ Note managed agent and user-created accounts
 
 11. Inspect IAM Bindings
 - Run:
-`gcloud projects get-iam-policy YOUR_PROJECT_ID \
-  --format="table(bindings.role, bindings.members)"`
 
+```
+gcloud projects get-iam-policy YOUR_PROJECT_ID \
+--format="table(bindings.role, bindings.members)"
+```
 Filter for the service account email
 
 11. View Default Vertex AI Service Agent
