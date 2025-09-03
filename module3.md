@@ -390,4 +390,202 @@ Review form fields (do not click Create)
 - Run:
 ```terraform version```
 
+# Part 1: Review Existing Service Accounts
+## List Vertex AI Service Acconts
+- Look specifically for the ones mentioned in the configuration
+- Run: ```gcloud iam service-accounts describe github-actions-runner@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520```
 
+- Run: ```gcloud iam service-accounts describe vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520```
+
+## Step 4: Check Existing IAM Bindings
+- Check what roles the existing service accounts have
+```gcloud projects get-iam-policy mfav2-374520 --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:github-actions-runner@mfav2-374520.iam.gserviceaccount.com"```
+
+```gcloud projects get-iam-policy mfav2-374520 --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com"```
+
+## Step: Generate Service Account Key
+- Create key for the terraform-ops service account
+```gcloud iam service-accounts keys create ~/terraform-ops-key.json --iam-account=terraform-ops@mfav2-374520.iam.gserviceaccount.com```
+
+- Activate the service account
+```gcloud auth activate-service-account --key-file=terraform-ops-key.json```
+
+- Set as active account
+```gcloud config set account terraform-ops@mfav2-374520.iam.gserviceaccount.com```
+
+- Verify the switch
+```gcloud auth list```
+```gcloud config get-value account```
+- Step 2: Test Service Account Permissions
+
+```gcloud iam service-accounts create test-creation-check --display-name="Test Creation" --project=mfav2-374520```
+
+- If successful, delete the test service account
+```gcloud iam service-accounts delete test-creation-check@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520 --quiet```
+
+# Part 2: Create Terraform Configuration
+## Step 5: Create Working Directory
+- Create a directory for the Terraform training
+```mkdir ~/terraform-training```
+```cd ~/terraform-training```
+
+## Step 6: Create Main Terraform File
+```bash
+cat > main.tf << 'EOF'
+# Terraform Service Account Training - Multi-Student Version
+# Instructions:
+# 1. Set GOOGLE_APPLICATION_CREDENTIALS environment variable to your key file path
+#    Example: export GOOGLE_APPLICATION_CREDENTIALS=~/terraform-ops-key.json
+# 2. Replace YOUR_INITIALS and YOUR_NUMBER in terraform.tfvars
+
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "google" {
+  # Uses credentials from GOOGLE_APPLICATION_CREDENTIALS environment variable
+  project = var.project_id
+  region  = var.region
+}
+
+# Variables
+variable "project_id" {
+  description = "The GCP project ID"
+  type        = string
+  default     = "mfav2-374520"
+}
+
+variable "region" {
+  description = "The GCP region"
+  type        = string
+  default     = "us-east1"
+}
+
+variable "student_initials" {
+  description = "Student initials for unique naming (e.g., jd, ms, ab)"
+  type        = string
+  validation {
+    condition     = can(regex("^[a-z]{2,4}$", var.student_initials))
+    error_message = "Student initials must be 2-4 lowercase letters only."
+  }
+}
+
+variable "student_number" {
+  description = "Student number for additional uniqueness (01-99)"
+  type        = string
+  validation {
+    condition     = can(regex("^[0-9]{2}$", var.student_number))
+    error_message = "Student number must be exactly 2 digits (01-99)."
+  }
+}
+
+# Local values for consistent naming
+locals {
+  name_prefix  = "${var.student_initials}${var.student_number}"
+  github_sa_id = "github-actions-${local.name_prefix}"
+  vertex_sa_id = "vertex-pipeline-${local.name_prefix}"
+}
+
+# GitHub Actions Runner Service Account
+resource "google_service_account" "github_actions_runner_training" {
+  account_id   = local.github_sa_id
+  display_name = "GitHub Actions Runner (${upper(var.student_initials)}${var.student_number})"
+  description  = "Service account for GitHub Actions CI/CD pipeline - Student ${upper(var.student_initials)}${var.student_number}"
+}
+
+# Vertex AI Pipeline Executor Service Account
+resource "google_service_account" "vertex_pipeline_training" {
+  account_id   = local.vertex_sa_id
+  display_name = "Vertex AI Pipeline Executor (${upper(var.student_initials)}${var.student_number})"
+  description  = "Service account for Vertex AI pipeline execution - Student ${upper(var.student_initials)}${var.student_number}"
+}
+
+# GitHub Actions IAM Roles
+resource "google_project_iam_member" "github_actions_permissions" {
+  for_each = toset([
+    "roles/viewer",
+    "roles/iam.serviceAccountUser",
+    "roles/storage.objectViewer",
+    "roles/logging.viewer",
+    "roles/source.reader"
+  ])
+
+  project = var.project_id
+  role    = each.key
+  member  = "serviceAccount:${google_service_account.github_actions_runner_training.email}"
+}
+
+# Vertex AI IAM Roles
+resource "google_project_iam_member" "vertex_pipeline_permissions" {
+  for_each = toset([
+    "roles/aiplatform.user",
+    "roles/storage.objectAdmin",
+    "roles/bigquery.dataEditor",
+    "roles/artifactregistry.reader",
+    "roles/logging.writer"
+  ])
+
+  project = var.project_id
+  role    = each.key
+  member  = "serviceAccount:${google_service_account.vertex_pipeline_training.email}"
+}
+
+# Outputs
+output "student_identifier" {
+  description = "Your unique student identifier"
+  value       = "${upper(var.student_initials)}${var.student_number}"
+}
+
+output "github_actions_service_account_email" {
+  description = "Email of the created GitHub Actions service account"
+  value       = google_service_account.github_actions_runner_training.email
+}
+
+output "vertex_pipeline_service_account_email" {
+  description = "Email of the created Vertex AI pipeline service account"
+  value       = google_service_account.vertex_pipeline_training.email
+}
+
+output "service_account_names" {
+  description = "Created service account names for reference"
+  value = {
+    github_actions  = local.github_sa_id
+    vertex_pipeline = local.vertex_sa_id
+  }
+}
+
+output "github_actions_permissions" {
+  description = "Roles assigned to GitHub Actions service account"
+  value       = keys(google_project_iam_member.github_actions_permissions)
+}
+
+output "vertex_pipeline_permissions" {
+  description = "Roles assigned to Vertex AI pipeline service account"
+  value       = keys(google_project_iam_member.vertex_pipeline_permissions)
+}
+EOF
+```
+
+- Create Variables File
+
+```bash
+cat > terraform.tfvars << 'EOF'
+# Student Configuration File
+# IMPORTANT: Update these values with your information
+
+# Replace with your initials (2–4 lowercase letters)
+student_initials = "YOUR_INITIALS"
+
+# Replace with your assigned student number (01–99)
+student_number = "YOUR_NUMBER"
+
+# Project and region (leave as-is unless instructed otherwise)
+project_id = "mfav2-374520"
+region     = "us-east1"
+EOF
+```
