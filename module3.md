@@ -697,3 +697,28 @@ EOF
 ```terraform destroy```
 
 - Type 'yes' when prompted to confirm
+
+# Deliverables
+- Table of service accounts and their bound roles
+
+- Terraform Infrastructure as code for IAM role binding
+
+- Notes on custom roles and deny policy strategy
+
+7. Supplemental Materials
+
+- IAM Roles Overview: https://cloud.google.com/iam/docs/roles-overview
+
+- IAM Deny Policies: https://cloud.google.com/iam/docs/deny-overview
+
+- Vertex AI IAM Access Control: https://cloud.google.com/vertex-ai/docs/general/access-control
+
+8. Notes and Warnings
+
+- Deny policies require careful planning and org-level access
+
+- Custom roles should be version-controlled and reviewed by security teams
+
+9. Verification Source
+
+- Verified against Google Cloud IAM and Vertex AI documentation
