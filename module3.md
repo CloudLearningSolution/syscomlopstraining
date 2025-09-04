@@ -1,4 +1,5 @@
-# Week 3: Identity and Access Management – Platform Enablement (Provisioning) Hands-On Workshop
+# Week 3: Platform Enablement for Vertex AI - Hands-On Workshop
+
 ## Objectives
 
 - Understand the role of service accounts in Vertex AI workloads, including training, pipelines, and notebook execution  
