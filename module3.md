@@ -444,7 +444,7 @@ Filter for the service account email
 
 - Run: ```gcloud iam service-accounts describe vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520```
 
-## Step 4: Check Existing IAM Bindings
+## Check Existing IAM Bindings
 
 - Check what roles the existing service accounts have
   
@@ -452,7 +452,7 @@ Filter for the service account email
 
 ```gcloud projects get-iam-policy mfav2-374520 --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com"```
 
-## Step: Generate Service Account Key
+## Generate Service Account Key
 
 - Create key for the terraform-ops service account
   
@@ -472,7 +472,7 @@ Filter for the service account email
 
 ```gcloud config get-value account```
 
-- Step 2: Test Service Account Permissions
+## Test Service Account Permissions
 
 ```gcloud iam service-accounts create test-creation-check --display-name="Test Creation" --project=mfav2-374520```
 
@@ -482,7 +482,7 @@ Filter for the service account email
 
 # Part 2: Create Terraform Configuration
 
-## Step 5: Create Working Directory
+## Create Working Directory
 
 - Create a directory for the Terraform training
   
@@ -490,7 +490,7 @@ Filter for the service account email
 
 ```cd ~/terraform-training```
 
-## Step 6: Create Main Terraform File
+## Create Main Terraform File
 
 ```bash
 cat > main.tf << 'EOF'
@@ -644,7 +644,7 @@ EOF
 
 # Part 4: Execute Terraform
 
-- Step 9: Verify Key File and Initialize Terraform
+## Verify Key File and Initialize Terraform
 
 - bash# Verify the key file exists and has correct permissions
   
@@ -652,39 +652,39 @@ EOF
   
 - Run: ```chmod 600 ~/terraform-ops-key.json```
 
-# Initialize the Terraform working directory
+## Initialize the Terraform working directory
 
 - Run: ```terraform init```
 
-# Verify initialization
+## Verify initialization
 
 - Run: ```ls -la```
 
-- Step 10: Validate Configuration
+## Validate Configuration
   
 - bash# Validate the Terraform configuration
   
 - Run: ```terraform validate```
 
-# Format the code (good practice)
+## Format the code (good practice)
 
 - Run: ```terraform fmt```
 
-- Step 11: Plan the Deployment
+## Plan the Deployment
   
-- bash# Generate and show the execution plan
+- Generate and show the execution plan
   
 - Run: ```terraform plan```
 
-# Save the plan to a file for review
+## Save the plan to a file for review
 
 - Run: ```terraform plan -out=tfplan```
 
-# Review the saved plan
+## Review the saved plan
 
 - Run: ```terraform show tfplan```
 
-- Step 12: Apply the Configuration
+## Apply the Configuration
   
 - Apply the saved plan
   
@@ -694,42 +694,40 @@ EOF
 
 # Part 5: Verification
 
-- Step 13: Verify Service Accounts Created
+## Verify Service Accounts Created
   
 - List service accounts to see the new ones (replace DT01 with your identifier)
   
 - Run: ```gcloud iam service-accounts list --project=mfav2-374520 --filter="displayName:DT01"```
 
-# Show Terraform state
+## Show Terraform state
 
 ```terraform show```
 
-# List resources in state
+## List resources in state
 
 ```terraform state list```
 
 # Part 6: Cleanup
 
-- Step 16: Destroy Resources
+## Destroy Resources
   
 - Plan the destruction
 
 ```terraform plan -destroy```
 
-# Destroy the resources
-
 ```terraform destroy```
 
 - Type 'yes' when prompted to confirm
 
-# Deliverables
+## Deliverables
 - Table of service accounts and their bound roles
 
 - Terraform Infrastructure as code for IAM role binding
 
 - Notes on custom roles and deny policy strategy
 
-7. Supplemental Materials
+## Supplemental Materials
 
 - IAM Roles Overview: https://cloud.google.com/iam/docs/roles-overview
 
@@ -741,12 +739,12 @@ EOF
 
 - Playbook: `playbooks/vertexai-serviceaccount-strategy.md` 
 
-8. Notes and Warnings
+## Notes and Warnings
 
 - Deny policies require careful planning and org-level access
 
 - Custom roles should be version-controlled and reviewed by security teams
 
-9. Verification Source
+## Verification Source
 
 - Verified against Google Cloud IAM and Vertex AI documentation
