@@ -342,101 +342,137 @@ Filter for the service account email
 
 11. View Default Vertex AI Service Agent
     
-In the Console, go to IAM → search gcp-sa-aiplatform
+- In the Console, go to IAM → search gcp-sa-aiplatform
 
-Inspect roles granted (e.g., Vertex AI Service Agent)
+- Inspect roles granted (e.g., Vertex AI Service Agent)
 
 13. Simulate Creating a Custom Service Account
-In the Console, go to IAM & Admin → Service Accounts → Create Service Account
+    
+- In the Console, go to IAM & Admin → Service Accounts → Create Service Account
 
-Review form fields (do not click Create)
+- Review form fields (do not click Create)
 
 4. Vertex AI Service Account Provisioning with Terraform
 
 - Step 1: Verify Cloud Workstation Setup
+  
 - bash# Verify you're authenticated
+  
 - Run
+  
 ```gcloud auth list```
 
 - # Set the project (should already be set in workstation)
+  
 - Run
+  
 ```gcloud config set project mfav2-374520```
 
 - # Verify project access
+  
 -Run
+
 ```gcloud projects describe mfav2-374520```
 
 - Step 2: Install/Verify Terraform
+  
 # Install required packages first
+
 - Run: ```sudo apt-get update```
+  
 - Run: ```sudo apt-get install -y software-properties-common gnupg lsb-release wget```
 
 # Add HashiCorp GPG key
+
 - Run: ```wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg```
 
 # Add HashiCorp repository manually
+
 - Run:
+
 ```echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list```
 
 # Update package list
+
 - Run:
+  
 ```sudo apt-get update```
 
 # Install Terraform
+
 - Run:
+  
 ```sudo apt-get install -y terraform```
 
 # Verify installation
+
 - Run:
+  
 ```terraform version```
 
 # Part 1: Review Existing Service Accounts
+
 ## List Vertex AI Service Acconts
+
 - Look specifically for the ones mentioned in the configuration
+  
 - Run: ```gcloud iam service-accounts describe github-actions-runner@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520```
 
 - Run: ```gcloud iam service-accounts describe vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520```
 
 ## Step 4: Check Existing IAM Bindings
+
 - Check what roles the existing service accounts have
+  
 ```gcloud projects get-iam-policy mfav2-374520 --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:github-actions-runner@mfav2-374520.iam.gserviceaccount.com"```
 
 ```gcloud projects get-iam-policy mfav2-374520 --flatten="bindings[].members" --format="table(bindings.role)" --filter="bindings.members:vertex-pipeline-executor@mfav2-374520.iam.gserviceaccount.com"```
 
 ## Step: Generate Service Account Key
+
 - Create key for the terraform-ops service account
+  
 ```gcloud iam service-accounts keys create ~/terraform-ops-key.json --iam-account=terraform-ops@mfav2-374520.iam.gserviceaccount.com```
 
 - Activate the service account
+  
 ```gcloud auth activate-service-account --key-file=terraform-ops-key.json```
 
 - Set as active account
+  
 ```gcloud config set account terraform-ops@mfav2-374520.iam.gserviceaccount.com```
 
 - Verify the switch
+  
 ```gcloud auth list```
+
 ```gcloud config get-value account```
+
 - Step 2: Test Service Account Permissions
 
 ```gcloud iam service-accounts create test-creation-check --display-name="Test Creation" --project=mfav2-374520```
 
 - If successful, delete the test service account
+  
 ```gcloud iam service-accounts delete test-creation-check@mfav2-374520.iam.gserviceaccount.com --project=mfav2-374520 --quiet```
 
 # Part 2: Create Terraform Configuration
+
 ## Step 5: Create Working Directory
+
 - Create a directory for the Terraform training
+  
 ```mkdir ~/terraform-training```
+
 ```cd ~/terraform-training```
 
 ## Step 6: Create Main Terraform File
+
 ```bash
 cat > main.tf << 'EOF'
-# Terraform Service Account Training - Multi-Student Version
-# Instructions:
-# 1. Set GOOGLE_APPLICATION_CREDENTIALS environment variable to your key file path
-#    Example: export GOOGLE_APPLICATION_CREDENTIALS=~/terraform-ops-key.json
-# 2. Replace YOUR_INITIALS and YOUR_NUMBER in terraform.tfvars
+# Terraform Service Account Training - Multi-Student Version with Key-Based Auth
+# Instructions: Replace YOUR_INITIALS with your actual initials (e.g., jd for John Doe)
+# This ensures unique service account names across 45+ students
 
 terraform {
   required_providers {
@@ -448,9 +484,10 @@ terraform {
 }
 
 provider "google" {
-  # Uses credentials from GOOGLE_APPLICATION_CREDENTIALS environment variable
-  project = var.project_id
-  region  = var.region
+  # CRITICAL: Explicit key-based authentication
+  credentials = file("~/terraform-ops-key.json")
+  project     = var.project_id
+  region      = var.region
 }
 
 # Variables
@@ -486,56 +523,56 @@ variable "student_number" {
 
 # Local values for consistent naming
 locals {
-  name_prefix  = "${var.student_initials}${var.student_number}"
+  name_prefix = "${var.student_initials}${var.student_number}"
   github_sa_id = "github-actions-${local.name_prefix}"
   vertex_sa_id = "vertex-pipeline-${local.name_prefix}"
 }
 
-# GitHub Actions Runner Service Account
+# Create GitHub Actions Runner Service Account (Training Version)
 resource "google_service_account" "github_actions_runner_training" {
   account_id   = local.github_sa_id
   display_name = "GitHub Actions Runner (${upper(var.student_initials)}${var.student_number})"
   description  = "Service account for GitHub Actions CI/CD pipeline - Student ${upper(var.student_initials)}${var.student_number}"
 }
 
-# Vertex AI Pipeline Executor Service Account
+# Create Vertex AI Pipeline Executor Service Account (Training Version)
 resource "google_service_account" "vertex_pipeline_training" {
   account_id   = local.vertex_sa_id
   display_name = "Vertex AI Pipeline Executor (${upper(var.student_initials)}${var.student_number})"
   description  = "Service account for Vertex AI pipeline execution - Student ${upper(var.student_initials)}${var.student_number}"
 }
 
-# GitHub Actions IAM Roles
+# GitHub Actions Runner Permissions
 resource "google_project_iam_member" "github_actions_permissions" {
   for_each = toset([
-    "roles/viewer",
-    "roles/iam.serviceAccountUser",
-    "roles/storage.objectViewer",
-    "roles/logging.viewer",
-    "roles/source.reader"
+    "roles/viewer",                     # Basic project viewing
+    "roles/iam.serviceAccountUser",     # To impersonate other service accounts
+    "roles/storage.objectViewer",       # Read access to storage buckets
+    "roles/logging.viewer",             # View logs and monitoring
+    "roles/source.reader"               # Read source repositories
   ])
-
+  
   project = var.project_id
   role    = each.key
   member  = "serviceAccount:${google_service_account.github_actions_runner_training.email}"
 }
 
-# Vertex AI IAM Roles
+# Vertex AI Pipeline Executor Permissions
 resource "google_project_iam_member" "vertex_pipeline_permissions" {
   for_each = toset([
-    "roles/aiplatform.user",
-    "roles/storage.objectAdmin",
-    "roles/bigquery.dataEditor",
-    "roles/artifactregistry.reader",
-    "roles/logging.writer"
+    "roles/aiplatform.user",           # Basic Vertex AI access
+    "roles/storage.objectAdmin",       # Access training data/artifacts
+    "roles/bigquery.dataEditor",       # If using BigQuery data sources
+    "roles/artifactregistry.reader",   # For custom container images
+    "roles/logging.logWriter"          # Write pipeline execution logs (corrected role)
   ])
-
+  
   project = var.project_id
   role    = each.key
   member  = "serviceAccount:${google_service_account.vertex_pipeline_training.email}"
 }
 
-# Outputs
+# Outputs for verification
 output "student_identifier" {
   description = "Your unique student identifier"
   value       = "${upper(var.student_initials)}${var.student_number}"
@@ -554,7 +591,7 @@ output "vertex_pipeline_service_account_email" {
 output "service_account_names" {
   description = "Created service account names for reference"
   value = {
-    github_actions  = local.github_sa_id
+    github_actions = local.github_sa_id
     vertex_pipeline = local.vertex_sa_id
   }
 }
@@ -575,71 +612,82 @@ EOF
 
 ```bash
 cat > terraform.tfvars << 'EOF'
-# Student Configuration File
-# IMPORTANT: Update these values with your information
-
-# Replace with your initials (2–4 lowercase letters)
-student_initials = "YOUR_INITIALS"
-
-# Replace with your assigned student number (01–99)
-student_number = "YOUR_NUMBER"
-
-# Project and region (leave as-is unless instructed otherwise)
-project_id = "mfav2-374520"
-region     = "us-east1"
+# Student Configuration - Update these values
+student_initials = "dt"  # Replace with your initials (2-4 lowercase letters)
+student_number = "01"    # Replace with your assigned number (01-99)
 EOF
 ```
 
 # Part 4: Execute Terraform
+
 - Step 9: Verify Key File and Initialize Terraform
+
 - bash# Verify the key file exists and has correct permissions
+  
 - Run: ```ls -la ~/terraform-ops-key.json```
+  
 - Run: ```chmod 600 ~/terraform-ops-key.json```
 
 # Initialize the Terraform working directory
+
 - Run: ```terraform init```
 
 # Verify initialization
+
 - Run: ```ls -la```
 
 - Step 10: Validate Configuration
+  
 - bash# Validate the Terraform configuration
+  
 - Run: ```terraform validate```
 
 # Format the code (good practice)
+
 - Run: ```terraform fmt```
 
 - Step 11: Plan the Deployment
+  
 - bash# Generate and show the execution plan
+  
 - Run: ```terraform plan```
 
 # Save the plan to a file for review
+
 - Run: ```terraform plan -out=tfplan```
 
 # Review the saved plan
+
 - Run: ```terraform show tfplan```
 
 - Step 12: Apply the Configuration
-- 
+  
 - Apply the saved plan
-- 
+  
 - Run: ```terraform apply tfplan```
 
 - Type 'yes' when prompted to confirm
 
 # Part 5: Verification
+
 - Step 13: Verify Service Accounts Created
+  
 - List service accounts to see the new ones (replace DT01 with your identifier)
+  
 - Run: ```gcloud iam service-accounts list --project=mfav2-374520 --filter="displayName:DT01"```
 
 # Show Terraform state
+
 ```terraform show```
 
 # List resources in state
+
 ```terraform state list```
 
 # Part 6: Cleanup
+
 - Step 16: Destroy Resources
+  
 - Plan the destruction
 
 ```terraform plan -destroy```
