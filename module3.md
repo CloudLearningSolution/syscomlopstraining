@@ -737,6 +737,10 @@ EOF
 
 - Vertex AI IAM Access Control: https://cloud.google.com/vertex-ai/docs/general/access-control
 
+- Runbook: `runbooks/vertexairoles.md`
+
+- Playbook: `playbooks/vertexai-serviceaccount-strategy.md` 
+
 8. Notes and Warnings
 
 - Deny policies require careful planning and org-level access
