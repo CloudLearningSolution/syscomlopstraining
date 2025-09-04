@@ -1,4 +1,27 @@
 # Week 3: Identity and Access Management – Platform Enablement (Provisioning) Hands-On Workshop
+## Objectives
+
+- Understand the role of service accounts in Vertex AI workloads, including training, pipelines, and notebook execution  
+
+- Identify and inspect user-managed service accounts used by Vertex AI  
+
+- Explore IAM bindings and role assignments that enable or restrict Vertex AI access  
+
+- Learn how to provision service accounts using Infrastructure as code automation for repeatability across current and new GCP projects  
+
+- Apply advanced IAM concepts including least privilege, and deny policy strategy  
+
+---
+
+## 📋 Prerequisites
+
+- Access to Google Cloud Console  
+
+- Vertex AI API enabled in the target project(s)  
+
+- Familiarity with IAM concepts: principals, roles, bindings, and service agents  
+
+- Cloud Shell or local terminal with `gcloud` CLI installed
 
 # **Presenter Demonstration**
 # 🧪 Lab 3.1: AWS Management Console IAM Configuration for SageMaker
