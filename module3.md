@@ -1,4 +1,4 @@
-# Week 3: Platform Enablement for Vertex AI - Hands-On Workshop
+# Machine Learning Operations Playbook Adoption Workshop – Week 3: Platform Enablement for Vertex AI - Hands-On Workshop
 
 ## Objectives
 
