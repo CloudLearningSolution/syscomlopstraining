@@ -17,6 +17,7 @@ By the end of this workshop, participants will be able to:
 - Completion of Module 1: Cost Optimization
 - AWS Management Console access with infrastructure permissions
 - Google Cloud Console access with project access rights
+- Billing account configured
 
 ---
 
