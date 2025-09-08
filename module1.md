@@ -20,6 +20,7 @@ By the end of this workshop, participants will be able to:
 - Basic AWS and Google Cloud knowledge
 - Web browser (Chrome, Firefox, Safari, or Edge)
 - Participants are recommended to use browser capabilities such as Incognito or In private Browser Sessions due to single-sign-on and cached credential login challenges.
+- Billing account configured
 
 ### Workshop Overview
 
