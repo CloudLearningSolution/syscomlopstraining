@@ -24,6 +24,8 @@
 
 - Cloud Shell or local terminal with `gcloud` CLI installed
 
+- Billing account configured
+
 # **Presenter Demonstration**
 # 🧪 Lab 3.1: AWS Management Console IAM Configuration for SageMaker
 
