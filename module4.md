@@ -194,4 +194,12 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 
 ## 3. Hands-On Implementation Steps
 
-### 10. Create a Custom VPC Network
+### 4. Create a Custom VPC Network
+
+<placeholder>
+
+## Supplemental Materials
+- Vertex AI Pipeline Networking: https://cloud.google.com/vertex-ai/docs/pipelines/configure-network
+
+- Private Google Access FAQ: https://cloud.google.com/vpc/docs/private-google-access#faq
+
