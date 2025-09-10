@@ -246,7 +246,7 @@ The only step that does **not** need GCS/BigQuery is `model_rejected_op` (loggin
 # Important: The presenter will create a VPC. Participants will create subnets and enable private google access.
 ```bash
 gcloud compute networks create vertex-ai-vpc \
-  --subnet-mode=custom
+--subnet-mode=custom
 ```
 
 **What this does:**
@@ -263,10 +263,10 @@ gcloud compute networks create vertex-ai-vpc \
 # For example: participant 1 uses "01", participant 15 uses "15"
 
 gcloud compute networks subnets create vertex-ai-subnet-participant-XX \
-  --network=vertex-ai-vpc \
-  --region=us-central1 \
-  --range=10.10.XX.0/24 \
-  --enable-private-ip-google-access
+--network=vertex-ai-vpc \
+--region=us-central1 \
+--range=10.10.XX.0/24 \
+--enable-private-ip-google-access
 ```
 
 **Participant IP Range Assignments:**
@@ -284,10 +284,10 @@ gcloud compute networks subnets create vertex-ai-subnet-participant-XX \
 **Example for Participant 7:**
 ```bash
 gcloud compute networks subnets create vertex-ai-subnet-participant-07 \
-  --network=vertex-ai-vpc \
-  --region=us-central1 \
-  --range=10.10.7.0/24 \
-  --enable-private-ip-google-access
+--network=vertex-ai-vpc \
+--region=us-central1 \
+--range=10.10.7.0/24 \
+--enable-private-ip-google-access
 ```
 
 **What this does:**
@@ -306,8 +306,8 @@ gcloud compute networks subnets create vertex-ai-subnet-participant-07 \
 
 ```bash
 gcloud compute networks subnets describe vertex-ai-subnet-us-central1 \
-  --region=us-central1 \
-  --format="get(privateIpGoogleAccess)"
+--region=us-central1 \
+--format="get(privateIpGoogleAccess)"
 ```
 
 **Expected output:** `True`
