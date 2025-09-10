@@ -182,7 +182,7 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 
 ## 2. Theory Overview
 
-- **Private Google Access** allows VMs in private subnets to access Google APIs (e.g., GCS, BigQuery) without external IPs  
+- **Private Google Access** allows managed resources in private subnets to access Google APIs (e.g., GCS, BigQuery) without external IPs  
 - **Vertex AI pipeline components** often run on managed infrastructure that uses internal IPs only  
 - Enabling Private Google Access ensures secure, compliant access to datasets, models, and metadata stored in GCS and BigQuery  
 - This configuration is critical for components like `preprocess_data_op`, `train_model_op`, `evaluate_model_op`, `model_approved_op`, and `register_model_op`  
