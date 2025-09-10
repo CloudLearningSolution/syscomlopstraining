@@ -14,7 +14,7 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 ### Google Cloud Requirements
 
 - Google Cloud Console access with Network Admin role
-- gcloud CLI installed and configured
+- Cloud Workstations
 - Vertex AI API enabled
 - Billing account configured
 
@@ -45,11 +45,11 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 ### 10. Navigate to SageMaker Domain Setup
 
 - Go to [Amazon SageMaker Console](https://console.aws.amazon.com/sagemaker/)  
-- Click **Domains** → **Create Domain** → Choose **Set up for organizations**
+- Click **Domains** → **Explore domain settings**
 
 ### 11. Review Network Configuration Options
 
-- Under **Network**, select **VPC only**  
+- Under **Network**  
 - Observe required fields:  
   - VPC ID  
   - Subnet IDs (must be private)  
@@ -58,8 +58,7 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 ### 12. Explore VPC Console
 
 - Open [Amazon VPC Console](https://console.aws.amazon.com/vpc/)  
-- Review existing VPCs and subnets  
-- Confirm subnet types (public vs private)  
+- Review existing VPCs and subnets 
 
 ---
 
@@ -176,9 +175,8 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 
 - Google Cloud Console access with Compute Network Admin and Vertex AI Admin roles  
 - Vertex AI API enabled  
-- Cloud Shell or gcloud CLI installed and authenticated  
-- Existing Vertex AI pipeline deployed or simulated  
-- Familiarity with pipeline components and their data dependencies  
+- Cloud Workstations  
+- Existing Vertex AI pipeline deployed  
 
 ---
 
@@ -194,12 +192,151 @@ This week focuses on network configuration and VPC setup for ML platforms. AWS l
 
 ## 3. Hands-On Implementation Steps
 
-### 4. Create a Custom VPC Network
+## Overview
 
-<placeholder>
+These labs teach you how to configure Private Google Access so your Vertex AI pipeline components can securely access Cloud Storage and BigQuery without using the public internet.
 
-## Supplemental Materials
-- Vertex AI Pipeline Networking: https://cloud.google.com/vertex-ai/docs/pipelines/configure-network
+### Pipeline Components That Need Access
+
+| Component | What It Does | Needs GCS/BigQuery? |
+|-----------|-------------|---------------------|
+| `preprocess_data_op` | Downloads raw data | ✅ Yes - Direct GCS access |
+| `train_model_op` | Trains the model | ✅ Yes - Reads/writes artifacts |
+| `evaluate_model_op` | Evaluates model performance | ✅ Yes - Reads data, writes metrics |
+| `model_approved_op` | Logs approved models | ✅ Yes - Reads model metadata |
+| `register_model_op` | Registers model version | ✅ Yes - Reads artifact paths |
+| `model_rejected_op` | Logs rejection | ❌ No - Only logging |
+
+---
+
+## 🧪 Lab 4.4: Google Cloud VPC Design and Implementation for Vertex AI
+
+**Duration:** 45 minutes  
+**Objective:** Build a private VPC that lets your existing Vertex AI pipeline components reach Cloud Storage and BigQuery over Google's internal network by enabling Private Google Access.
+
+---
+
+### 1. Prerequisites
+
+- Project Owner or Compute Network Admin & Vertex AI Admin  
+- Vertex AI, Cloud Storage & BigQuery APIs enabled  
+- Cloud Shell or local `gcloud` CLI authenticated  
+- An existing Vertex AI pipeline deployed (or pipeline spec in hand)  
+- Pipeline service account granted `roles/storage.objectViewer`/`Admin` and BigQuery Data Viewer/Editor  
+
+---
+
+### 2. Theory Overview
+
+**Private Google Access** allows managed resources and managed infrastructure in a **private subnet** (no external IP) to call Google APIs (e.g., `storage.googleapis.com`, `bigquery.googleapis.com`) on Google's private backbone.
+
+Vertex AI pipeline steps run on managed VMs or GKE pods without external IPs. Enabling Private Google Access ensures your pipeline can:
+- Download raw data (`preprocess_data_op`)  
+- Read/write model artifacts (`train_model_op`, `evaluate_model_op`, `model_approved_op`, `register_model_op`)  
+- Query BigQuery datasets for features or logging  
+
+The only step that does **not** need GCS/BigQuery is `model_rejected_op` (logging only).
+
+---
+
+### 3. Hands-On Implementation Steps
+
+#### 3.1 Create a Custom VPC
+
+# Important: The presenter will create a VPC. Participants will create subnets and enable private google access.
+```bash
+gcloud compute networks create vertex-ai-vpc \
+  --subnet-mode=custom
+```
+
+**What this does:**
+- Creates a new VPC network named `vertex-ai-vpc`
+- Uses `custom` subnet mode for full control over IP ranges
+- No subnets are created automatically
+
+#### 3.2 Create a Subnet with Private Google Access
+
+**For Training Participants:** Each participant will create their own unique subnet. Use your assigned participant number (1-40) in the commands below.
+
+```bash
+# Replace XX with your participant number (01-40)
+# For example: participant 1 uses "01", participant 15 uses "15"
+
+gcloud compute networks subnets create vertex-ai-subnet-participant-XX \
+  --network=vertex-ai-vpc \
+  --region=us-central1 \
+  --range=10.10.XX.0/24 \
+  --enable-private-ip-google-access
+```
+
+**Participant IP Range Assignments:**
+
+| Participant | Subnet Name | IP Range | Available IPs |
+|------------|-------------|----------|---------------|
+| 01 | vertex-ai-subnet-participant-01 | 10.10.1.0/24 | 254 |
+| 02 | vertex-ai-subnet-participant-02 | 10.10.2.0/24 | 254 |
+| 03 | vertex-ai-subnet-participant-03 | 10.10.3.0/24 | 254 |
+| ... | ... | ... | ... |
+| 15 | vertex-ai-subnet-participant-15 | 10.10.15.0/24 | 254 |
+| ... | ... | ... | ... |
+| 40 | vertex-ai-subnet-participant-40 | 10.10.40.0/24 | 254 |
+
+**Example for Participant 7:**
+```bash
+gcloud compute networks subnets create vertex-ai-subnet-participant-07 \
+  --network=vertex-ai-vpc \
+  --region=us-central1 \
+  --range=10.10.7.0/24 \
+  --enable-private-ip-google-access
+```
+
+**What this does:**
+- Creates a unique subnet for each participant in the shared VPC
+- Each participant gets their own /24 subnet (254 usable IPs)
+- Non-overlapping IP ranges prevent conflicts
+- **Enables Private Google Access** - the key setting for this lab!
+
+**Important Notes:**
+- The VPC (`vertex-ai-vpc`) is shared by all participants
+- Each participant creates and manages their own subnet
+- IP ranges are pre-assigned to avoid conflicts
+- All subnets have Private Google Access enabled
+
+#### 3.3 Verify Private Google Access
+
+```bash
+gcloud compute networks subnets describe vertex-ai-subnet-us-central1 \
+  --region=us-central1 \
+  --format="get(privateIpGoogleAccess)"
+```
+
+**Expected output:** `True`
+
+This confirms that VMs in this subnet can reach Google APIs without external IPs.
+
+#### 3.4 Configure ML Pipeline to Use Your VPC
+---
+
+### 5. Pipeline Component Access Matrix
+
+| Component | GCS Access | BigQuery Access | Notes |
+|-----------|------------|-----------------|-------|
+| `preprocess_data_op` | Direct | Optional | Uses google-cloud-storage client |
+| `train_model_op` | Indirect | Optional | Kubeflow reads/writes model artifacts |
+| `evaluate_model_op` | Indirect | Optional | Reads dataset/model, writes metrics |
+| `model_approved_op` | Indirect | Optional | Reads model URI for logging |
+| `register_model_op` | Indirect | Optional | Reads artifact URI for Model Registry |
+| `model_rejected_op` | None | None | Logging only; no GCS/BigQuery interaction |
+
+---
+
+### 6. Deliverables
+
+- ✅ Screenshot showing `privateIpGoogleAccess=true`
+
+---
+
+### 7. Supplemental Materials
 
 - Private Google Access FAQ: https://cloud.google.com/vpc/docs/private-google-access#faq
 
