@@ -241,6 +241,56 @@ The only step that does **not** need GCS/BigQuery is `model_rejected_op` (loggin
 
 ### 3. Hands-On Implementation Steps
 
+- Navigate to Google Cloud Console: https://console.cloud.google.com and sign-in using your sysco mlops user.
+
+- Use the Project Picker to select your project
+
+![Google Cloud Console Welcome Page](Project_Picker.png)
+
+### 12. Activate Cloud Shell or Use Cloud Workstations
+
+- Enter Workstations in the search bar.
+
+![Google Cloud Console Welcome Page](workstations.png)
+
+- Select Create workstation
+
+- Enter a unique display name
+
+- Select test-configuration
+
+- In the configuration field drop down, select test-configuration
+
+- Select Create. Note: Creation may take several minutes to complete.
+
+- Select Start, located in the All workstations section, below the Quick actions column. Note: Creation may take several minutes to complete.
+
+![Google Cloud Console Welcome Page](launchCloudWorkstation.png)
+
+- Select Launch, afterwards, using the new workstation select the menu icon to access options, select terminal from the options.
+
+![Google Cloud Console Welcome Page](terminal-workstation.png)
+
+- Review the terminal area.
+
+- Run: `gcloud auth login`
+
+- Select the clickable link. Afterwards, select Open, upon selection a new browser session will start. Follow the prompts in the new session to login and get a verification code.
+
+![Google Cloud Console Welcome Page](gcloud_auth_CloudSDK.png)
+
+- Select Continue
+
+- Follow the prompts and provide username or password if required.
+
+- Select Copy. Note: The credential is a verfication code.
+
+![Google Cloud Console Welcome Page](gcloud-auth-code.png)
+
+- Paste the verification code into the terminal
+
+- Run: `gcloud config set project mfav2-374520`
+
 #### 3.1 Create a Custom VPC
 
 # Important: The presenter will create a VPC. Participants will create subnets and enable private google access.
