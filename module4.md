@@ -264,7 +264,7 @@ gcloud compute networks create vertex-ai-vpc \
 
 gcloud compute networks subnets create vertex-ai-subnet-participant-XX \
 --network=vertex-ai-vpc \
---region=us-central1 \
+--region=us-east1 \
 --range=10.10.XX.0/24 \
 --enable-private-ip-google-access
 ```
@@ -285,7 +285,7 @@ gcloud compute networks subnets create vertex-ai-subnet-participant-XX \
 ```bash
 gcloud compute networks subnets create vertex-ai-subnet-participant-07 \
 --network=vertex-ai-vpc \
---region=us-central1 \
+--region=us-east1 \
 --range=10.10.7.0/24 \
 --enable-private-ip-google-access
 ```
@@ -305,8 +305,8 @@ gcloud compute networks subnets create vertex-ai-subnet-participant-07 \
 #### 3.3 Verify Private Google Access
 
 ```bash
-gcloud compute networks subnets describe vertex-ai-subnet-us-central1 \
---region=us-central1 \
+gcloud compute networks subnets describe vertex-ai-subnet-participant-XX \
+--region=us-east1 \
 --format="get(privateIpGoogleAccess)"
 ```
 
