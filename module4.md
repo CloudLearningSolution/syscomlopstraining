@@ -316,7 +316,8 @@ This confirms that VMs in this subnet can reach Google APIs without external IPs
 
 #### 3.4 Configure ML Pipeline to Use Your VPC
 ---
-
+# Important: Presenter will demonstrate how the ML pipeline orchestration utilizes your private subnetwork with private google access.
+- Targeted Training Repo for DS/ML/MLOPS: ~/MLOPS-Engineering/Feature-Branch/.github/workflows/vertex-ai-cicd.yml
 ### 5. Pipeline Component Access Matrix
 
 | Component | GCS Access | BigQuery Access | Notes |
