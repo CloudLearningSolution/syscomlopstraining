@@ -500,15 +500,18 @@ Securing ML Workloads: https://cloud.google.com/architecture/ml-secure-networkin
 
 
 #### 2. Theory Overview
+
 - What Works with Private Google Access Alone
 
-✅ Cloud Storage (storage.googleapis.com)
-✅ BigQuery (bigquery.googleapis.com)
-✅ Vertex AI APIs (aiplatform.googleapis.com)
-✅ Most Google Cloud APIs
+- ✅ Cloud Storage (storage.googleapis.com)
+- ✅ BigQuery (bigquery.googleapis.com)
+- ✅ Vertex AI APIs (aiplatform.googleapis.com)
+- ✅ Most Google Cloud APIs
 
 When You Need Service Networking (VPC Peering)
 
-❌ Cloud SQL (managed database instances)
-❌ Memorystore (managed Redis/Memcached)
-❌ Other managed services with dedicated instances
+- ❌ Cloud SQL (managed database instances)
+- ❌ Memorystore (managed Redis/Memcached)
+- ❌ Other managed services with dedicated instances
+
+---
