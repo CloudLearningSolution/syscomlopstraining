@@ -393,17 +393,18 @@ This confirms that VMs in this subnet can reach Google APIs without external IPs
 
 ---
 
-🧪 Lab 4.5: Firewall Rules and Network Security for ML Workloads
-Duration: 30 minutes Objective: Lock down egress on your Vertex AI pipeline’s VPC so it can still reach Google APIs (Cloud Storage, BigQuery) and the metadata server, while blocking all other outbound traffic.
+# 🧪 Lab 4.5: Firewall Rules and Network Security for ML Workloads
 
-1. Prerequisites
+## Objective: Lock down egress on your Vertex AI pipeline’s VPC so it can still reach Google APIs (Cloud Storage, BigQuery) and the metadata server, while blocking all other outbound traffic.
+
+#### 1. Prerequisites
 - Compute Security Admin role granted
 
 - Completion of Lab 4.4 (custom subnet with Private Google Access)
 
 - Cloud Shell or local gcloud CLI authenticated
 
-2. Theory Overview
+#### 2. Theory Overview
 - Google Cloud firewalls are stateful and enforced at the VPC level.
 
 - By default, all egress is allowed, which increases risk.
@@ -416,7 +417,7 @@ Duration: 30 minutes Objective: Lock down egress on your Vertex AI pipeline’s 
 
 - DNS (udp/tcp:53) for name resolution
 
-3. Hands-On Implementation Steps
+#### 3. Hands-On Implementation Steps
 
 3.1 (Optional) Tag Your Pipeline Infrastructure
 
@@ -472,7 +473,7 @@ gcloud compute firewall-rules create deny-egress-all \
 ```
 ### ⚠️ Warning: This denies everything else. Ensure your pipeline only needs the above services. This will also DENY python pip!
 
-4. Deliverables
+#### 4. Deliverables
 List of created firewall rules with priorities and descriptions
 
 Test outputs showing:
@@ -481,25 +482,25 @@ Successful gsutil and bq commands
 
 Blocked public internet curl request
 
-5. Supplemental Materials
+#### 5. Supplemental Materials
 Firewall Rules Overview: https://cloud.google.com/vpc/docs/firewalls
 
 Securing ML Workloads: https://cloud.google.com/architecture/ml-secure-networking
 
 ---
 
-Lab 4.6: Private Google Access & Service Networking Validation
+# Lab 4.6: Private Google Access & Service Networking Validation
 
-- Objective: Understand when Service Networking peering is required.
+## Objective: Understand when Service Networking peering is required.
 
-1. Prerequisites
+#### 1. Prerequisites
 
-Labs 4.4 & 4.5 completed
-Pipeline configured to use vertex-ai-vpc
+- Labs 4.4 & 4.5 completed
+- Pipeline configured to use vertex-ai-vpc
 
 
-2. Theory Overview
-What Works with Private Google Access Alone
+#### 2. Theory Overview
+- What Works with Private Google Access Alone
 
 ✅ Cloud Storage (storage.googleapis.com)
 ✅ BigQuery (bigquery.googleapis.com)
