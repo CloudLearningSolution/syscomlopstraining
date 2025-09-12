@@ -397,35 +397,33 @@ This confirms that VMs in this subnet can reach Google APIs without external IPs
 Duration: 30 minutes Objective: Lock down egress on your Vertex AI pipeline’s VPC so it can still reach Google APIs (Cloud Storage, BigQuery) and the metadata server, while blocking all other outbound traffic.
 
 1. Prerequisites
-Compute Security Admin role granted
+- Compute Security Admin role granted
 
-Completion of Lab 4.4 (custom subnet with Private Google Access)
+- Completion of Lab 4.4 (custom subnet with Private Google Access)
 
-Cloud Shell or local gcloud CLI authenticated
+- Cloud Shell or local gcloud CLI authenticated
 
 2. Theory Overview
-Google Cloud firewalls are stateful and enforced at the VPC level.
+- Google Cloud firewalls are stateful and enforced at the VPC level.
 
-By default, all egress is allowed, which increases risk.
+- By default, all egress is allowed, which increases risk.
 
-For least-privilege, restrict egress to only:
+- For least-privilege, restrict egress to only:
 
-Google APIs (*.googleapis.com over TCP/443)
+- Google APIs (*.googleapis.com over TCP/443)
 
-Metadata server (169.254.169.254 for token exchange)
+- Metadata server (169.254.169.254 for token exchange)
 
-DNS (udp/tcp:53) for name resolution
+- DNS (udp/tcp:53) for name resolution
 
 3. Hands-On Implementation Steps
-3.1 (Optional) Tag Your Pipeline Infrastructure
-If your pipeline VMs or pods aren’t already tagged, test with a VM:
 
-bash
-gcloud compute instances add-tags test-vm \
-  --zone=us-central1-a \
-  --tags=vertex-pipeline
+3.1 (Optional) Tag Your Pipeline Infrastructure
+
+- Governance which includes tagging is covered later in the 32 week course.
+
 3.2 Allow Egress to Google APIs
-bash
+```bash
 gcloud compute firewall-rules create allow-egress-google-apis \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
@@ -435,8 +433,9 @@ gcloud compute firewall-rules create allow-egress-google-apis \
   --target-tags=vertex-pipeline \
   --priority=1000 \
   --description="Allow egress to Google APIs via Private Google Access"
+```
 3.3 Allow Egress to Metadata Server
-bash
+```bash
 gcloud compute firewall-rules create allow-egress-metadata \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
@@ -446,8 +445,9 @@ gcloud compute firewall-rules create allow-egress-metadata \
   --target-tags=vertex-pipeline \
   --priority=900 \
   --description="Allow egress to GCE metadata server"
+```
 3.4 Allow Egress for DNS Resolution
-bash
+```bash
 gcloud compute firewall-rules create allow-egress-dns \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
@@ -457,8 +457,9 @@ gcloud compute firewall-rules create allow-egress-dns \
   --target-tags=vertex-pipeline \
   --priority=800 \
   --description="Allow DNS resolution"
+```
 3.5 Deny All Other Egress
-bash
+```bash
 gcloud compute firewall-rules create deny-egress-all \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
@@ -468,38 +469,10 @@ gcloud compute firewall-rules create deny-egress-all \
   --target-tags=vertex-pipeline \
   --priority=65534 \
   --description="Deny all other outbound traffic"
-⚠️ Warning: This denies everything else. Ensure your pipeline only needs the above services.
+```
+### ⚠️ Warning: This denies everything else. Ensure your pipeline only needs the above services. This will also DENY python pip!
 
-4. Test Firewall Rules
-SSH into your tagged VM via IAP:
-
-bash
-gcloud compute ssh test-vm \
-  --zone=us-central1-a \
-  --tunnel-through-iap
-Verify allowed access:
-
-bash
-gsutil ls gs://your-bucket
-bq ls your_dataset
-Verify blocked access:
-
-bash
-curl -s https://www.google.com  # Should timeout or be denied
-5. View Firewall Rules
-bash
-gcloud compute firewall-rules list \
-  --filter="network:vertex-ai-vpc" \
-  --format="table(
-    name,
-    direction,
-    priority,
-    sourceRanges.list():label=SRC,
-    destinationRanges.list():label=DEST,
-    allowed[].map().firewall_rule().list():label=ALLOW,
-    denied[].map().firewall_rule().list():label=DENY
-  )"
-6. Deliverables
+4. Deliverables
 List of created firewall rules with priorities and descriptions
 
 Test outputs showing:
@@ -508,7 +481,33 @@ Successful gsutil and bq commands
 
 Blocked public internet curl request
 
-7. Supplemental Materials
+5. Supplemental Materials
 Firewall Rules Overview: https://cloud.google.com/vpc/docs/firewalls
 
 Securing ML Workloads: https://cloud.google.com/architecture/ml-secure-networking
+
+---
+
+Lab 4.6: Private Google Access & Service Networking Validation
+
+- Objective: Understand when Service Networking peering is required.
+
+1. Prerequisites
+
+Labs 4.4 & 4.5 completed
+Pipeline configured to use vertex-ai-vpc
+
+
+2. Theory Overview
+What Works with Private Google Access Alone
+
+✅ Cloud Storage (storage.googleapis.com)
+✅ BigQuery (bigquery.googleapis.com)
+✅ Vertex AI APIs (aiplatform.googleapis.com)
+✅ Most Google Cloud APIs
+
+When You Need Service Networking (VPC Peering)
+
+❌ Cloud SQL (managed database instances)
+❌ Memorystore (managed Redis/Memcached)
+❌ Other managed services with dedicated instances
