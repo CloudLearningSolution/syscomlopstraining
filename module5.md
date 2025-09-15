@@ -74,7 +74,7 @@
 
 - Document data flow patterns and dependency relationships between steps
 
-### Step 3: Processing Steps for Data Preparation (20 minutes)
+### Step 3: Processing Steps for Data Preparation
 
 - Explore Processing steps for data preprocessing, feature engineering, and model evaluation.
 
