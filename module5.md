@@ -20,7 +20,7 @@
 
 ## 🔧 Lab 5.1: SageMaker Pipeline Component Architecture Overview
 
-- Tools Required: TBD
+- Tools Required: GitHub Training Repo
 - Difficulty: Intermediate
 
 #### Lab Objectives
@@ -46,8 +46,6 @@
 - Directed: Steps have clear input/output flow direction
 - Acyclic: No circular dependencies between steps
 - Graph: Visual representation of step relationships
-
-
 
 ### Step 2: Pipeline Data Dependencies and Relationships
 
