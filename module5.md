@@ -57,7 +57,7 @@
 - Import basic SageMaker pipeline libraries to explore step types:
 
 ```python
-python   import sagemaker
+   import sagemaker
    from sagemaker.workflow.pipeline import Pipeline
    from sagemaker.workflow.steps import ProcessingStep, TrainingStep
 ```
