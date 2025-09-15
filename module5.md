@@ -26,7 +26,7 @@
 #### Lab Objectives
 
 - Understand SageMaker Pipeline architecture as a Directed Acyclic Graph (DAG)
-- Understand the core SageMaker Pipeline step types and their purposes
+- Understand the core SageMaker Pipeline step types and their purposes as components
 - Analyze pipeline data dependencies and step relationships
 - Prepare foundation knowledge for detailed implementation in Lab 5.2
 
