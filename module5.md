@@ -23,7 +23,7 @@
 - Tools Required: TBD
 - Difficulty: Intermediate
 
-- Lab Objectives
+#### Lab Objectives
 
 - Understand SageMaker Pipeline architecture as a Directed Acyclic Graph (DAG)
 - Understand the core SageMaker Pipeline step types and their purposes
