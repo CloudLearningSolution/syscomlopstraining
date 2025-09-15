@@ -2,7 +2,6 @@
 
 ## 🚀 Migration Machine Learning Operations Pipeline Architecture Comparison
 ### Module Learning Objectives
-- By the end of this workshop, participants will be able to:
 
 - Analyze and compare SageMaker Pipeline components with Vertex AI Pipeline architecture
 - Understand SageMaker Pipeline orchestration workflows
