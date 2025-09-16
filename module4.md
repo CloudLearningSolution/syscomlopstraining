@@ -425,51 +425,51 @@ This confirms that VMs in this subnet can reach Google APIs without external IPs
 
 3.2 Allow Egress to Google APIs
 ```bash
-gcloud compute firewall-rules create allow-egress-google-apis \
+gcloud compute firewall-rules create allow-egress-google-apis-participant-XX \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
   --action=ALLOW \
   --rules=tcp:443 \
   --destination-ranges=199.36.153.4/30,199.36.153.8/29 \
-  --target-tags=vertex-pipeline \
+  --source-ranges=10.10.X.0/24 \
   --priority=1000 \
-  --description="Allow egress to Google APIs via Private Google Access"
+  --description="Allow egress to Google APIs from participant XX"
 ```
 3.3 Allow Egress to Metadata Server
 ```bash
-gcloud compute firewall-rules create allow-egress-metadata \
+gcloud compute firewall-rules create allow-egress-metadata-XX \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
   --action=ALLOW \
   --rules=tcp:80 \
   --destination-ranges=169.254.169.254/32 \
-  --target-tags=vertex-pipeline \
+  --source-ranges=10.10.X.0/24 \
   --priority=900 \
-  --description="Allow egress to GCE metadata server"
+  --description="Allow egress to GCE metadata server from participant XX"
 ```
 3.4 Allow Egress for DNS Resolution
 ```bash
-gcloud compute firewall-rules create allow-egress-dns \
+gcloud compute firewall-rules create allow-egress-dns-XX \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
   --action=ALLOW \
   --rules=udp:53,tcp:53 \
   --destination-ranges=0.0.0.0/0 \
-  --target-tags=vertex-pipeline \
+  --source-ranges=10.10.X.0/24 \
   --priority=800 \
-  --description="Allow DNS resolution"
+  --description="Allow DNS resolution from participant XX"
 ```
 3.5 Deny All Other Egress
 ```bash
-gcloud compute firewall-rules create deny-egress-all \
+gcloud compute firewall-rules create deny-egress-all-participant-XX \
   --network=vertex-ai-vpc \
   --direction=EGRESS \
   --action=DENY \
   --rules=all \
   --destination-ranges=0.0.0.0/0 \
-  --target-tags=vertex-pipeline \
+  --source-ranges=10.10.X.0/24 \
   --priority=65534 \
-  --description="Deny all other outbound traffic"
+  --description="Deny all other outbound traffic from participant XX"
 ```
 ### ⚠️ Warning: This denies everything else. Ensure your pipeline only needs the above services. This will also DENY python pip!
 
