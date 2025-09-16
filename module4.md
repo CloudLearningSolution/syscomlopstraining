@@ -423,6 +423,8 @@ This confirms that VMs in this subnet can reach Google APIs without external IPs
 
 - Governance which includes tagging is covered later in the 32 week course.
 
+#### Note: In the next steps replace the variables "XX" and "X" with your participant number. For example, participant-07 and --source-ranges=10.10.7.0/24.
+
 3.2 Allow Egress to Google APIs
 ```bash
 gcloud compute firewall-rules create allow-egress-google-apis-participant-XX \
@@ -476,12 +478,6 @@ gcloud compute firewall-rules create deny-egress-all-participant-XX \
 #### 4. Deliverables
 List of created firewall rules with priorities and descriptions
 
-Test outputs showing:
-
-Successful gsutil and bq commands
-
-Blocked public internet curl request
-
 #### 5. Supplemental Materials
 Firewall Rules Overview: https://cloud.google.com/vpc/docs/firewalls
 
@@ -515,3 +511,55 @@ When You Need Service Networking (VPC Peering)
 - ❌ Other managed services with dedicated instances
 
 ---
+# Private Services Access vs Private Google Access
+
+## Overview
+
+Private Google Access and Private Services Access both keep traffic off the public internet, but they operate at different layers and serve different use cases.  
+
+---
+
+## Private Google Access
+
+- Enabled on a subnet with `--enable-private-ip-google-access`  
+- Allows ML pipeline components and managed services in a private subnet to call Google APIs (Cloud Storage, BigQuery, Vertex AI) over Google’s internal network  
+- No peering or IP allocation required  
+- Covers “public” Google services endpoints like `storage.googleapis.com` and `bigquery.googleapis.com`  
+
+---
+
+## Private Services Access
+
+- Creates a dedicated VPC peering connection to a Google-managed service network (service producer)  
+- Requires you to:
+  - Reserve an internal IP range for the service producer  
+  - Use the Service Networking API to establish peering  
+- Enables private-IP connectivity to managed services with private-instance backends (Cloud SQL, Memorystore, GKE private control planes)  
+- Traffic remains on Google’s backbone but uses internal RFC-1918 addresses  
+
+---
+
+## Manual Peering vs Private Services Access
+
+- Private Services Access leverages the same VPC peering mechanism, but:
+
+- The “producer” VPC is owned and managed by Google for a specific service  
+- You don’t manually create peering routes; Service Networking automates route and tenancy-unit setup  
+- Peering is one-way from your VPC to the service producer’s VPC, but appears in your network as a standard peering connection  
+
+---
+
+## When to Use Each
+
+| Capability               | Use Case                                                         |
+|--------------------------|------------------------------------------------------------------|
+| Private Google Access    | Access Cloud Storage, BigQuery, Vertex AI APIs without external IPs |
+| Private Services Access  | Access private-IP services (Cloud SQL, Memorystore, GKE private)   |
+
+---
+
+## References
+
+[1] Private services access | VPC | Google Cloud: https://cloud.google.com/vpc/docs/private-services-access
+
+
