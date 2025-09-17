@@ -589,7 +589,7 @@ gcloud compute addresses create memorystore-psa-range-XX \
 ```
 - *The command with --prefix-length=24 lets Google Cloud automatically allocate a free /24 block from the default internal ranges*
 - *To explicitly assign a known IP block like 10.20.7.0/24, each participant must use the --addresses flag*
-- *--prefix-length=24 defines the size of the block (256 IPs)
+- *--prefix-length=24 defines the size of the block (256 IPs)*
 - **Ensures predictable, non-overlapping IP allocation across participants**
 
 ##### What you have accomplished
