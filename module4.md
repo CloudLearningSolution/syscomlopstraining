@@ -558,8 +558,78 @@ Private Google Access and Private Services Access both keep traffic off the publ
 
 ---
 
+#### 3. Hands-On Implementation Steps
+
+- Service Networking API enabled:
+
+```bash
+  gcloud services enable servicenetworking.googleapis.com
+```
+##### 3.1 Reserve a Peering IP Range
+
+## Strategy for All 40 + Participants
+
+| Participant | Range Name                 | IP Block        |
+|-------------|----------------------------|-----------------|
+| 01          | memorystore-psa-range-01   | 10.20.1.0/24    |
+| 02          | memorystore-psa-range-02   | 10.20.2.0/24    |
+| ...         | ...                        | ...             |
+| 40          | memorystore-psa-range-40   | 10.20.40.0/24   |
+
+
+- Reserve a /16 range in your VPC for Memorystore’s private endpoints:
+```bash
+gcloud compute addresses create memorystore-psa-range-XX \
+  --global \
+  --purpose=VPC_PEERING \
+  --addresses=10.20.X.0 \
+  --prefix-length=24 \
+  --network=vertex-ai-vpc \
+  --description="Participant XX IP range for Private Services Access to Memorystore"
+```
+- *The command with --prefix-length=24 lets Google Cloud automatically allocate a free /24 block from the default internal ranges*
+- *To explicitly assign a known IP block like 10.20.7.0/24, each participant must use the --addresses flag*
+- *--prefix-length=24 defines the size of the block (256 IPs)
+- **Ensures predictable, non-overlapping IP allocation across participants**
+
+##### What you have accomplished
+- Creates a global internal IP range for VPC peering with Google’s service producer network.
+
+- Scopes it to vertex-ai-vpc, ensuring the participant’s ML VPC can privately connect to Memorystore or Cloud SQL, etc.
+
+- Uses a /24 block, which is ideal for isolated environments with up to 256 IPs to support multiple instances running managed services per participant.
+
+##### 3.2 Establish Service Networking Peering
+
+- Presenter Hands-On Example
+```bash
+gcloud services vpc-peerings connect \
+  --service=servicenetworking.googleapis.com \
+  --network=vertex-ai-vpc \
+  --ranges=memorystore-psa-range-01
+```
+
+- Participant Hands-On
+- Peer your VPC to the Memorystore service producer:
+```bash
+gcloud services vpc-peerings update \
+  --service=servicenetworking.googleapis.com \
+  --network=vertex-ai-vpc \
+  --ranges=memorystore-psa-range-XX,memorystore-psa-range-01
+```
+
+##### 3.3 Verify the Peering Connection
+- List peering connections on your VPC:
+```bash
+gcloud compute networks peerings list \
+  --network=vertex-ai-vpc
+```
+
+- Expected state: ACTIVE
+
+#### 4. Supplemental Materials
 ## References
 
 [1] Private services access | VPC | Google Cloud: https://cloud.google.com/vpc/docs/private-services-access
-
+[1] Memorystore Private IP Documentation: https://cloud.google.com/memorystore/docs/redis/ip-addresses-private
 
