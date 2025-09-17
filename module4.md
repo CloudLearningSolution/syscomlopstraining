@@ -631,5 +631,6 @@ gcloud compute networks peerings list \
 ## References
 
 [1] Private services access | VPC | Google Cloud: https://cloud.google.com/vpc/docs/private-services-access
+
 [1] Memorystore Private IP Documentation: https://cloud.google.com/memorystore/docs/redis/ip-addresses-private
 
