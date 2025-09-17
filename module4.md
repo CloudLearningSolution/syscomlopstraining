@@ -627,6 +627,18 @@ gcloud compute networks peerings list \
 
 - Expected state: ACTIVE
 
+##### Key Documentation Insights
+
+- Only one private connection is needed per VPC, even if multiple services or IP ranges are used.
+
+- The service producer network is dedicated per project, and your VPC peers into it using the Service Networking API.
+
+###### Private Google Access and Private Services Access are independent features:
+
+- Private Google Access is subnet-level and enables access to Google APIs.
+
+- Private Services Access is VPC-level and enables access to private IP services like Cloud SQL or Memorystore.
+
 #### 4. Supplemental Materials
 ## References
 
