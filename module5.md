@@ -64,7 +64,7 @@ SageMaker Pipelines are built as **Directed Acyclic Graphs (DAGs)**, where each 
 
 ## 3. Sequential Lab Tasks
 
-Each task below maps directly to commented sections in the Python notebook (`lab-5.1-pipeline-component.ipynb`) from the GitHub Training Repo.
+Each task below maps directly to commented sections in the Python code (`lab-5.1`) from the GitHub Training Repo.
 
 ### ✅ Lab 5.1.1 – Component Identification
 
@@ -119,4 +119,129 @@ Each task below maps directly to commented sections in the Python notebook (`lab
 
 ---
 
-Next up: **Lab 5.2 – SageMaker Processing, Training, and Transform Steps**, where we’ll implement real functionality and connect steps into a working DAG.
+Next up: **Lab 5.2 – SageMaker Processing, Training, and Transform Steps**
+
+# 🧪 Lab 5.2: SageMaker Processing, Training, and Transform Steps
+
+**Difficulty:** Intermediate  
+**Tools Required:** GitHub Training Repo
+
+---
+
+## 🎯 Lab Objectives
+
+- Configure and implement `ProcessingStep`, `TrainingStep`, and `TransformStep` in a SageMaker Pipeline  
+- Use step property references to enforce execution order and pass outputs between steps  
+- Understand how artifacts flow through the pipeline DAG  
+- Implement error handling and validation logic for robust pipeline execution  
+
+---
+
+## 1. Prerequisites
+
+- Completion of Lab 5.1 (Pipeline architecture and component overview)  
+- AWS account with SageMaker Studio or Notebook access  
+- IAM role with `AmazonSageMakerFullAccess` and `AmazonS3FullAccess`  
+- Python 3.8+ environment with `sagemaker` SDK installed  
+- Access to the GitHub Training Repo containing starter pipeline code  
+- Pre-created S3 bucket for input/output artifacts
+- Pre-created Redshift Database Table
+
+---
+
+## 2. Theory Overview
+
+SageMaker Pipelines support modular ML workflows using built-in step types:
+
+- `ProcessingStep`: for data cleaning, feature engineering, or validation  
+- `TrainingStep`: for model training using built-in or custom estimators  
+- `TransformStep`: for batch inference using trained models  
+- Steps are connected using **property references**, which pass outputs from one step as inputs to another  
+- Error handling can be implemented at the script level or using conditional logic in the pipeline  
+
+---
+
+## 3. Sequential Lab Tasks
+
+Each task below maps directly to commented sections in the Python code (`lab-5.2`) from the GitHub Training Repo.
+
+### ✅ Lab 5.2.1 – Step Configuration
+
+- Define a `SKLearnProcessor` or `ScriptProcessor`  
+- Configure instance type, count, and container image  
+- Set up the `ProcessingStep` with basic parameters and script location  
+
+### ✅ Lab 5.2.2 – Implementation Details
+
+- Specify `ProcessingInput` and `ProcessingOutput` objects  
+- Define input/output S3 paths and mount locations  
+- Confirm that the script reads from and writes to expected locations  
+
+### ✅ Lab 5.2.3 – Property References
+
+- Access output paths from the `ProcessingStep` using `.properties.outputs`  
+- Use these references as inputs to the `TrainingStep`  
+
+train_input = processing_step.properties.ProcessingOutputConfig.Outputs["train_data"].S3Output.S3Uri
+
+### ✅ Lab 5.2.4 – Dependency Creation
+- Pass train_input to the estimator in TrainingStep
+
+- Ensure the pipeline DAG reflects correct execution order
+
+- Confirm that TrainingStep waits for ProcessingStep to complete
+
+### ✅ Lab 5.2.5 – TrainingStep Configuration
+- Define a SKLearn or XGBoost estimator
+
+- Set hyperparameters, instance type, and output path
+
+- Configure the TrainingStep with estimator and input references
+
+### ✅ Lab 5.2.6 – TrainingStep Implementation
+- Implement the training script and upload to S3
+
+- Confirm that the model artifact is saved to the correct output location
+
+- Use .properties.ModelArtifacts.S3ModelArtifacts for downstream steps
+
+### ✅ Lab 5.2.7 – Transform Step Usage
+- Define a Transformer using the trained model
+
+- Configure batch transform input and output locations
+
+- Add a TransformStep to the pipeline using .properties.ModelArtifacts
+
+### ✅ Lab 5.2.8 – Error Handling Implementation
+- Add try/except blocks in processing and training scripts
+
+- Use ConditionStep to check for metric thresholds or missing outputs
+
+- Log errors and raise exceptions for failed steps
+
+- Optionally route to a CallbackStep or notification handler
+
+### 4. Deliverables
+- Completed notebook implementing all three step types
+
+- Screenshot of pipeline DAG showing correct step order
+
+- Sample logs showing successful execution and error handling
+
+- Written explanation of how property references enforce dependencies
+
+### 5. Reflection Questions
+- How do property references simplify pipeline orchestration?
+
+- What happens if a step fails or produces invalid output?
+
+- How would you modify the pipeline to include model evaluation or approval logic?
+
+### 6. Supplemental Materials
+- SageMaker ProcessingStep Documentation
+
+- SageMaker TrainingStep Documentation
+
+- SageMaker TransformStep Documentation
+
+- Pipeline Property References
