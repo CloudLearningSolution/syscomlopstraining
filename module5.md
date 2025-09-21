@@ -18,75 +18,105 @@
 - Participants are recommended to use browser capabilities such as Incognito or In private Browser Sessions due to single-sign-on and cached credential challenges
 - Docker or Docker Desktop installed for container component development
 
-## 🔧 Lab 5.1: SageMaker Pipeline Component Architecture Overview
+# 🧪 Lab 5.1: SageMaker Pipeline Component Architecture Overview
 
-- Tools Required: GitHub Training Repo
-- Difficulty: Intermediate
+**Difficulty:** Intermediate  
+**Tools Required:** GitHub Training Repo 
 
-#### Lab Objectives
+---
 
-- Understand SageMaker Pipeline architecture as a Directed Acyclic Graph (DAG)
-- Understand the core SageMaker Pipeline step types and their purposes as components
-- Analyze pipeline data dependencies and step relationships
-- Prepare foundation knowledge for detailed implementation in Lab 5.2
+## 🎯 Lab Objectives
 
-### Step 1: Pipeline Concept Introduction and DAG Structure
+- Understand SageMaker Pipeline architecture as a Directed Acyclic Graph (DAG)  
+- Identify and describe core SageMaker Pipeline step types  
+- Analyze pipeline data dependencies and conceptual relationships  
+- Compare SageMaker Pipelines to traditional ML workflows  
+- Prepare for hands-on implementation of processing, training, and transform steps in Lab 5.2  
 
-- Understand SageMaker Pipelines as interconnected steps in a Directed Acyclic Graph (DAG) structure.
+---
 
-- Navigate to AWS SageMaker Console
-- Select SageMaker Studio from the left navigation panel and launch Studio
-- In SageMaker Studio, navigate to Pipelines section in the left sidebar
-- Review the pipeline visualization interface and DAG representation
-- Understand that a SageMaker AI pipeline is "a series of interconnected steps in directed acyclic graph (DAG) that are defined using the drag-and-drop UI or Pipelines SDK" Pipelines overview
-- Examine how "data dependencies are created when the properties of a step's output are passed as the input to another step" Pipelines overview
+## 1. Prerequisites
 
-#### key characteristics of DAG structure:
+- AWS account with SageMaker Studio or Notebook access  
+- IAM role with `AmazonSageMakerFullAccess` and `AmazonS3FullAccess`  
+- Python 3.8+ environment with `sagemaker` SDK installed  
+- Access to the GitHub Training Repo containing starter pipeline code  
+- Pre-created S3 bucket for input/output artifacts  
 
-- Directed: Steps have clear input/output flow direction
-- Acyclic: No circular dependencies between steps
-- Graph: Visual representation of step relationships
+---
 
-### Step 2: Pipeline Data Dependencies and Relationships
+## 2. Theory Overview
 
-- Analyze how data flows between pipeline steps and creates execution dependencies.
+SageMaker Pipelines are built as **Directed Acyclic Graphs (DAGs)**, where each node represents a step and edges represent data dependencies.  
 
-- Create a new notebook in SageMaker Studio with Python 3 (Data Science) kernel
-- Import basic SageMaker pipeline libraries to explore step types:
+### 🔧 Core Step Types
 
-```python
-   import sagemaker
-   from sagemaker.workflow.pipeline import Pipeline
-   from sagemaker.workflow.steps import ProcessingStep, TrainingStep
-```
+| Step Type        | Purpose                                      |
+|------------------|----------------------------------------------|
+| `ProcessingStep` | Preprocess or analyze data                   |
+| `TrainingStep`   | Train a model using an estimator             |
+| `TransformStep`  | Batch inference on new data                  |
+| `ModelStep`      | Register trained model for deployment        |
+| `ConditionStep`  | Branch logic based on metrics or thresholds  |
+| `CallbackStep`   | Custom logic or external integrations        |
 
-- Understand that "the structure of a pipeline's DAG is determined by the data dependencies between steps" Pipelines overview
-- Analyze the example pipeline structure from the GitHub Training Repo:
+---
 
-- Process: Data preprocessing step
-- Train: Model training step
-- Eval: Model evaluation step
-- Condition: Conditional logic step
-- Register Model: Model registration step
-- Create Model: Model creation step
-- Batch: Batch inference step
+## 3. Sequential Lab Tasks
 
+Each task below maps directly to commented sections in the Python notebook (`lab-5.1-pipeline-component.ipynb`) from the GitHub Training Repo.
 
-- Document data flow patterns and dependency relationships between steps
+### ✅ Lab 5.1.1 – Component Identification
 
-### Step 3: Processing Steps for Data Preparation
+- Review the SageMaker SDK documentation  
+- List all available pipeline step classes  
+- Match each class to its functional role in ML workflows  
 
-- Explore Processing steps for data preprocessing, feature engineering, and model evaluation.
+### ✅ Lab 5.1.2 – Purpose Recognition
 
-- Understand that Processing steps like "Process" run "a preprocessing script on the data used for training" and can "fill in missing values, normalize numerical data, or split data into the train, validation, and test datasets"
+- For each step type, describe its purpose  
+- Identify which steps produce artifacts and which consume them  
 
-#### Pipelines overview
+### ✅ Lab 5.1.3 – Architecture Understanding
 
-- Navigate to SageMaker > Processing jobs to examine processing infrastructure
-- Review Processing step characteristics:
+- Sketch a DAG showing how steps might be arranged  
+- Label inputs, outputs, and dependencies  
 
-- Data preprocessing: Feature engineering, data cleaning, normalization
-- Data splitting: Train/validation/test dataset creation
-- Model evaluation: Post-training model assessment and metrics calculation
-- Custom scripts: Python scripts for specific processing tasks
+### ✅ Lab 5.1.4 – Conceptual Relationships
 
+- Describe how `ProcessingStep` output feeds into `TrainingStep`  
+- Explain how `TrainingStep` output feeds into `TransformStep` or `ModelStep`  
+
+### ✅ Lab 5.1.5 – High-Level Comparison
+
+- Compare SageMaker Pipelines to traditional ML workflows (e.g., Jupyter notebooks, Airflow DAGs)  
+- Discuss benefits: reproducibility, modularity, auditability  
+
+---
+
+## 4. Deliverables
+
+- Annotated notebook with completed lab tasks  
+- Screenshot of pipeline registration in SageMaker Studio  
+- DAG sketch showing conceptual flow of components  
+- Written comparison of SageMaker Pipelines vs traditional ML workflows  
+
+---
+
+## 5. Reflection Questions
+
+- What are the advantages of using a DAG structure for ML pipelines?  
+- How do artifacts flow between steps in SageMaker Pipelines?  
+- Which step types would you use for data validation or model evaluation?
+
+---
+
+## 6. Supplemental Materials
+
+- [SageMaker Pipelines SDK Reference](https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines-sdk.html)  
+- [Understanding DAGs in ML Workflows](https://aws.amazon.com/blogs/machine-learning/building-ml-pipelines-with-amazon-sagemaker-pipelines/)  
+- [SageMaker Execution Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)  
+
+---
+
+Next up: **Lab 5.2 – SageMaker Processing, Training, and Transform Steps**, where we’ll implement real functionality and connect steps into a working DAG.
