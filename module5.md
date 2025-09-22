@@ -39,7 +39,7 @@
 
 - AWS account with SageMaker Studio or Notebook access  
 - IAM role with `AmazonSageMakerFullAccess` and `AmazonS3FullAccess`  
-- Python 3.8+ environment with `sagemaker` SDK installed  
+- Python 3.9+ environment with `sagemaker` SDK installed  
 - Access to the GitHub Training Repo containing starter pipeline code  
 - Pre-created S3 bucket for input/output artifacts  
 
@@ -262,17 +262,35 @@ train_input = processing_step.properties.ProcessingOutputConfig.Outputs["train_d
 - ✅ deploy_model.py - Complete with numbered lab tasks
 
 ### 5. Reflection Questions
-- How do property references simplify pipeline orchestration?
+- What are some of the core pipeline components?
 
-- What happens if a step fails or produces invalid output?
+- Are pipelines and pipeline components used as accelarator templates?
 
-- How would you modify the pipeline to include model evaluation or approval logic?
+- How would you modify the pipeline to include model evaluation logic?
+
+#### A notebook is like a whiteboard: great for brainstorming, testing, and learning.
+
+#### A pipeline is like a factory line: optimized for repeatable, scalable, and secure production.
 
 ### 6. Supplemental Materials
-- SageMaker ProcessingStep Documentation
 
-- SageMaker TrainingStep Documentation
+## 📊 SageMaker Pipeline Advantages
 
-- SageMaker TransformStep Documentation
+| Feature            | SageMaker Pipeline                              | SageMaker Notebook                          |
+|--------------------|--------------------------------------------------|---------------------------------------------|
+| **Automation**     | Fully automated workflow execution              | Manual cell-by-cell execution               |
+| **Reproducibility**| Versioned, parameterized, and trackable         | Prone to human error and inconsistent runs  |
+| **Modularity**     | Steps are reusable and composable               | Code often tangled and linear               |
+| **Auditability**   | Execution history, metadata, and lineage        | Limited tracking unless manually added      |
+| **Scalability**    | Designed for production-grade ML workflows      | Best for experimentation and prototyping    |
+| **Error Handling** | Built-in step-level failure handling            | Requires custom logic or manual debugging   |
+| **CI/CD Integration** | Easily integrates with GitHub Actions, CodePipeline, etc. | Requires manual setup             |
 
-- Pipeline Property References
+
+- SageMaker ProcessingStep Documentation: https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html
+
+- SageMaker TrainingStep Documentation: https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html
+
+- SageMaker TransformStep Documentation: https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html
+
+- Pipeline Property References: https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html
