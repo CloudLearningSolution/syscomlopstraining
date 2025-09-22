@@ -64,7 +64,13 @@ SageMaker Pipelines are built as **Directed Acyclic Graphs (DAGs)**, where each 
 
 ## 3. Sequential Lab Tasks
 
-Each task below maps directly to commented sections in the Python code (`lab-5.1`) from the GitHub Training Repo.
+- Each task below maps directly to commented sections in the Python code (`lab-5.1`) from the GitHub Training Repo.
+
+# 🔍 VSCode | Pycharm | GitHub Search Navigation Ready:
+Participants can now easily navigate through the lab using VSCode search:
+
+- # TODO: Lab 5.1.1 - Find all Component Identification tasks
+- # TODO: Lab 5.1.2 - Find all Purpose Recognition tasks
 
 ### ✅ Lab 5.1.1 – Component Identification
 
@@ -119,7 +125,7 @@ Each task below maps directly to commented sections in the Python code (`lab-5.1
 
 ---
 
-Next up: **Lab 5.2 – SageMaker Processing, Training, and Transform Steps**
+- Next up: **Lab 5.2 – SageMaker Processing, Training, and Transform Steps**
 
 # 🧪 Lab 5.2: SageMaker Processing, Training, and Transform Steps
 
@@ -163,7 +169,13 @@ SageMaker Pipelines support modular ML workflows using built-in step types:
 
 ## 3. Sequential Lab Tasks
 
-Each task below maps directly to commented sections in the Python code (`lab-5.2`) from the GitHub Training Repo.
+- Each task below maps directly to commented sections in the Python code (`lab-5.2`) from the GitHub Training Repo.
+
+# 🔍 VSCode | Pycharm | GitHub Search Navigation Ready:
+Participants can now easily navigate through the lab using VSCode search:
+
+- # TODO: Lab 5.2.3 - Find all Property References tasks
+- # TODO: Lab 5.2.8 - Find all Error Handling tasks
 
 ### ✅ Lab 5.2.1 – Step Configuration
 
