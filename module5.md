@@ -114,8 +114,15 @@ Steps
 
 ### ✅ Lab 5.1.2 – Purpose Recognition
 
-- For each step type, describe its purpose  
-- Identify which steps produce artifacts and which consume them  
+- Task: Describe each Step’s role  
+
+Steps  
+1. Search all files for:
+```TODO: Lab 5.1.2 - Purpose Recognition```
+
+2. Read the inline comments that explain each Step’s responsibility (data prep, model training, evaluation, conditional gating, registration, deployment).  
+3. Hover or “Go to Definition” in VSCode on each Step class to confirm.  
+4. Write a one-sentence purpose statement for every Step type.
 
 ### ✅ Lab 5.1.3 – Architecture Understanding
 
