@@ -75,7 +75,7 @@ This training program emphasizes community-driven learning through:
 - **Week 6**: Data Services Integration Architecture
   - S3, Redshift, Cloud Storage, and BigQuery integration patterns
   - Data lake and analytics architecture for ML workloads
-  - Snowflake cross-platform integration strategies
+  - Data cross-platform integration strategies
 - **Week 7**: Container Infrastructure and Registry Management
   - ECR and Artifact Registry setup and configuration
   - Container image management, versioning, and security scanning
