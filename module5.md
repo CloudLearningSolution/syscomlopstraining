@@ -69,8 +69,16 @@ SageMaker Pipelines are built as **Directed Acyclic Graphs (DAGs)**, where each 
 #### # 🔍 VSCode | Pycharm | GitHub Search Navigation Ready:
 Participants can now easily navigate through the lab using VSCode search:
 
-- #### # TODO: Lab 5.1.1 - Find all Component Identification tasks
-- #### # TODO: Lab 5.1.2 - Find all Purpose Recognition tasks
+- #### Example, Find/Replace: # TODO: Lab 5.1.1 - Find all Component Identification tasks
+- #### Example, Find/Replace: # TODO: Lab 5.1.2 - Find all Purpose Recognition tasks
+
+- Lab 5.1 Navigation:
+
+#### # TODO: Lab 5.1.1 - Component Identification tasks
+#### # TODO: Lab 5.1.2 - Purpose Recognition tasks
+#### # TODO: Lab 5.1.3 - Architecture Understanding tasks
+#### # TODO: Lab 5.1.4 - Conceptual Relationships tasks
+#### # TODO: Lab 5.1.5 - High-level Comparison tasks
 
 ### ✅ Lab 5.1.1 – Component Identification
 
@@ -174,8 +182,19 @@ SageMaker Pipelines support modular ML workflows using built-in step types:
 #### # 🔍 VSCode | Pycharm | GitHub Search Navigation Ready:
 Participants can now easily navigate through the lab using VSCode search:
 
-- #### # TODO: Lab 5.2.3 - Find all Property References tasks
-- #### # TODO: Lab 5.2.8 - Find all Error Handling tasks
+- #### Find/Replace: # TODO: Lab 5.2.3 - Find all Property References tasks
+- #### Find/Replace: # TODO: Lab 5.2.8 - Find all Error Handling tasks
+
+- Lab 5.2 Navigation:
+
+#### # TODO: Lab 5.2.1 - Step Configuration tasks
+#### # TODO: Lab 5.2.2 - Implementation Details tasks
+#### # TODO: Lab 5.2.3 - Property References tasks
+#### # TODO: Lab 5.2.4 - Dependency Creation tasks
+#### # TODO: Lab 5.2.5 - TrainingStep Configuration tasks
+#### # TODO: Lab 5.2.6 - TrainingStep Implementation tasks
+#### # TODO: Lab 5.2.7 - Transform Step Usage tasks
+#### # TODO: Lab 5.2.8 - Error Handling Implementation tasks
 
 ### ✅ Lab 5.2.1 – Step Configuration
 
@@ -234,13 +253,13 @@ train_input = processing_step.properties.ProcessingOutputConfig.Outputs["train_d
 - Optionally route to a CallbackStep or notification handler
 
 ### 4. Deliverables
-- Completed notebook implementing all three step types
 
-- Screenshot of pipeline DAG showing correct step order
-
-- Sample logs showing successful execution and error handling
-
-- Written explanation of how property references enforce dependencies
+- ✅ train.py - Complete with numbered lab tasks
+- ✅ preprocess.py - Complete with numbered lab tasks
+- ✅ evaluate.py - Complete with numbered lab tasks
+- ✅ pipeline_dev.py - Complete with numbered lab tasks
+- ✅ pipeline_prod.py - Complete with numbered lab tasks
+- ✅ deploy_model.py - Complete with numbered lab tasks
 
 ### 5. Reflection Questions
 - How do property references simplify pipeline orchestration?
