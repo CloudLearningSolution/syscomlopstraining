@@ -82,9 +82,35 @@ Participants can now easily navigate through the lab using VSCode search:
 
 ### ✅ Lab 5.1.1 – Component Identification
 
-- Review the SageMaker SDK documentation  
-- List all available pipeline step classes  
-- Match each class to its functional role in ML workflows  
+# 🔍 File Review Order for Labs 5.1
+
+To follow the end-to-end pipeline architecture and component tasks, review files in this sequence:
+
+1. pipeline_dev.py  
+2. preprocess.py  
+3. train.py  
+4. evaluate.py  
+5. pipeline_prod.py  
+6. deploy_model.py  
+
+When a lab step asks you to search for `# TODO: Lab X.Y.Z`, use your prefered IDE like VSCode’s global search (Ctrl+Shift+F / ⌘+Shift+F) and scan these files in the order above.  
+
+---
+
+## Component Architecture Overview
+
+Tools: GitHub Training Repo, VSCode, Notebook  
+
+### Lab 5.1.1 – Component Identification  
+Task: Locate every core Step class  
+
+Steps  
+1. Search all six files for:
+```TODO: Lab 5.1.1 - Component Identification```
+
+2. In each file—starting with **pipeline_dev.py**, then **preprocess.py**, **train.py**, **evaluate.py**, **pipeline_prod.py**, **deploy_model.py**—note which Step classes appear or are imported.  
+3. Consolidate a unique list of Step types (ProcessingStep, TrainingStep, EvaluationStep, ConditionStep, ModelStep, RegisterModelStep, etc.) in your lab notes.
+
 
 ### ✅ Lab 5.1.2 – Purpose Recognition
 
