@@ -66,7 +66,7 @@ SageMaker Pipelines are built as **Directed Acyclic Graphs (DAGs)**, where each 
 
 - Each task below maps directly to commented sections in the Python code (`lab-5.1`) from the GitHub Training Repo.
 
-#### # 🔍 VSCode | Pycharm | GitHub Search Navigation Ready:
+#### 🔍 VSCode | Pycharm | GitHub Search Navigation Ready:
 Participants can now easily navigate through the lab using VSCode search:
 
 - #### Example, Find/Replace: # TODO: Lab 5.1.1 - Find all Component Identification tasks
@@ -82,7 +82,7 @@ Participants can now easily navigate through the lab using VSCode search:
 
 ### ✅ Lab 5.1.1 – Component Identification
 
-# 🔍 File Review Order for Labs 5.1
+#### 🔍 File Review Order for Labs 5.1
 
 To follow the end-to-end pipeline architecture and component tasks, review files in this sequence:
 
@@ -126,34 +126,55 @@ Steps
 
 ### ✅ Lab 5.1.3 – Architecture Understanding
 
-- Sketch a DAG showing how steps might be arranged  
-- Label inputs, outputs, and dependencies  
+- **Task:** Understand how components fit in pipeline architecture  
 
+- **Steps**  
+1. Search **pipeline_dev.py** (and **pipeline_prod.py**) for  
+```TODO: Lab 5.1.3 - Architecture Understanding```
+
+2. Examine the `Pipeline(…)` constructor’s `steps=[ … ]` argument and note that SageMaker infers execution order from dependencies, not list order.  
+3. Highlight or take note of data/property flows between Steps as described in code comments, observe and record how each Step passes data to the next.  
+---
 ### ✅ Lab 5.1.4 – Conceptual Relationships
 
-- Describe how `ProcessingStep` output feeds into `TrainingStep`  
-- Explain how `TrainingStep` output feeds into `TransformStep` or `ModelStep`  
+- Task: Trace data hand-offs between Steps  
+
+- **Steps**
+1. Search **pipeline_dev.py**, **pipeline_prod.py**, and **deploy_model.py** for:
+```TODO: Lab 5.1.4 - Conceptual Relationships```
+
+2. Follow each `stepA.properties…` reference into the consumer Step’s constructor.  
+3. Use VSCode “Go to Definition” on property references to see producer and consumer.  
+4. Summarize each producer→consumer link in your notes.
 
 ### ✅ Lab 5.1.5 – High-Level Comparison
 
-- Compare SageMaker Pipelines to traditional ML workflows (e.g., Jupyter notebooks, Airflow DAGs)  
-- Discuss benefits: reproducibility, modularity, auditability  
+- Compare SageMaker Pipelines to traditional ML workflows (e.g., Jupyter notebooks, Airflow DAGs)
+
+- **Task:** Compare pipeline architecture vs traditional ML workflows  
+
+- **Steps**  
+1. Search all six files for  
+```TODO: Lab 5.1.5 - High-level Comparison```
+
+2. Read the inline comments in **pipeline_dev.py**, **pipeline_prod.py**, and **deploy_model.py** that contrast with traditional practices.  
+3. Explore the code examples and embedded comments to identify concrete advantages of using SageMaker Pipelines—modularity, automatic dependency resolution, reusability, scalability, separation of concerns, and maintainability—over monolithic, manual workflows.  
+4. In your lab notes cite specific lines or comments from the code to illustrate each point.   
 
 ---
 
 ## 4. Deliverables
 
 - Annotated notebook with completed lab tasks  
-- Screenshot of pipeline registration in SageMaker Studio  
-- DAG sketch showing conceptual flow of components  
+- DAG notes showing flow of components  
 - Written comparison of SageMaker Pipelines vs traditional ML workflows  
 
 ---
 
 ## 5. Reflection Questions
 
-- What are the advantages of using a DAG structure for ML pipelines?  
-- How do artifacts flow between steps in SageMaker Pipelines?  
+- What are the advantages of ML pipelines?  
+- How do artifacts flow between steps in Pipelines?  
 - Which step types would you use for data validation or model evaluation?
 
 ---
@@ -228,6 +249,21 @@ Participants can now easily navigate through the lab using VSCode search:
 #### # TODO: Lab 5.2.6 - TrainingStep Implementation tasks
 #### # TODO: Lab 5.2.7 - Transform Step Usage tasks
 #### # TODO: Lab 5.2.8 - Error Handling Implementation tasks
+
+#### 🔍 File Review Order for Labs 5.2
+
+To follow the end-to-end pipeline architecture and component tasks, review files in this sequence:
+
+1. pipeline_dev.py  
+2. preprocess.py  
+3. train.py  
+4. evaluate.py  
+5. pipeline_prod.py  
+6. deploy_model.py  
+
+When a lab step asks you to search for `# TODO: Lab X.Y.Z`, use your prefered IDE like VSCode’s global search (Ctrl+Shift+F / ⌘+Shift+F) and scan these files in the order above.  
+
+---
 
 ### ✅ Lab 5.2.1 – Step Configuration
 
