@@ -267,59 +267,145 @@ When a lab step asks you to search for `# TODO: Lab X.Y.Z`, use your prefered ID
 
 ### ✅ Lab 5.2.1 – Step Configuration
 
-- Define a `SKLearnProcessor` or `ScriptProcessor`  
-- Configure instance type, count, and container image  
-- Set up the `ProcessingStep` with basic parameters and script location  
+- Task: Configure parameters and settings for each pipeline step
+
+- Instructions:
+
+- Search all six files for:
+```# TODO: Lab 5.2.1 - Step Configuration```
+
+- 🔍 Explore how each step is configured:
+
+- In pipeline_dev.py and pipeline_prod.py, examine how SKLearnProcessor, SKLearn, and Model are initialized with instance types, roles, timeouts, and tags.
+
+- In deploy_model.py, inspect how LambdaHelper and ModelMetrics are configured for deployment and registry.
+
+- In train.py, review how hyperparameters like reg_rate are parsed and passed to the estimator.
 
 ### ✅ Lab 5.2.2 – Implementation Details
 
-- Specify `ProcessingInput` and `ProcessingOutput` objects  
-- Define input/output S3 paths and mount locations  
-- Confirm that the script reads from and writes to expected locations  
+- Task: Implement inputs, outputs, arguments, and logic for each step
+
+- Instructions:
+
+- Search all six files for:
+```# TODO: Lab 5.2.2 - Implementation Details```
+
+- 🔍 Explore:
+
+- In preprocess.py, how ProcessingStep loads data, validates it, and splits it into train/test sets.
+
+- In evaluate.py, how the model and test data are loaded, metrics are calculated, and outputs are saved.
+
+- In deploy_model.py, how validation scripts, inference scripts, and Lambda functions are implemented for deployment and endpoint testing. 
 
 ### ✅ Lab 5.2.3 – Property References
 
-- Access output paths from the `ProcessingStep` using `.properties.outputs`  
-- Use these references as inputs to the `TrainingStep`  
+- Task: Use step property references to wire dependencies
 
-train_input = processing_step.properties.ProcessingOutputConfig.Outputs["train_data"].S3Output.S3Uri
+- Instructions:
+
+- Search pipeline_dev.py, pipeline_prod.py, and deploy_model.py for:
+
+```# TODO: Lab 5.2.3 - Property References```
+
+- 🔍 Explore:
+
+- How ProcessingStep outputs are referenced by TrainingStep and EvaluationStep using .properties.ProcessingOutputConfig.Outputs[...].
+
+- How TrainingStep model artifacts are passed to EvaluationStep, ModelStep, and RegisterModelStep.
+
+- How PropertyFile.JsonGet(...) is used to extract metrics for conditional logic.
 
 ### ✅ Lab 5.2.4 – Dependency Creation
-- Pass train_input to the estimator in TrainingStep
 
-- Ensure the pipeline DAG reflects correct execution order
+- Task: Create step-to-step dependencies using property references
 
-- Confirm that TrainingStep waits for ProcessingStep to complete
+- Instructions:
+
+- Search pipeline scripts for:
+
+```# TODO: Lab 5.2.4 - Dependency Creation```
+
+- 🔍 Explore:
+
+- How property references are passed into step constructors to establish DAG relationships.
+
+- How depends_on=[...] is used in ModelStep, CreateModelStep, and LambdaStep in deploy_model.py to enforce execution order.
+
+- How the steps=[...] list in each pipeline assembles the full DAG.
 
 ### ✅ Lab 5.2.5 – TrainingStep Configuration
-- Define a SKLearn or XGBoost estimator
 
-- Set hyperparameters, instance type, and output path
+- Task: Configure estimator parameters and training inputs
 
-- Configure the TrainingStep with estimator and input references
+- Instructions:
+
+- Search train.py, pipeline_dev.py, and pipeline_prod.py for:
+
+```# TODO: Lab 5.2.5 - TrainingStep Configuration```
+
+- 🔍 Explore:
+
+- How the SKLearn estimator is configured with entry_point, source_dir, hyperparameters, and instance types.
+
+- How CLI arguments are parsed in train.py and passed to the estimator.
+
+- How training data is referenced from the ProcessingStep.
 
 ### ✅ Lab 5.2.6 – TrainingStep Implementation
-- Implement the training script and upload to S3
 
-- Confirm that the model artifact is saved to the correct output location
+- Task: Implement training logic and produce model artifacts
 
-- Use .properties.ModelArtifacts.S3ModelArtifacts for downstream steps
+- Instructions:
+
+- Search train.py for:
+
+```# TODO: Lab 5.2.6 - TrainingStep Implementation```
+
+- 🔍 Explore:
+
+- How the training script loads data, trains the model, and saves the .joblib artifact.
+
+- How CLI arguments like --input_path and --model_output_path are used.
+
+- How the output path aligns with what the pipeline expects.
 
 ### ✅ Lab 5.2.7 – Transform Step Usage
-- Define a Transformer using the trained model
 
-- Configure batch transform input and output locations
+- Task: Implement batch transform jobs (optional extension)
 
-- Add a TransformStep to the pipeline using .properties.ModelArtifacts
+- Instructions:
+
+- Search pipeline_dev.py or pipeline_prod.py for:
+
+```# TODO: Lab 5.2.7 - Transform Step Usage```
+
+- 🔍 Explore:
+
+- How to scaffold a TransformStep using the model artifact from TrainingStep.
+
+- How to configure Transformer with instance type, batch input location, and output location.
+
+- This step is not implemented in your current files but is a recommended extension.
 
 ### ✅ Lab 5.2.8 – Error Handling Implementation
-- Add try/except blocks in processing and training scripts
 
-- Use ConditionStep to check for metric thresholds or missing outputs
+- Task: Implement step-level error handling and validation
 
-- Log errors and raise exceptions for failed steps
+- Instructions:
 
-- Optionally route to a CallbackStep or notification handler
+- Search all six files for:
+
+```# TODO: Lab 5.2.8 - Error Handling Implementation```
+
+- 🔍 Explore:
+
+- How try/except blocks are used in preprocess.py and evaluate.py to catch validation errors.
+
+- How ConditionStep and FailStep are configured in pipeline_prod.py and deploy_model.py to enforce quality gates.
+
+- How error messages are constructed using Join(...) and surfaced in logs.
 
 ### 4. Deliverables
 
