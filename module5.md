@@ -493,5 +493,5 @@ By the end of this lab, learners will be able to:
 
 ---
 
-# 🧪 Vertex AI Training Labs Overview
+# 🧪 Vertex AI Targeted Training for MLOPS Capability
 Audience: Learners transitioning from SageMaker to Vertex AI Tools: GitHub repo (Python files with TODOs), VS Code, Vertex AI SDK (no AWS required) Navigation Tip: Use VS Code global search (Ctrl+Shift+F / ⌘+Shift+F) to locate # TODO: Lab 5.X.Y markers in the code
