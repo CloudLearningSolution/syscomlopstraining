@@ -449,3 +449,49 @@ When a lab step asks you to search for `# TODO: Lab X.Y.Z`, use your prefered ID
 - SageMaker TransformStep Documentation: https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html
 
 - Pipeline Property References: https://docs.aws.amazon.com/sagemaker/latest/dg/build-and-manage-steps.html
+- 
+---
+
+# 🧪 Lab 5.3: SageMaker Pipeline Orchestration and Workflow Management  
+**Objective:** Understand how orchestration and workflow management are supported in SageMaker pipelines, and GitHub Actions can play a role in managing ML workflows—especially when transitioning to Google Cloud Vertex AI.
+
+---
+
+## 🔍 Overview  
+
+Amazon SageMaker Pipelines offer built-in orchestration for machine learning workflows. Each pipeline is a directed acyclic graph (DAG) of steps such as data preprocessing, training, evaluation, and deployment. These steps are defined in Amazon Python SDK and executed in sequence based on their dependencies.
+
+In conjuction with GitHub Actions can be used to orchestrate ML workflows outside of SageMaker—especially when moving toward cloud-agnostic or Vertex AI–based solutions. GitHub Actions provide a flexible, event-driven automation framework that can trigger pipeline runs, manage artifacts, and coordinate across environments.
+
+---
+
+## 🧠 Key Concepts to Explore  
+
+### 5.3.1 – Workflow Triggers and Automation  
+- Understand how SageMaker pipelines are triggered manually or via SDK/API  
+- Explore how GitHub Actions can automate pipeline execution based on events:
+  - Code commits or pull requests  
+  - Scheduled runs (cron jobs)  
+
+### 5.3.2 – Step Sequencing and Dependency Management  
+- Learn how SageMaker uses step dependencies (`depends_on`) to enforce execution order  
+- Explore how GitHub Actions uses `jobs` and `needs:` to define DAG-like workflows  
+- Compare how both systems ensure reproducibility and traceability  
+
+### 5.3.3 – Parameterization and Environment Control  
+- Review how SageMaker pipelines use `ParameterString`, `ParameterFloat`, etc.  
+- Explore how GitHub Actions uses `env:` and `inputs:` to pass configuration across jobs  
+- Discuss how environment-specific variables (e.g., dev/test/prod) are managed in both systems  
+
+---
+
+## ✅ Outcomes  
+By the end of this lab, learners will be able to:  
+- Describe how SageMaker orchestrates ML workflows  
+- Identify GitHub Actions features that support similar orchestration  
+
+
+---
+
+# 🧪 Vertex AI Training Labs Overview
+Audience: Learners transitioning from SageMaker to Vertex AI Tools: GitHub repo (Python files with TODOs), VS Code, Vertex AI SDK (no AWS required) Navigation Tip: Use VS Code global search (Ctrl+Shift+F / ⌘+Shift+F) to locate # TODO: Lab 5.X.Y markers in the code
