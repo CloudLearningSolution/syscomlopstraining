@@ -494,4 +494,80 @@ By the end of this lab, learners will be able to:
 ---
 
 # 🧪 Vertex AI Targeted Training for MLOPS Capability
-Audience: Learners transitioning from SageMaker to Vertex AI Tools: GitHub repo (Python files with TODOs), VS Code, Vertex AI SDK (no AWS required) Navigation Tip: Use VS Code global search (Ctrl+Shift+F / ⌘+Shift+F) to locate # TODO: Lab 5.X.Y markers in the code
+Audience: Learners transitioning from SageMaker to Vertex AI Tools: GitHub repo (Python files with TODOs), VS Code, Vertex AI SDK (no AWS required) Navigation Tip: Use VS Code global search (Ctrl+Shift+F / ⌘+Shift+F) to locate # TODO: Lab 5.X.Y markers in the code.
+
+# 🧪 Lab 5.4: Vertex AI Pipeline Component Architecture Exploration
+
+**Difficulty:** Beginner to Intermediate  
+**Tools Required:** GitHub Training Repo, PyCharm or VS Code, Vertex AI SDK  
+
+---
+
+## 🎯 Lab Objectives
+
+- Understand Vertex AI pipeline architecture as a Directed Acyclic Graph (DAG)  
+- Identify and describe core Vertex AI pipeline components  
+- Analyze pipeline execution, configuration, and orchestration patterns  
+- Compare Vertex AI pipelines to SageMaker workflows  
+- Prepare for hands-on implementation of custom and pre-built components in Lab 5.5  
+
+---
+
+## 1. Prerequisites
+
+- Google Cloud project with Vertex AI enabled  
+- IAM role with `Vertex AI Admin` and `Storage Admin` permissions  
+- Python 3.9+ environment with `google-cloud-aiplatform` and `kfp` installed  
+- Access to the GitHub Training Repo containing starter pipeline code  
+- Pre-created GCS bucket for pipeline root and artifacts  
+
+---
+
+## 2. Theory Overview
+
+Vertex AI Pipelines are built as **Directed Acyclic Graphs (DAGs)** using the Kubeflow Pipelines SDK. Each node represents a component, and edges represent data or control dependencies.
+
+### 🔧 Core Component Types
+
+| Component Type                        | Purpose                                                  |
+|--------------------------------------|----------------------------------------------------------|
+| `@component`                         | Wraps Python logic into a reusable pipeline step         |
+| `CustomPythonPackageTrainingJobOp`   | Launches custom training jobs using containerized code   |
+| `BigQueryQueryJobOp`                 | Executes SQL queries on BigQuery                         |
+| `PipelineJob`                        | Submits compiled pipeline specs to Vertex AI             |
+| `dsl.If`, `.after()`                 | Controls DAG flow and conditional execution              |
+
+---
+
+## 3. Sequential Lab Tasks
+
+Each task below maps directly to commented sections in the Python code (`lab-5.4`) from the GitHub Training Repo.
+
+### 🔍 VS Code Search Navigation
+
+Use VS Code global search (`Ctrl+Shift+F` / `Cmd+Shift+F`) to locate lab tasks:
+
+- `# TODO: Lab 5.4.1` – Component Identification  
+- `# TODO: Lab 5.4.2` – Purpose Recognition  
+- `# TODO: Lab 5.4.3` – Architecture Understanding  
+- `# TODO: Lab 5.4.4` – Conceptual Relationships  
+- `# TODO: Lab 5.4.5` – High-level Comparison  
+
+---
+
+## ✅ Lab 5.4.1 – Component Identification
+
+**Task:** Locate every pipeline component and orchestration construct  
+
+### File Review Order
+
+1. `run_pipeline.py`  
+2. `compiler.py`  
+3. `vertex_pipeline_dev.py`  
+4. `vertex_pipeline_prod.py`  
+5. `deploy_model.py`  
+
+### Instructions
+
+1. Search each file for:  
+
