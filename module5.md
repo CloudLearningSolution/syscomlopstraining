@@ -550,8 +550,8 @@ Use VS Code global search (`Ctrl+Shift+F` / `Cmd+Shift+F`) to locate lab tasks:
 - `# TODO: Lab 5.4.1` – Component Identification  
 - `# TODO: Lab 5.4.2` – Purpose Recognition  
 - `# TODO: Lab 5.4.3` – Architecture Understanding  
-- `# TODO: Lab 5.4.4` – Conceptual Relationships  
-- `# TODO: Lab 5.4.5` – High-level Comparison  
+- `# TODO: Lab 5.4.4` – Conceptual Relationships  (Exception: Included by presenter)
+ 
 
 ---
 
@@ -569,5 +569,52 @@ Use VS Code global search (`Ctrl+Shift+F` / `Cmd+Shift+F`) to locate lab tasks:
 
 ### Instructions
 
-1. Search each file for:  
+1. Search each file for:  ```TODO: Lab 5.4.1 - Component Identification ```
+2. Identify:
+- `@component` decorators  
+- Pre-built components (e.g., `CustomPythonPackageTrainingJobOp`)  
+- Orchestration constructs (`PipelineJob`, `dsl.pipeline`, `.after()`, `dsl.If`)  
+3. Record each component’s name, type (custom or pre-built), and role in the pipeline.
+
+---
+
+## ✅ Lab 5.4.2 – Purpose Recognition
+
+**Task:** Describe each component’s role and why it exists  
+
+### Instructions
+
+1. Search all files for:  ```TODO: Lab 5.4.2 - Purpose Recognition ```
+2. Read inline comments and docstrings explaining:
+- What each component does (e.g., preprocessing, training, evaluation, deployment)  
+- Why specific parameters, images, or resource specs are used  
+- How the pipeline is configured for dev vs prod  
+3. Write a one-sentence purpose statement for each component and orchestration block.
+
+---
+
+## ✅ Lab 5.4.3 – Architecture Understanding
+
+**Task:** Analyze how the pipeline is structured and executed  
+
+### Instructions
+
+1. Search all files for: ```TODO: Lab 5.4.3 - Architecture Understanding ```
+2. Observe:
+- How pipeline DAGs are constructed using `@dsl.pipeline`  
+- How components are sequenced using `.after()` and conditional logic  
+- How resource limits and environment variables are configured  
+- How compiled specs are submitted via `PipelineJob(...)`  
+3. Sketch the pipeline architecture showing:
+- Component flow  
+- Data dependencies  
+- Conditional branches  
+- Execution triggers
+
+---
+
+## ✅ Lab 5.4.4 – Conceptual Relationships
+
+**Task:** Explore with the presenter how data and configuration flow between components  
+---
 
