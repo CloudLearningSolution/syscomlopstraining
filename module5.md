@@ -615,6 +615,79 @@ Use VS Code global search (`Ctrl+Shift+F` / `Cmd+Shift+F`) to locate lab tasks:
 
 ## ✅ Lab 5.4.4 – Conceptual Relationships
 
-**Task:** Explore with the presenter how data and configuration flow between components  
+- **Task:** Explore with the presenter how data and configuration flow between components  
 ---
+# 🧪 Lab 5.5: Vertex AI Custom Components, Pre-built Components, and Accelerator Templates
+
+**Difficulty:** Intermediate to Advanced  
+**Tools Required:**  
+- GitHub Training Repo  
+- VS Code (or your IDE of choice)  
+- Vertex AI SDK & Kubeflow Pipelines SDK  
+- (Optional) Terraform CLI to inspect `vertex_ai_infrastructure.tf`
+
+---
+
+## 🎯 Lab Objectives
+
+- Distinguish between custom and pre-built pipeline components  
+- Explore when to choose custom logic versus Google-provided components  
+- Understand the three-layer Accelerator Template architecture  
+- Map components in your code to enterprise template layers  
+- Prepare for orchestrating and scaling pipelines in Lab 5.6  
+
+---
+
+## 1. Prerequisites
+
+- Completed Lab 5.4: Pipeline Component Architecture Exploration  
+- Google Cloud project with Vertex AI API enabled  
+- Python 3.9+ environment with `google-cloud-aiplatform` and `kfp` installed  
+- Access to your GitHub Training Repo (with `vertex_pipeline_dev.py` containing Lab 5.5 markers)  
+- Basic familiarity with Terraform (to review `vertex_ai_infrastructure.tf`)  
+
+---
+
+## 2. Theory Overview
+
+Enterprise-grade ML pipelines balance:  
+- Custom components for business-specific logic  
+- Pre-built Google Cloud Pipeline Components for standard tasks  
+- Accelerator Templates to tie infrastructure, pipelines, and governance together  
+
+### 🚀 Accelerator Template Architecture (3 Layers)
+
+| Layer                  | Description                                                                                  |
+|------------------------|----------------------------------------------------------------------------------------------|
+| Infrastructure Layer   | Terraform code provisioning Vertex AI resources (pipelines, endpoints, service accounts)     |
+| Pipeline Layer         | Kubeflow Pipelines definitions with custom & pre-built components                            |
+| Enterprise Layer       | Governance, compliance, and reusable patterns (industry-specific best practices)             |
+
+---
+
+## 3. Sequential Lab Tasks
+
+Each task maps directly to `# TODO: Lab 5.5.X` markers in `vertex_pipeline_dev.py`.
+
+### 🔍 VS Code Search Navigation
+
+Use global search (`Ctrl+Shift+F` / `Cmd+Shift+F`):
+
+- `# TODO: Lab 5.5.1` – Custom vs Pre-built component identification  
+- `# TODO: Lab 5.5.2` – Pre-built alternatives exploration  
+- `# TODO: Lab 5.5.3` – Accelerator Templates investigation  
+
+---
+
+## ✅ Lab 5.5.1 – Custom vs Pre-built Component Identification
+
+**Task:** Locate every custom component and note why it was chosen  
+
+### File Review Order
+
+1. `vertex_pipeline_dev.py`  
+
+### Instructions
+
+1. Search for:
 
