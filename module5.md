@@ -619,169 +619,300 @@ Use VS Code global search (`Ctrl+Shift+F` / `Cmd+Shift+F`) to locate lab tasks:
 ---
 # 🧪 Lab 5.5: Vertex AI Custom Components, Pre-built Components, and Accelerator Templates
 
-**Difficulty:** Intermediate to Advanced  
-**Tools Required:** GitHub Training Repo, VS Code, Vertex AI SDK, Kubeflow Pipelines SDK, (optional) Terraform CLI
+**Difficulty:** Intermediate → Advanced  
+**Tools Required:** GitHub Training Repo, PyCharm or VS Code, Vertex AI SDK, Kubeflow Pipelines SDK, (optional) Terraform CLI
 
 ---
 
 ## 🎯 Lab Objectives
 
-- Distinguish custom vs pre-built Vertex AI pipeline components  
-- Map component design decisions in code to an enterprise accelerator template (3-layer)  
+- Distinguish custom vs pre-built Vertex AI pipeline components in the repo  
+- Map component design decisions in code to the 3-layer accelerator template  
 - Understand BigQuery and Feature Group integration as a pre-built data access pattern  
+- Verify pipeline parameter and artifact changes introduced by BigQuery migration  
 - Prepare for orchestration and Kubeflow integration in Lab 5.6
 
 ---
 
 ## 1. Prerequisites
 
-- Completion of Lab 5.4 (component architecture exploration)  
-- Google Cloud project with Vertex AI, BigQuery, and Feature Registry enabled  
+- Completed Lab 5.4 (component architecture exploration)  
+- Google Cloud project with Vertex AI, BigQuery, and Feature Registry API enabled  
 - IAM roles: Vertex AI Admin and appropriate BigQuery permissions  
 - Python 3.9+ with `google-cloud-aiplatform`, `kfp`, and BigQuery client installed  
-- Access to repo files: `run_pipeline.py`, `compiler.py`, `vertex_pipeline_dev.py.V2`, `vertex_pipeline_prod.py`, `deploy_model.py`  
-- (Optional) Terraform to inspect `vertex_ai_infrastructure.tf`
+- Access to repo files:
+  - `vertex_pipeline_dev.py` (primary for Lab 5.5)
+  - `vertex_pipeline_prod.py`
+  - `compiler.py`
+  - `run_pipeline.py`
+  - `deploy_model.py`  
+- (Optional) Terraform CLI to inspect `vertex_ai_infrastructure.tf`
 
 ---
 
 ## 2. Theory Overview
 
-Enterprise pipelines balance:
+Enterprise pipelines balance two forces:
 
-- Custom components for business-specific logic and rapid iteration  
-- Pre-built Google Cloud Pipeline Components for managed, standardized, scalable operations
+- Template: Custom components for business-specific logic, rapid iteration, and fine-grained control  
+- Template: Pre-built Google Cloud Pipeline Components for managed, standardized, scalable operations
 
 Accelerator Template (3-layer) pattern:
-- Infrastructure layer (Terraform): provisions resources, IAM, BigQuery, Feature Groups  
-- Pipeline layer (KFP): custom + pre-built components and orchestration  
-- Enterprise layer: governance, audit, reusable patterns
+- Infrastructure layer (Terraform): provisions Vertex AI resources, BigQuery, Feature Groups, IAM  
+- Pipeline layer (KFP): custom + pre-built components and orchestration logic  
+- Enterprise layer: Sysco governance, audit, compliance, and reusable Sysco solution well architected frameworks
 
-BigQuery integration pattern: use pre-built BigQuery Query Job components for serverless SQL-based preprocessing and deterministic train/test splits; use Feature Groups for feature governance and lineage.
+BigQuery integration pattern used here:
+- Use pre-built BigQuery Query Job components for serverless SQL-based preprocessing and deterministic AI ML train/test splits for descriminitive and generative models
+- Use Feature Groups for feature governance, data drift, and data lineage from preprocessing, training, testing, evaluating, model registering, to online realtime inferencing, serving, and generative API endpoints.
+- Consume shared views of BigQuery table artifacts in custom training/eval components eliminating data duplication persistant storage or temporary in-memory storage.
 
 ---
 
-## 3. Files to review (suggested order)
+## 3. Files to review (recommended order)
 
-1. `vertex_pipeline_dev.py` (primary for Lab 5.5)  
-2. `vertex_pipeline_prod.py` (compare production choices)  
-3. `compiler.py` (pipeline selection & compilation)  
-4. `run_pipeline.py` (compiled spec submission)  
-5. `deploy_model.py` (pipeline outputs → serving)
+1. `vertex_pipeline_dev.py` — primary; contains Lab 5.5 TODO markers and BigQuery migration  
+2. `vertex_pipeline_prod.py` — compare production-specific choices and thresholds  
+3. `compiler.py` — pipeline selection and compile behavior  
+4. `run_pipeline.py` — submission via Vertex AI PipelineJob  
+5. `deploy_model.py` — how pipeline outputs become serving artifacts
 
 ---
 
 ## 4. How to navigate the code (VS Code)
 
-Use global search (Ctrl+Shift+F / Cmd+Shift+F) for these markers:
+Use global search (Ctrl+Shift+F / Cmd+Shift+F) for these lab markers in `vertex_pipeline_dev.py`:
 
-- `# TODO: Lab 5.5.1` — Custom vs Pre-built: component identification and rationale  
+- `# TODO: Lab 5.5.1` — Mix of custom and pre-built components; identify which is which  
 - `# TODO: Lab 5.5.2` — Pre-built alternatives and commented examples  
 - `# TODO: Lab 5.5.3` — Accelerator template mapping to infra/pipeline/enterprise  
-- `# TODO: Lab 5.5.4` — BigQuery integration changes and parameter plumbing  
-- `# TODO: Lab 5.5.5` — Feature Group integration and governance notes
+- `# TODO: Lab 5.5.4` — BigQuery integration changes (artifact types, parameters)  
+- `# TODO: Lab 5.5.5` — Feature Group references and governance notes
 
-You will also encounter `# TODO: Lab 5.4.X` markers; leave those for Lab 5.4 review if needed.
+You’ll also see `# TODO: Lab 5.4.X` markers for architecture-level references from the prior lab. For these lab tasks disregard Lab 5.4.
 
 ---
 
-## 5. Sequential Lab Tasks
+## 5. Lab Tasks
 
 ### Lab 5.5.1 — Custom vs Pre-built Component Identification
 
-Task: Find and list which components are custom and which are pre-built.
+Task: Create a list of components and label them CUSTOM or PRE-BUILT.
 
-Steps
-1. Search for `# TODO: Lab 5.5.1` in `vertex_pipeline_dev.py.V2`.  
+Steps:
+1. Search for `# TODO: Lab 5.5.1` in `vertex_pipeline_dev.py`.  
 2. For each marker, note:
    - Component name (function or loaded component variable)  
    - Type: CUSTOM or PRE-BUILT  
-   - Short rationale (business logic, performance, governance, or standard operation)
+   - One-line rationale taken from inline comments
 
-Example entries
+Example (from file):
 - `bigquery_query_job_op` — PRE-BUILT (loaded via components.load_component_from_url)  
 - `train_model_op` — CUSTOM (sklearn training, custom serialization)  
 - `evaluate_model_op` — CUSTOM (custom metrics and conditional output)  
 - `register_model_op` — CUSTOM (custom upload/versioning logic)
 
-Deliverable: Table mapping each component to type and rationale.
+Deliverable: Table in your notes: | Component | Type | Why |
 
 ---
 
 ### Lab 5.5.2 — Pre-built Alternatives Exploration
 
-Task: Review commented pre-built examples and assess benefits/trade-offs.
+Task: Inspect commented pre-built examples and summarize trade-offs.
 
-Steps
-1. Search for `# TODO: Lab 5.5.2` in the file.  
-2. Identify commented examples such as `BigqueryQueryJobOp`, `CustomTrainingJobOp`, `ModelUploadOp`.  
-3. For each custom component, capture the pre-built alternative and list 2–3 benefits of the pre-built option and 2–3 reasons you might still choose custom.
+Steps:
+1. Search for `# TODO: Lab 5.5.2`.  
+2. Review commented blocks (e.g., BigQuery Query Job, CustomTrainingJobOp, ModelUploadOp).  
+3. For each custom component, list 2–3 benefits of the pre-built alternative and 2–3 reasons to keep the custom implementation.
 
 Deliverable: Short pros/cons list per component pair.
 
 ---
 
-### Lab 5.5.3 — Accelerator Templates Mapping
+### Lab 5.5.3 — Accelerator Template Mapping
 
-Task: Map pipeline components to the 3-layer accelerator template.
+Task: Map pipeline artifacts to the 3-layer accelerator template.
 
-Steps
-1. Search for `# TODO: Lab 5.5.3` and the Accelerator Template header.  
-2. For each template layer, identify repo artifacts:
+Steps:
+1. Search for `# TODO: Lab 5.5.3` and read the Accelerator Template header.  
+2. Map repo artifacts:
    - Infrastructure layer → `vertex_ai_infrastructure.tf` (provision pipelines, BigQuery, Feature Groups)  
-   - Pipeline layer → `vertex_pipeline_dev.py.V2` (pre-built BigQuery + custom components)  
-   - Enterprise layer → governance docs; labeling and `parent_model` usage for lineage
+   - Pipeline layer → `vertex_pipeline_dev.py` (pre-built BigQuery + custom components)  
+   - Enterprise layer → governance docs and labeling/versioning patterns (e.g., `parent_model`)  
+3. Note how pipeline parameters (bq_dataset, bq_view, project_id, region) are provided at compile/submit time via `compiler.py` and `run_pipeline.py`.
 
-Deliverable: One-paragraph mapping for each layer showing where code/config lives.
+Deliverable: One-paragraph mapping per layer pointing to files/config.
 
 ---
 
 ### Lab 5.5.4 — BigQuery Integration Review
 
-Task: Trace migration from GCS-based preprocessing to BigQuery pre-built components.
+Task: Trace how BigQuery artifacts are produced, typed, and consumed.
 
-Steps
-1. Search for `# TODO: Lab 5.5.4` markers.  
-2. Inspect:
-   - `bigquery_query_job_op` load at the top of the file.  
-   - SQL `train_query` and `test_query` using `FARM_FINGERPRINT` for deterministic 80/20 split.  
-   - How `bq_train_task.outputs["destination_table"]` and `bq_test_task.outputs["destination_table"]` feed `train_model_op` and `evaluate_model_op`.  
-   - New component parameters (`project_id`, `bq_location`) and their use by the BigQuery client inside components.
-3. Confirm `compiler.py` and compile tooling accept the modified pipeline signature; update compile/test commands if parameters changed.
+Steps:
+1. Search for `# TODO: Lab 5.5.4`.  
+2. Confirm:
+   - `bigquery_query_job_op` is loaded as a pre-built component and called for train/test queries using `FARM_FINGERPRINT` based SQL.  
+   - BigQuery outputs a BQTable artifact; `train_model_op` and `evaluate_model_op` accept `Input[artifact_types.BQTable]`.  
+   - Components parse the artifact URI to build `project.dataset.table` and use `google.cloud.bigquery.Client` to read tables.  
+   - The pipeline passes `bq_train_task.outputs["destination_table"]` and `bq_test_task.outputs["destination_table"]` into custom components.  
+3. Validate compile-time compatibility:
+   - Ensure `compiler.py` compiles pipeline signatures with new parameters; update compile/run commands if parameter names changed.
+4. Verify the exact BigQuery component output key in your compiled YAML (`destination_table` vs `destinationTable`) and adjust code if needed.
 
-Deliverable: Short data-flow diagram or bullet list showing:
-BigQuery view → BigQuery Query Job (pre-built) → outputs (table ref) → train/eval custom components (read via BigQuery client).
+Deliverable: Short data-flow diagram:
+BigQuery view → bigquery_query_job_op (train/test) → BQTable artifact → train_model_op / evaluate_model_op (reads via BigQuery client) → model artifacts.
 
 ---
 
 ### Lab 5.5.5 — Feature Groups and Governance
 
-Task: Identify Feature Group mentions and explain governance role.
+Task: Identify Feature Group mentions and summarize governance implications.
 
-Steps
-1. Search for `# TODO: Lab 5.5.5` and mentions of “Feature Group” or “Feature Registry”.  
-2. Note how the pipeline references a BigQuery view backed by Feature Groups and where metadata/lineage is expected.  
-3. Capture guidance: why use Feature Groups (lineage, discoverability, audit) and where to add checks (schema validation, drift detection) in future labs.
+Steps:
+1. Search for `# TODO: Lab 5.5.5` and “Feature Group” in the file.  
+2. Note pipeline reliance on BigQuery view backed by Feature Groups; pipeline queries the view rather than calling Feature Registry APIs directly.  
+3. Capture recommended governance checkpoints for future labs:
+   - Schema validation and discovery step before training  
+   - Data quality checks (nulls, ranges, types) and lineage capture  
+   - Drift monitoring and periodic validation jobs  
+   - Labeling conventions on PipelineJob/Model resources to ensure auditability
 
-Deliverable: One-paragraph summary of how Feature Groups fit into the pipeline and recommended next steps for governance checks.
+Deliverable: One-paragraph summary of how Feature Groups fit into the pipeline and a short TODO list for governance checks.
 
 ---
 
 ## 6. Practical checklist (quick wins)
 
-- Confirm `bigquery_query_job_op` URL is reachable from your environment.  
-- Verify pipeline parameters match compile tooling (compiler.py selects pipeline by filename).  
-- Ensure `train_model_op` and `evaluate_model_op` accept new BigQuery parameters and read tables correctly.  
-- Update README notes showing how to compile and submit with `bq_dataset`, `bq_view`, `project_id`, and `region`.  
-- Add a README note instructing learners to use VS Code search for `# TODO: Lab 5.5.X` markers.
+- Confirm `bigquery_query_job_op` URL resolves from your environment (network/registry access).  
+- Confirm the BigQuery component’s output key (`destination_table`) matches usage in pipeline code.  
+- Ensure `train_model_op` and `evaluate_model_op` accept `project_id` and `bq_location` parameters and use them with the BigQuery client.  
+- Update `compiler.py` compile examples and README run examples to include `bq_dataset` and `bq_view`.  
+- Add README note for learners to search for `# TODO: Lab 5.5.X` markers to follow hands-on steps.
 
 ---
 
-## 7. Next steps: Lab 5.6 preview
+## 7. Next: Lab 5.6 preview
 
-Lab 5.6 will focus on orchestration, CI/CD, and Kubeflow integration:
-- Submitting compiled YAML via `PipelineJob` (`run_pipeline.py`) and automating via GitHub Actions  
-- Observability: monitoring runs, artifacts, and metrics in Vertex AI  
-- Advanced orchestration: retries, caching, parallelism, and scheduling  
-- How pre-built components affect retry semantics and error handling in Kubeflow-managed pipelines
+Lab 5.6 will cover orchestration and Kubeflow integration:
+- Compiling pipeline (compiler.py) and submitting via `PipelineJob` (`run_pipeline.py`) from local CLI and CI/CD  
+- Observability: monitoring runs, artifacts, and metrics in Vertex AI console  
+- Advanced orchestration: retries, caching, parallelism, and conditional retries  
+- CI/CD: example GitHub Actions workflow to compile → upload → submit
+
+---
+
+## 8. Helpful snippets (copy into your repo README or instructor notes)
+
+- Compile dev pipeline locally:
+```bash
+python compiler.py --py vertex_pipeline_dev.py --output pipelines/dev_diabetes_pipeline.yaml
+```
+
+- Submit compiled pipeline:
+```bash
+python run_pipeline.py \
+  --project-id YOUR_PROJECT_ID \
+  --region YOUR_REGION \
+  --pipeline-spec-uri gs://YOUR_BUCKET/pipelines/dev_diabetes_pipeline.yaml \
+  --service-account pipeline-runner@YOUR_PROJECT_ID.iam.gserviceaccount.com \
+  --pipeline-root gs://YOUR_BUCKET/pipeline-root/dev/ \
+  --display-name dev-diabetes-run \
+  --parameter-values-json '{"project_id":"YOUR_PROJECT_ID","region":"YOUR_REGION","model_display_name":"dev-diabetes","bq_dataset":"shared_bronze","bq_view":"diabetes_features_view"}' \
+  --labels-json '{"env":"dev","team":"ml"}'
+```
+
+- Quick VS Code searches:
+  - `# TODO: Lab 5.5.1`
+  - `# TODO: Lab 5.5.2`
+  - `# TODO: Lab 5.5.4`
+  - `# TODO: Lab 5.5.5`
+
+---
+
+## 9. Instructor notes
+
+- Emphasize why certain components were migrated to pre-built BigQuery components (scalability, serverless, governance) and why others remain custom (business logic, control).  
+- Encourage learners to inspect compiled YAML to see how KFP serializes pre-built vs custom components and artifact types.  
+- Advise learners to validate artifact output keys in compiled YAML before wiring downstream components.
+
+---
+
+If you want, I can now generate:
+- A ready-to-commit `README.md` file for the repo, or  
+- Example `# TODO: Lab 5.5.X` comment blocks you can paste into `vertex_pipeline_dev.py` to guide learners through the code.
+
+---
+# 🧪 Lab 5.6: Vertex AI Pipeline Orchestration and Kubeflow Integration
+
+**Difficulty:** Intermediate to Advanced  
+**Tools Required:** GitHub Training Repo, VS Code, Vertex AI SDK, Kubeflow Pipelines SDK, GitHub Actions (or other CI/CD), Terraform (optional)
+
+---
+
+## 🎯 Lab Objectives
+
+- Compile and submit KFP v2 pipelines to Vertex AI programmatically and via CI/CD  
+- Understand how Vertex AI executes Kubeflow pipeline specs (PipelineJob → Kubeflow runtime)  
+- Implement and reason about orchestration primitives: caching, retries, parallelism, resource limits, and conditional branches  
+- Add observability: logs, metrics, dashboard links, and artifact tracking for troubleshooting  
+- Create an example GitHub Actions workflow to compile and submit pipelines automatically
+
+---
+
+## 1. Prerequisites
+
+- Completion of Labs 5.4 and 5.5 (pipeline architecture, pipeline template component options and BigQuery integration)  
+- Google Cloud project with Vertex AI, BigQuery, Artifact Registry access, and appropriate IAM roles  
+- Python 3.9+ with `google-cloud-aiplatform`, `kfp`, `google-cloud-bigquery` installed  
+- Access to the repo files:
+  - `vertex_pipeline_dev.py` (pipeline)
+  - `vertex_pipeline_prod.py` (pipeline)
+  - `compiler.py` (compilation)
+  - `run_pipeline.py` (submission)
+  - `deploy_model.py` (serving)
+  - Optional: `vertex_ai_infrastructure.tf` and `.github/workflows/` (CI)
+- GitHub repository with Actions enabled and secrets configured (PROJECT_ID, REGION, SERVICE_ACCOUNT, PIPELINE_ROOT, etc.)
+
+---
+
+## 2. Theory Overview
+
+Vertex AI pipelines are Kubeflow Pipeline specs executed by a managed Kubeflow runtime. Key orchestration concerns:
+
+- Compilation: Python pipeline function → KFP v2 YAML (compiler.Compiler().compile)  
+- Submission: PipelineJob in Vertex AI uses the compiled YAML + parameter_values to create a runtime job  
+- Caching: Component-level caching enables reuse of prior outputs to save time/cost  
+- Retries & Failure Handling: KFP/Vertex support retry policies on components and job-level monitoring  
+- Parallelism: Independent tasks run concurrently when no data/control dependency exists  
+- Observability: Logs, metrics (component Metrics outputs), and Vertex Pipeline dashboard URLs are essential for debugging and auditing  
+- CI/CD: Automate compile + submit via GitHub Actions; pipeline parameterization allows environment-specific runs (dev/prod)
+
+---
+
+## 3. File review order (what to open first)
+
+1. `compiler.py` — how the Python pipeline is selected and compiled to YAML  
+2. `run_pipeline.py` — how PipelineJob is constructed and submitted, parameter handling, caching flag  
+3. `vertex_pipeline_dev.py` — pipeline DAG (resource limits, dsl.If branches, BigQuery integration)  
+4. `vertex_pipeline_prod.py` — prod differences (thresholds, versioning)  
+5. `.github/workflows/ci-pipeline.yml` (example to create) — CI job to compile & submit  
+6. `deploy_model.py` — how pipeline outputs are consumed and deployed to endpoints
+
+---
+
+## 4. How to navigate the code (VS Code)
+
+Search the repo for these new markers and add them to files as exploration tasks:
+
+- `# TODO: Lab 5.6.1` — Pipeline Compilation and Validation  
+- `# TODO: Lab 5.6.2` — Pipeline Submission and PipelineJob parameters  
+- `# TODO: Lab 5.6.3` — Caching and Retry Configuration in components and PipelineJob  
+- `# TODO: Lab 5.6.4` — Parallelism and Resource Limits (set_cpu_limit, set_memory_limit)  
+- `# TODO: Lab 5.6.5` — Observability: logs, metrics, dashboard links, pipeline artifacts  
+- `# TODO: Lab 5.6.6` — CI/CD: GitHub Actions example for compile → submit  
+- `# TODO: Lab 5.6.7` — Failure modes, debugging tips, and best practices
+
+Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted training.
 
 ---
