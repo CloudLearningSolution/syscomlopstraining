@@ -802,17 +802,7 @@ Deliverable: One-paragraph summary and a 3-item TODO checklist for governance ta
 
 ---
 
-## 6. Practical checklist (quick wins)
-
-- Confirm `bigquery_query_job_op` URL resolves from your environment (network/registry access).  
-- Confirm the BigQuery component’s output key (`destination_table`) matches usage in pipeline code.  
-- Ensure `train_model_op` and `evaluate_model_op` accept `project_id` and `bq_location` parameters and use them with the BigQuery client.  
-- Update `compiler.py` compile examples and README run examples to include `bq_dataset` and `bq_view`.  
-- Add README note for learners to search for `# TODO: Lab 5.5.X` markers to follow hands-on steps.
-
----
-
-## 7. Next: Lab 5.6 preview
+## Next: Lab 5.6 preview
 
 Lab 5.6 will cover orchestration and Kubeflow integration:
 - Compiling pipeline (compiler.py) and submitting via `PipelineJob` (`run_pipeline.py`) from local CLI and CI/CD  
@@ -822,7 +812,7 @@ Lab 5.6 will cover orchestration and Kubeflow integration:
 
 ---
 
-## 8. Helpful snippets (copy into your repo README or instructor notes)
+## 8. Snippets (copy into your repo README)
 
 - Compile dev pipeline locally:
 ```bash
@@ -841,26 +831,6 @@ python run_pipeline.py \
   --parameter-values-json '{"project_id":"YOUR_PROJECT_ID","region":"YOUR_REGION","model_display_name":"dev-diabetes","bq_dataset":"shared_bronze","bq_view":"diabetes_features_view"}' \
   --labels-json '{"env":"dev","team":"ml"}'
 ```
-
-- Quick VS Code searches:
-  - `# TODO: Lab 5.5.1`
-  - `# TODO: Lab 5.5.2`
-  - `# TODO: Lab 5.5.4`
-  - `# TODO: Lab 5.5.5`
-
----
-
-## 9. Instructor notes
-
-- Emphasize why certain components were migrated to pre-built BigQuery components (scalability, serverless, governance) and why others remain custom (business logic, control).  
-- Encourage learners to inspect compiled YAML to see how KFP serializes pre-built vs custom components and artifact types.  
-- Advise learners to validate artifact output keys in compiled YAML before wiring downstream components.
-
----
-
-If you want, I can now generate:
-- A ready-to-commit `README.md` file for the repo, or  
-- Example `# TODO: Lab 5.5.X` comment blocks you can paste into `vertex_pipeline_dev.py` to guide learners through the code.
 
 ---
 # 🧪 Lab 5.6: Vertex AI Pipeline Orchestration and Kubeflow Integration
