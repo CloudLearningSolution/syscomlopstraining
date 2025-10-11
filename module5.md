@@ -638,15 +638,16 @@ Use VS Code global search (`Ctrl+Shift+F` / `Cmd+Shift+F`) to locate lab tasks:
 
 - Completed Lab 5.4 (component architecture exploration)  
 - Google Cloud project with Vertex AI, BigQuery, and Feature Registry API enabled  
-- IAM roles: Vertex AI Admin and appropriate BigQuery permissions  
-- Python 3.9+ with `google-cloud-aiplatform`, `kfp`, and BigQuery client installed  
-- Access to repo files:
-  - `vertex_pipeline_dev.py` (primary for Lab 5.5)
-  - `vertex_pipeline_prod.py`
-  - `compiler.py`
-  - `run_pipeline.py`
-  - `deploy_model.py`  
-- (Optional) Terraform CLI to inspect `vertex_ai_infrastructure.tf`
+- IAM roles: Vertex AI and appropriate BigQuery permissions  
+- Python 3.9+ with `google-cloud-aiplatform`, `kfp`, `google-cloud-pipeline-components`, and `google-cloud-bigquery` installed  
+- Repo files available and up-to-date:
+  - vertex_pipeline_dev.py  
+  - vertex_pipeline_prod.py  
+  - compiler.py  
+  - run_pipeline.py  
+  - deploy_model.py  
+  - vertex_ai_infrastructure.tf  
+  - vertex-ai-cicd.yml
 
 ---
 
@@ -669,25 +670,29 @@ BigQuery integration pattern used here:
 
 ---
 
-## 3. Files to review (recommended order)
+## 3. File review order
 
-1. `vertex_pipeline_dev.py` — primary; contains Lab 5.5 TODO markers and BigQuery migration  
-2. `vertex_pipeline_prod.py` — compare production-specific choices and thresholds  
-3. `compiler.py` — pipeline selection and compile behavior  
-4. `run_pipeline.py` — submission via Vertex AI PipelineJob  
-5. `deploy_model.py` — how pipeline outputs become serving artifacts
+Open files in this sequence to follow end-to-end architecture and CI/infra flow:
+
+1. vertex_pipeline_dev.py 
+2. vertex_pipeline_prod.py
+3. compiler.py  
+4. run_pipeline.py  
+5. deploy_model.py  
+6. vertex-ai-cicd.yml  
+7. vertex_ai_infrastructure.tf
 
 ---
 
-## 4. How to navigate the code (VS Code)
+## 4. How to navigate the code (Repo files)
 
-Use global search (Ctrl+Shift+F / Cmd+Shift+F) for these lab markers in `vertex_pipeline_dev.py`:
+Use global search (Ctrl+Shift+F / Cmd+Shift+F) and search for the exact TODO tokens below to jump to training TODO in-line comments:
 
-- `# TODO: Lab 5.5.1` — Mix of custom and pre-built components; identify which is which  
-- `# TODO: Lab 5.5.2` — Pre-built alternatives and commented examples  
-- `# TODO: Lab 5.5.3` — Accelerator template mapping to infra/pipeline/enterprise  
-- `# TODO: Lab 5.5.4` — BigQuery integration changes (artifact types, parameters)  
-- `# TODO: Lab 5.5.5` — Feature Group references and governance notes
+- `# TODO: Lab 5.5.1`  
+- `# TODO: Lab 5.5.2`  
+- `# TODO: Lab 5.5.3`  
+- `# TODO: Lab 5.5.4`  
+- `# TODO: Lab 5.5.5`
 
 You’ll also see `# TODO: Lab 5.4.X` markers for architecture-level references from the prior lab. For these lab tasks disregard Lab 5.4.
 
@@ -695,24 +700,27 @@ You’ll also see `# TODO: Lab 5.4.X` markers for architecture-level references 
 
 ## 5. Lab Tasks
 
-### Lab 5.5.1 — Custom vs Pre-built Component Identification
+---
 
-Task: Create a list of components and label them CUSTOM or PRE-BUILT.
+## ✅ Lab 5.5.1 — Custom vs Pre-built Component Identification
+
+Task: Inventory components and label CUSTOM or PRE-BUILT.
+
+Files to open: vertex_pipeline_dev.py, vertex_pipeline_prod.py
 
 Steps:
-1. Search for `# TODO: Lab 5.5.1` in `vertex_pipeline_dev.py`.  
-2. For each marker, note:
-   - Component name (function or loaded component variable)  
+1. Search for `# TODO: Lab 5.5.1`.  
+2. For each TODO, inspect surrounding lines and note:
+   - Component name (function or loaded op)  
    - Type: CUSTOM or PRE-BUILT  
-   - One-line rationale taken from inline comments
+   - One-sentence rationale from inline comments
 
-Example (from file):
-- `bigquery_query_job_op` — PRE-BUILT (loaded via components.load_component_from_url)  
-- `train_model_op` — CUSTOM (sklearn training, custom serialization)  
-- `evaluate_model_op` — CUSTOM (custom metrics and conditional output)  
-- `register_model_op` — CUSTOM (custom upload/versioning logic)
+Deliverable: A 3-column table (CSV/Markdown) in your feature branch:
+| Component | Type | One-line Rationale |
 
-Deliverable: Table in your notes: | Component | Type | Why |
+Example rows you should produce:
+- bigquery_query_job_op | PRE-BUILT | Serverless SQL-based data access and deterministic splitting  
+- train_model_op | CUSTOM | scikit-learn training, custom joblib serialization
 
 ---
 
