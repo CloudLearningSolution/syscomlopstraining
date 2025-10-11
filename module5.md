@@ -724,69 +724,81 @@ Example rows you should produce:
 
 ---
 
-### Lab 5.5.2 — Pre-built Alternatives Exploration
+## ✅ Lab 5.5.2 — Pre-built Alternatives Exploration
 
-Task: Inspect commented pre-built examples and summarize trade-offs.
+Task: Review commented pre-built examples and capture trade-offs.
+
+Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3
 
 Steps:
 1. Search for `# TODO: Lab 5.5.2`.  
-2. Review commented blocks (e.g., BigQuery Query Job, CustomTrainingJobOp, ModelUploadOp).  
-3. For each custom component, list 2–3 benefits of the pre-built alternative and 2–3 reasons to keep the custom implementation.
+2. Locate commented pre-built examples (BigQuery Query Job, CustomTrainingJobOp, ModelUploadOp).  
+3. For each custom component, write:
+   - Pre-built alternative name  
+   - 2 benefits of the pre-built approach  
+   - 2 reasons the repo keeps/customizes the component
 
-Deliverable: Short pros/cons list per component pair.
+Deliverable: Short pros/cons list for each component pair (one paragraph each).
 
 ---
 
-### Lab 5.5.3 — Accelerator Template Mapping
+## ✅ Lab 5.5.3 — Accelerator Template Mapping
 
-Task: Map pipeline artifacts to the 3-layer accelerator template.
+Task: Map pipeline files and infra to the 3-layer Accelerator Template.
+
+Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3, vertex_ai_infrastructure.tf, .github/workflows/vertex-ai-cicd.yml
 
 Steps:
-1. Search for `# TODO: Lab 5.5.3` and read the Accelerator Template header.  
-2. Map repo artifacts:
-   - Infrastructure layer → `vertex_ai_infrastructure.tf` (provision pipelines, BigQuery, Feature Groups)  
-   - Pipeline layer → `vertex_pipeline_dev.py` (pre-built BigQuery + custom components)  
-   - Enterprise layer → governance docs and labeling/versioning patterns (e.g., `parent_model`)  
-3. Note how pipeline parameters (bq_dataset, bq_view, project_id, region) are provided at compile/submit time via `compiler.py` and `run_pipeline.py`.
+1. Search for `# TODO: Lab 5.5.3`.  
+2. Identify concrete repo artifacts for each layer:
+   - Infrastructure layer → terraform file(s) and outputs (vertex_ai_infrastructure.tf)  
+   - Pipeline layer → vertex_pipeline_*.py.V3 and compiler.py  
+   - Enterprise layer → comments in prod pipeline, ModelUploadOp labels, recommended governance checks
+3. Write a one-paragraph mapping for each layer listing filenames and the responsibilities they cover.
 
-Deliverable: One-paragraph mapping per layer pointing to files/config.
+Deliverable: Three short paragraphs (one per layer) in docs/lab-5.5/.
 
 ---
 
-### Lab 5.5.4 — BigQuery Integration Review
+## ✅ Lab 5.5.4 — BigQuery Integration, Artifact Typing, and Parameter Plumbing
 
-Task: Trace how BigQuery artifacts are produced, typed, and consumed.
+Task: Trace how BigQuery outputs are produced, typed, and consumed by custom components.
+
+Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3, compiler.py, run_pipeline.py
 
 Steps:
 1. Search for `# TODO: Lab 5.5.4`.  
 2. Confirm:
-   - `bigquery_query_job_op` is loaded as a pre-built component and called for train/test queries using `FARM_FINGERPRINT` based SQL.  
-   - BigQuery outputs a BQTable artifact; `train_model_op` and `evaluate_model_op` accept `Input[artifact_types.BQTable]`.  
-   - Components parse the artifact URI to build `project.dataset.table` and use `google.cloud.bigquery.Client` to read tables.  
-   - The pipeline passes `bq_train_task.outputs["destination_table"]` and `bq_test_task.outputs["destination_table"]` into custom components.  
-3. Validate compile-time compatibility:
-   - Ensure `compiler.py` compiles pipeline signatures with new parameters; update compile/run commands if parameter names changed.
-4. Verify the exact BigQuery component output key in your compiled YAML (`destination_table` vs `destinationTable`) and adjust code if needed.
+   - `bigquery_query_job_op` is loaded (components.load_component_from_url) and called for train/test queries.  
+   - SQL uses `FARM_FINGERPRINT` for deterministic 80/20 splitting.  
+   - BigQuery op outputs a BQ table artifact; code uses `Input[artifact_types.BQTable]`.  
+   - Custom components parse `train_data.uri` (or metadata) to build `project.dataset.table` and read via `bigquery.Client`.  
+   - Pipeline signature parameters (`bq_dataset`, `bq_view`, `project_id`, `region`) are passed through compiler/run scripts.
+3. Compile the pipeline locally (example):
+```bash
+python compiler.py --py vertex_pipeline_dev.py.V3 --output pipelines/dev_diabetes_pipeline.yaml
+```
+4. Inspect the compiled YAML to confirm the BigQuery component output key name (`destination_table` or `destinationTable`) and note it.
 
-Deliverable: Short data-flow diagram:
-BigQuery view → bigquery_query_job_op (train/test) → BQTable artifact → train_model_op / evaluate_model_op (reads via BigQuery client) → model artifacts.
+Deliverable:
+- Short dataflow bullets:
+  BigQuery view → bigquery_query_job_op (train/test) → BQTable artifact → train_model_op / evaluate_model_op (reads via BigQuery client) → model artifacts
+- Note: exact BigQuery output key from the compiled YAML and any mismatch to code usage.
 
 ---
 
-### Lab 5.5.5 — Feature Groups and Governance
+## ✅ Lab 5.5.5 — Feature Groups and Governance
 
-Task: Identify Feature Group mentions and summarize governance implications.
+Task: Explain how Feature Groups fit into the pipeline and propose governance checks to add.
+
+Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3, vertex_ai_infrastructure.tf
 
 Steps:
-1. Search for `# TODO: Lab 5.5.5` and “Feature Group” in the file.  
-2. Note pipeline reliance on BigQuery view backed by Feature Groups; pipeline queries the view rather than calling Feature Registry APIs directly.  
-3. Capture recommended governance checkpoints for future labs:
-   - Schema validation and discovery step before training  
-   - Data quality checks (nulls, ranges, types) and lineage capture  
-   - Drift monitoring and periodic validation jobs  
-   - Labeling conventions on PipelineJob/Model resources to ensure auditability
+1. Search for `# TODO: Lab 5.5.5`.  
+2. Identify where pipeline queries a BigQuery view backed by Feature Groups and where Feature Registry is referenced in comments.  
+3. Draft three practical governance actions to add in future labs (schema validation, data quality checks, drift monitoring) and where to place them in the pipeline (as components or monitoring jobs).
 
-Deliverable: One-paragraph summary of how Feature Groups fit into the pipeline and a short TODO list for governance checks.
+Deliverable: One-paragraph summary and a 3-item TODO checklist for governance tasks.
 
 ---
 
