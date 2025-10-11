@@ -752,7 +752,7 @@ Steps:
 1. Search for `# TODO: Lab 5.5.3`.  
 2. Identify concrete repo artifacts for each layer:
    - Infrastructure layer → terraform file(s) and outputs (vertex_ai_infrastructure.tf)  
-   - Pipeline layer → vertex_pipeline_*.py.V3 and compiler.py  
+   - Pipeline layer → vertex_pipeline_*.py and compiler.py  
    - Enterprise layer → comments in prod pipeline, ModelUploadOp labels, recommended governance checks
 3. Write a one-paragraph mapping for each layer listing filenames and the responsibilities they cover.
 
