@@ -728,7 +728,7 @@ Example rows you should produce:
 
 Task: Review commented pre-built examples and capture trade-offs.
 
-Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3
+Files to open: vertex_pipeline_dev.py, vertex_pipeline_prod.py
 
 Steps:
 1. Search for `# TODO: Lab 5.5.2`.  
@@ -746,7 +746,7 @@ Deliverable: Short pros/cons list for each component pair (one paragraph each).
 
 Task: Map pipeline files and infra to the 3-layer Accelerator Template.
 
-Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3, vertex_ai_infrastructure.tf, .github/workflows/vertex-ai-cicd.yml
+Files to open: vertex_pipeline_dev.py, vertex_pipeline_prod.py, vertex_ai_infrastructure.tf, .github/workflows/vertex-ai-cicd.yml
 
 Steps:
 1. Search for `# TODO: Lab 5.5.3`.  
@@ -756,7 +756,7 @@ Steps:
    - Enterprise layer → comments in prod pipeline, ModelUploadOp labels, recommended governance checks
 3. Write a one-paragraph mapping for each layer listing filenames and the responsibilities they cover.
 
-Deliverable: Three short paragraphs (one per layer) in docs/lab-5.5/.
+Deliverable: Three short paragraphs (one per layer) in feature branch.
 
 ---
 
@@ -764,7 +764,7 @@ Deliverable: Three short paragraphs (one per layer) in docs/lab-5.5/.
 
 Task: Trace how BigQuery outputs are produced, typed, and consumed by custom components.
 
-Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3, compiler.py, run_pipeline.py
+Files to open: vertex_pipeline_dev.py, vertex_pipeline_prod.py, compiler.py, run_pipeline.py
 
 Steps:
 1. Search for `# TODO: Lab 5.5.4`.  
@@ -776,7 +776,7 @@ Steps:
    - Pipeline signature parameters (`bq_dataset`, `bq_view`, `project_id`, `region`) are passed through compiler/run scripts.
 3. Compile the pipeline locally (example):
 ```bash
-python compiler.py --py vertex_pipeline_dev.py.V3 --output pipelines/dev_diabetes_pipeline.yaml
+python compiler.py --py vertex_pipeline_dev.py --output pipelines/dev_diabetes_pipeline.yaml
 ```
 4. Inspect the compiled YAML to confirm the BigQuery component output key name (`destination_table` or `destinationTable`) and note it.
 
@@ -791,7 +791,7 @@ Deliverable:
 
 Task: Explain how Feature Groups fit into the pipeline and propose governance checks to add.
 
-Files to open: vertex_pipeline_dev.py.V3, vertex_pipeline_prod.py.V3, vertex_ai_infrastructure.tf
+Files to open: vertex_pipeline_dev.py, vertex_pipeline_prod.py, vertex_ai_infrastructure.tf
 
 Steps:
 1. Search for `# TODO: Lab 5.5.5`.  
