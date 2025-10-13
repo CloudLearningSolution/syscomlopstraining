@@ -122,6 +122,132 @@ This training program emphasizes community-driven learning through:
   - GitHub Actions integration with Vertex AI pipelines
   - Automated training job submission, monitoring, and alerting
   - Secrets management and enterprise-grade authentication
+ 
+# Phase 5: MLOps Monitoring and Observability (Weeks 17-20)
+
+## Week 17: Model Performance Monitoring and Metrics
+* Model performance dashboards and alerting systems
+* Key ML metrics: accuracy, precision, recall, F1, AUC-ROC
+* Performance degradation detection and root cause analysis
+* Vertex AI Model Monitoring service setup and configuration
+* Custom metrics implementation and tracking
+
+## Week 18: Data Quality and Drift Detection
+* Data drift vs concept drift understanding and detection
+* Input data monitoring and validation frameworks
+* Population Stability Index (PSI) and Characteristic Stability Index (CSI)
+* Automated data quality checks and anomaly detection
+* Integration with Great Expectations or similar tools
+
+## Week 19: Observability Platforms and Logging
+* End-to-end ML observability architecture
+* Log aggregation and structured logging for ML systems
+* Integration with monitoring tools (WhyLabs, Arize AI, or similar)
+* Trace and debug ML pipeline execution
+* Performance metrics (latency, throughput, resource utilization)
+
+## Week 20: Alerting, Incident Response, and Model Retraining Triggers
+* Automated alerting strategies for model degradation
+* Incident response workflows for ML failures
+* Automated model retraining trigger mechanisms
+* Model rollback strategies and procedures
+* SLAs and SLOs for ML systems
+
+---
+
+# Phase 6: Model Governance and Responsible AI (Weeks 21-24)
+
+## Week 21: Model Governance Frameworks and Compliance
+* AI governance frameworks (NIST AI RMF, EU AI Act considerations)
+* Model registry and lifecycle management best practices
+* Audit trails and model documentation requirements
+* Compliance tracking and regulatory requirements
+* Model risk management frameworks
+
+## Week 22: Bias Detection, Fairness, and Explainability
+* Bias identification in training data and model predictions
+* Fairness metrics and evaluation techniques
+* Model explainability tools (SHAP, LIME, Vertex AI Explainable AI)
+* Implementing fairness constraints in model training
+* Ethical AI considerations and responsible deployment
+
+## Week 23: Model Security and Privacy
+* Adversarial attack detection and prevention
+* Data privacy techniques (differential privacy, federated learning basics)
+* Model security best practices and threat modeling
+* Secure model serving and API protection
+* Access control and authentication for model endpoints
+
+## Week 24: Documentation, Reproducibility, and Model Cards
+* Comprehensive model documentation standards
+* Model cards and datasheets for datasets
+* Reproducibility practices and environment management
+* Governance workflows and approval processes
+* Stakeholder communication and transparency reports
+
+---
+
+# Phase 7: Feature Engineering and Optimization (Weeks 25-28)
+
+## Week 25: Feature Store Architecture and Implementation
+* Feature store concepts and benefits
+* Vertex AI Feature Store setup and configuration
+* Feature versioning and lineage tracking
+* Online vs offline feature serving patterns
+* Feature reuse and sharing across teams
+
+## Week 26: Experiment Tracking and Management
+* Experiment tracking frameworks (MLflow, Weights & Biases integration)
+* Systematic experiment organization and comparison
+* Hyperparameter logging and visualization
+* Experiment reproducibility and artifact management
+* Team collaboration on experiments
+
+## Week 27: Hyperparameter Optimization and AutoML
+* Hyperparameter tuning strategies (Grid Search, Random Search, Bayesian Optimization)
+* Vertex AI Hyperparameter Tuning service
+* AutoML capabilities and when to use them
+* Neural Architecture Search (NAS) fundamentals
+* Multi-objective optimization techniques
+
+## Week 28: Model Optimization for Production
+* Model quantization techniques (INT8, FP16)
+* Model pruning and compression strategies
+* Knowledge distillation for model efficiency
+* TensorRT and optimization frameworks
+* Latency vs accuracy trade-off analysis
+
+---
+
+# Phase 8: Advanced Deployment and LLM Operations (Weeks 29-32)
+
+## Week 29: Advanced Deployment Strategies
+* A/B testing frameworks for ML models
+* Canary deployments and progressive rollouts
+* Shadow deployment and traffic splitting
+* Multi-armed bandit strategies for model selection
+* Blue-green deployment for ML systems
+
+## Week 30: LLM and Generative AI Fundamentals
+* Large Language Model architecture overview
+* Prompt engineering best practices
+* Fine-tuning strategies (full fine-tuning vs LoRA vs prompt tuning)
+* Vertex AI Model Garden and foundation model access
+* LLM evaluation metrics and benchmarks
+
+## Week 31: RAG Systems and Vector Databases
+* Retrieval-Augmented Generation (RAG) architecture
+* Vector database setup (Vertex AI Vector Search)
+* Embedding generation and management
+* RAG pipeline optimization and evaluation
+* Context window management and chunking strategies
+
+## Week 32: LLMOps and Production LLM Systems
+* LLM-specific monitoring and observability
+* Cost optimization for LLM inference
+* Guardrails and content filtering
+* LLM security considerations (prompt injection, jailbreaking)
+* Agent frameworks and orchestration (LangChain, LlamaIndex integration)
 
 ## Hands-On Workshop Approach
 
