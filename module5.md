@@ -833,75 +833,177 @@ python run_pipeline.py \
 ```
 
 ---
-# 🧪 Lab 5.6: Vertex AI Pipeline Orchestration and Kubeflow Integration
+### 🧪 Lab 5.6: Vertex AI Pipeline Orchestration and Kubeflow Integration
+Code-Only Exploration — Search for TODO Markers
 
-**Difficulty:** Intermediate to Advanced  
-**Tools Required:** GitHub Training Repo, VS Code, Vertex AI SDK, Kubeflow Pipelines SDK, GitHub Actions (or other CI/CD), Terraform (optional)
-
----
-
-## 🎯 Lab Objectives
-
-- Compile and submit KFP v2 pipelines to Vertex AI programmatically and via CI/CD  
-- Understand how Vertex AI executes Kubeflow pipeline specs (PipelineJob → Kubeflow runtime)  
-- Implement and reason about orchestration primitives: caching, retries, parallelism, resource limits, and conditional branches  
-- Add observability: logs, metrics, dashboard links, and artifact tracking for troubleshooting  
-- Create an example GitHub Actions workflow to compile and submit pipelines automatically
+Difficulty: Intermediate → Advanced  
+Tools required: GitHub training repo, VS Code
 
 ---
 
-## 1. Prerequisites
-
-- Completion of Labs 5.4 and 5.5 (pipeline architecture, pipeline template component options and BigQuery integration)  
-- Google Cloud project with Vertex AI, BigQuery, Artifact Registry access, and appropriate IAM roles  
-- Python 3.9+ with `google-cloud-aiplatform`, `kfp`, `google-cloud-bigquery` installed  
-- Access to the repo files:
-  - `vertex_pipeline_dev.py` (pipeline)
-  - `vertex_pipeline_prod.py` (pipeline)
-  - `compiler.py` (compilation)
-  - `run_pipeline.py` (submission)
-  - `deploy_model.py` (serving)
-  - Optional: `vertex_ai_infrastructure.tf` and `.github/workflows/` (CI)
-- GitHub repository with Actions enabled and secrets configured (PROJECT_ID, REGION, SERVICE_ACCOUNT, PIPELINE_ROOT, etc.)
+### 🎯 Lab Objectives
+- Explore orchestration patterns in Vertex AI pipelines using Kubeflow  
+- Understand pipeline compilation, submission, and monitoring flows  
+- Inspect caching, retries, resource limits, and observability strategies  
+- Analyze CI/CD workflow automation using GitHub Actions  
+- Compare orchestration differences between dev and prod pipelines  
+- Learn debugging and failure-handling best practices
 
 ---
 
-## 2. Theory Overview
-
-Vertex AI pipelines are Kubeflow Pipeline specs executed by a managed Kubeflow runtime. Key orchestration concerns:
-
-- Compilation: Python pipeline function → KFP v2 YAML (compiler.Compiler().compile)  
-- Submission: PipelineJob in Vertex AI uses the compiled YAML + parameter_values to create a runtime job  
-- Caching: Component-level caching enables reuse of prior outputs to save time/cost  
-- Retries & Failure Handling: KFP/Vertex support retry policies on components and job-level monitoring  
-- Parallelism: Independent tasks run concurrently when no data/control dependency exists  
-- Observability: Logs, metrics (component Metrics outputs), and Vertex Pipeline dashboard URLs are essential for debugging and auditing  
-- CI/CD: Automate compile + submit via GitHub Actions; pipeline parameterization allows environment-specific runs (dev/prod)
+### 1. Prerequisites
+- Completed Labs 5.4 and 5.5  
+- Repository contains these files with # TODO: Lab 5.6.X markers:
+  - compiler.py  
+  - run_pipeline.py  
+  - vertex_pipeline_dev.py  
+  - vertex_pipeline_prod.py  
+  - deploy_model.py  
+  - vertex-ai-cicd.yml
 
 ---
 
-## 3. File review order (what to open first)
+### 2. VS Code Search Navigation
+Use global search (Ctrl+Shift+F / Cmd+Shift+F) to locate each lab task token exactly:
 
-1. `compiler.py` — how the Python pipeline is selected and compiled to YAML  
-2. `run_pipeline.py` — how PipelineJob is constructed and submitted, parameter handling, caching flag  
-3. `vertex_pipeline_dev.py` — pipeline DAG (resource limits, dsl.If branches, BigQuery integration)  
-4. `vertex_pipeline_prod.py` — prod differences (thresholds, versioning)  
-5. `.github/workflows/ci-pipeline.yml` (example to create) — CI job to compile & submit  
-6. `deploy_model.py` — how pipeline outputs are consumed and deployed to endpoints
+- `# TODO: Lab 5.6.1` – Pipeline Compilation and Validation  
+- `# TODO: Lab 5.6.2` – Pipeline Submission and PipelineJob parameters  
+- `# TODO: Lab 5.6.3` – Caching and Retry Configuration  
+- `# TODO: Lab 5.6.4` – Parallelism and Resource Limits  
+- `# TODO: Lab 5.6.5` – Observability: logs, metrics, dashboard links  
+- `# TODO: Lab 5.6.6` – CI/CD: GitHub Actions compile → submit  
+- `# TODO: Lab 5.6.7` – Failure modes, debugging tips, and best practices
+
+Search the exact token (including colon) and inspect 3–8 lines of context around each match.
 
 ---
 
-## 4. How to navigate the code (VS Code)
+### 3. Order of exploration (follow this sequence)
+1. compiler.py — compilation selection, outputs, compiled function  
+2. run_pipeline.py — PipelineJob construction, flags, JSON params, caching  
+3. vertex_pipeline_dev.py — caching, resources, retry policy, parallelism (dev)  
+4. vertex_pipeline_prod.py — production differences (thresholds, caching, resources)  
+5. vertex-ai-cicd.yml — GitHub Actions compile → upload → submit → approval → deploy flow  
+6. deploy_model.py — Model Registry lookup, endpoint reuse/creation, deployment, testing, observability  
+7. Cross-file search: failure modes and best-practice TODOs
 
-Search the repo for these new markers and add them to files as exploration tasks:
+Follow the sequence — later files reference artifacts and patterns you’ll inspect earlier.
 
-- `# TODO: Lab 5.6.1` — Pipeline Compilation and Validation  
-- `# TODO: Lab 5.6.2` — Pipeline Submission and PipelineJob parameters  
-- `# TODO: Lab 5.6.3` — Caching and Retry Configuration in components and PipelineJob  
-- `# TODO: Lab 5.6.4` — Parallelism and Resource Limits (set_cpu_limit, set_memory_limit)  
-- `# TODO: Lab 5.6.5` — Observability: logs, metrics, dashboard links, pipeline artifacts  
-- `# TODO: Lab 5.6.6` — CI/CD: GitHub Actions example for compile → submit  
-- `# TODO: Lab 5.6.7` — Failure modes, debugging tips, and best practices
+---
+
+### 4. Lab Tasks — Code Exploration Only
+Each task maps to a TODO marker. Open the specified file, find the marker, and inspect surrounding code/comments. No execution required.
+
+#### ✅ Lab 5.6.1 — Pipeline Compilation and Validation  
+File: compiler.py — Search: `# TODO: Lab 5.6.1`  
+Explore and record:
+- How the pipeline source file is selected (env var, CLI arg, or hard-coded path)  
+- Which pipeline function is compiled (function name)  
+- What YAML filename(s) are generated and where they are written  
+- How parameters are passed to the compiler (CLI args, env vars)  
+Deliverables:
+- Exact compile command used in CI (copy full CLI line)  
+- Output YAML path(s) to include in ci-cd-inspection.md
+
+#### ✅ Lab 5.6.2 — Pipeline Submission and PipelineJob Parameters  
+File: run_pipeline.py — Search: `# TODO: Lab 5.6.2`  
+Explore and record:
+- How PipelineJob is constructed (aiplatform PipelineJob or gcloud wrapper)  
+- Arguments accepted and passed: `--pipeline-spec-uri`, `--pipeline-root`, `--service-account`, `--display-name`, `--parameter-values-json`, `--labels-json`  
+- How `PARAMS_JSON` and `LABELS_JSON` are deserialized/consumed (json.loads → dict → PipelineJob param map)  
+- How caching is toggled (flag or PipelineJob parameter)  
+Deliverables:
+- Exact submission command snippet from CI (copy/paste)  
+- How numeric params are coerced (jq `tonumber` or Python cast)
+
+#### ✅ Lab 5.6.3 — Caching and Retry Configuration  
+Files: run_pipeline.py, vertex_pipeline_dev.py, vertex_pipeline_prod.py — Search: `# TODO: Lab 5.6.3`  
+Explore and record:
+- Where caching is enabled/disabled for pipeline components  
+- Which components are marked safe to cache vs non-cacheable (e.g., registration ops)  
+- Retry logic or comments about idempotency and retries per component  
+- Differences between dev and prod retry strategies and caching usage  
+Deliverables:
+- List of components with caching/retry settings and dev/prod differences
+
+#### ✅ Lab 5.6.4 — Parallelism and Resource Limits  
+Files: vertex_pipeline_dev.py, vertex_pipeline_prod.py — Search: `# TODO: Lab 5.6.4`  
+Explore and record:
+- `.set_cpu_limit()` and `.set_memory_limit()` usage and values  
+- Which components run in parallel (no `.after()` or direct dependencies)  
+- Comments suggesting resource sizing or quotas to observe  
+- Differences in resource configurations between dev and prod  
+Deliverables:
+- Table of components → CPU/memory limits and parallelism notes
+
+#### ✅ Lab 5.6.5 — Observability: Logs, Metrics, Dashboard Links  
+Files: run_pipeline.py, vertex_pipeline_dev.py, vertex_pipeline_prod.py, deploy_model.py — Search: `# TODO: Lab 5.6.5`  
+Explore and record:
+- `metrics.log_metric()` calls and metric names used in pipeline components  
+- Logging patterns (`logging.info`, `logging.error`) and where dashboard URIs are printed or referenced  
+- How `deploy_model.py` prints endpoint/resource identifiers and console URLs for CI capture  
+Deliverables:
+- Exact log/metric lines to capture, and list of console URLs printed by scripts
+
+#### ✅ Lab 5.6.6 — CI/CD: GitHub Actions Compile → Submit  
+File: vertex-ai-cicd.yml — Search: `# TODO: Lab 5.6.6`  
+Explore and record:
+- All workflow jobs and steps:
+  - compile job (checkout, setup, install, auth, compile, upload-artifact)  
+  - train-dev job (download-artifact, build jq `PARAMS_JSON`, `run_pipeline.py`)  
+  - require-approval job (`environment: production`)  
+  - train-prod job (find_parent_model, include `parent_model` in params)  
+  - deploy-model job  
+- Secrets referenced (exact secret names): `GCP_PROJECT_ID`, `GCP_PROJECT_NUMBER`, `GCP_WORKLOAD_IDENTITY_POOL_ID`, `GCP_WORKLOAD_IDENTITY_PROVIDER_ID`, `GHA_SERVICE_ACCOUNT_EMAIL`, `GCP_SHARED_MLOPS_BUCKET_NAME`, `VERTEX_PIPELINE_SA_EMAIL`, etc.  
+- Artifact flow: compiled YAML local filenames, artifact upload name (e.g., `compiled-vertex-pipelines`), download path (e.g., `./compiled-pipelines/`), whether compiled YAMLs are archived to GCS (run_pipeline.py behavior vs explicit `gsutil`).  
+- Parameter injection mechanism: exact `jq` snippets building `PARAMS_JSON` and `LABELS_JSON`, numeric coercion (`tonumber`), `PIPELINE_JOB_ID` generation, pipeline-root path template.  
+- Approval mechanism: `environment: production` usage and job `needs` ordering  
+Deliverables:
+- Exact `upload-artifact` name and `download-artifact` path strings  
+- Exact `jq` invocation and `run_pipeline.py` invocation lines to paste into ci-cd-inspection.md
+
+#### ✅ Lab 5.6.7 — Failure Modes, Debugging Tips, Best Practices  
+Files: compiler.py, run_pipeline.py, vertex_pipeline_dev.py, vertex_pipeline_prod.py — Search: `# TODO: Lab 5.6.7`  
+Explore and record:
+- Exception handling and error messages; what exceptions are raised and where  
+- Comments about common failure causes (IAM, missing artifacts, invalid URIs, quotas)  
+- Debugging tips present in code comments (check logs, validate inputs, verify service enablement)  
+- Best-practice suggestions (idempotency, small components, explicit resource limits, non-cacheable registration ops)  
+Deliverables:
+- Short troubleshooting checklist with remediation steps for common errors
+
+---
+
+### 5. Deliverables (what you should produce)
+Create a single `ci-cd-inspection.md` that contains:
+
+- Job list (5 jobs) with short purpose — copy from `vertex-ai-cicd.yml`  
+- Job dependency graph (ASCII and Mermaid optional)  
+- Secrets table with exact secret names and where used (job + step)  
+- Artifact flow diagram: compile → upload-artifact → download → `run_pipeline.py` → optional GCS archival → Vertex AI  
+- Parameter injection section: verbatim `jq` snippets and `run_pipeline.py` invocation lines copied from YAML  
+- Dev vs Prod comparison table: `min_accuracy`, caching, `parent_model` usage, compiled YAML file, pipeline-root differences  
+- Approval mechanism capture: YAML lines showing `environment: production` and `needs`  
+- Failure modes & debugging checklist  
+- Observability checklist: exact logging/metric lines to capture and console URLs printed by scripts
+
+Use exact CLI/YAML snippets you copy from files in the repo when populating the document.
+
+---
+
+### 6. Quick tips for efficient exploration
+- Search for exact tokens (include colon) to land on the student-facing TODO anchors.  
+- When you find a shell step, copy the entire block (PIPELINE_JOB_ID, `jq`, `run_pipeline.py`).  
+- For secrets, add one-line mapping: `SecretName — used in <job> : <step>` (e.g., `GCP_PROJECT_ID — setup-and-compile-gcp : Authenticate to Google Cloud`).  
+- For artifact actions, capture action name and `path` verbatim.  
+- For parameter JSON, copy the full `jq -n --arg ... '{...}'` block.  
+- Save `ci-cd-inspection.md` under `docs/` or `labs/lab-5-6/` so learners can open and fill with evidence.
+
+---
+
+If you want, I will now generate the fully populated `ci-cd-inspection.md` using the exact CLI/YAML snippets already visible in the repo excerpts we discussed (including jq blocks, `run_pipeline.py` invocations, artifact names, and job headers). Choose:  
+- (A) skeleton with placeholders only, or  
+- (B) fully populated file using the exact snippets present in our conversation.
 
 Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted training.
 
