@@ -974,11 +974,10 @@ Deliverables:
 
 ---
 
-### 5. Deliverables (what you should produce)
-Create a single `ci-cd-inspection.md` that contains:
+### 5. Deliverables
+Create a single `learner.md` that contains:
 
 - Job list (5 jobs) with short purpose — copy from `vertex-ai-cicd.yml`  
-- Job dependency graph (ASCII and Mermaid optional)  
 - Secrets table with exact secret names and where used (job + step)  
 - Artifact flow diagram: compile → upload-artifact → download → `run_pipeline.py` → optional GCS archival → Vertex AI  
 - Parameter injection section: verbatim `jq` snippets and `run_pipeline.py` invocation lines copied from YAML  
@@ -997,13 +996,8 @@ Use exact CLI/YAML snippets you copy from files in the repo when populating the 
 - For secrets, add one-line mapping: `SecretName — used in <job> : <step>` (e.g., `GCP_PROJECT_ID — setup-and-compile-gcp : Authenticate to Google Cloud`).  
 - For artifact actions, capture action name and `path` verbatim.  
 - For parameter JSON, copy the full `jq -n --arg ... '{...}'` block.  
-- Save `ci-cd-inspection.md` under `docs/` or `labs/lab-5-6/` so learners can open and fill with evidence.
 
 ---
-
-If you want, I will now generate the fully populated `ci-cd-inspection.md` using the exact CLI/YAML snippets already visible in the repo excerpts we discussed (including jq blocks, `run_pipeline.py` invocations, artifact names, and job headers). Choose:  
-- (A) skeleton with placeholders only, or  
-- (B) fully populated file using the exact snippets present in our conversation.
 
 Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted training.
 
