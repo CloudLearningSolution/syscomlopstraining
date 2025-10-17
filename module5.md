@@ -1002,3 +1002,35 @@ Use exact CLI/YAML snippets you copy from files in the repo when populating the 
 Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted training.
 
 ---
+
+# 🧪 Lab 5.7: SageMaker → Vertex AI Pipeline Conversion Workshop (Code-Only Exploration)
+- Difficulty: Intermediate → Advanced Tools Required: GitHub Training Repo, PyCharm or VS Code, Python 3.9+, Vertex AI SDK (for reading), Kubeflow Pipelines SDK
+
+🎯 Lab Objectives
+- Read and reason about a real SageMaker pipeline and its conversion to a Vertex AI KFP pipeline
+
+- Map SageMaker pipeline constructs (ProcessingStep, TrainingStep, EvaluationStep, ConditionStep) to Vertex KFP equivalents
+
+- Trace how a SageMaker training script (train.py) becomes a Vertex component implementation (train_model_op)
+
+- Identify operational differences: artifact semantics, caching/idempotency, resource mapping, and observability
+
+- Produce a short conversion checklist and mapping notes you can apply to other pipelines
+
+---
+
+# 🧪 Lab 5.8: Component Translation Matrix, Code Stubs, and Instructor Notes (Deep Dive)
+- Difficulty: Intermediate → Advanced Tools Required: GitHub Training Repo, PyCharm or VS Code, Markdown editor, files:
+
+- conversion_sagemaker_vertex-pipeline.py
+
+- conversion_trainpy_vertex-pipeline.py
+
+- learning_stubs.py (you will create based on instructions)
+
+### 🎯 Lab Objectives
+- Produce a precise translation matrix from SageMaker constructs to Vertex KFP equivalents.
+
+- Create code stubs learners can copy into the repo and complete (BigQuery query, train_model_op, evaluate_model_op).
+
+- Document failure modes, observability checks, and remediation steps relevant to the two conversion files.
