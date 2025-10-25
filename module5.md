@@ -1003,85 +1003,87 @@ Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted traini
 
 ---
 
-Learner Guide — Labs 5.7, 5.8, and 5.9: Vertex AI Pipeline Conversion and Validation
-Session Type: Explore-only (2 hours) Tools Required: PyCharm or VS Code, GitHub Training Repo with conversion file File to Open:
+# 🧪 Learner Guide — Labs 5.7, 5.8, and 5.9: Vertex AI Pipeline Conversion and Validation
 
-train_to_vertex_ai_conversion.py
+**Session Type:** Explore-only (2 hours)  
+**Tools Required:** PyCharm or VS Code, GitHub Training Repo with conversion file  
+**File to Open:**  
+- `train_to_vertex_ai_conversion.py`
 
-🧠 Overview
-This guided exploration focuses on understanding how a traditional ML training script (train.py) is converted into a Vertex AI pipeline using Kubeflow components. No execution or documentation is required — your goal is to read, reason, and locate the # TODO: Lab X.Y.Z markers embedded in the single consolidated conversion file.
+---
 
-🎯 Lab Objectives
-Lab 5.7: General ML train.py → Vertex AI Pipeline Conversion Workshop
-Focus: High-level line-by-line exploration
+## 🧠 Overview
 
-Understand how each import, parameter, and execution pattern in train.py maps to Vertex pipeline components
+This guided exploration focuses on understanding how a traditional ML training script (`train.py`) is converted into a Vertex AI pipeline using Kubeflow components. No execution or documentation is required — your goal is to read, reason, and locate the `# TODO: Lab X.Y.Z` markers embedded in the single consolidated conversion file.
 
-Compare script-style execution to DAG-based orchestration
+---
 
-Trace argparse usage and its replacement with pipeline parameters
+## 🎯 Lab Objectives
 
-Lab 5.8: Component Mapping and Functionality Translation
-Focus: Function-by-function deep dive
+### Lab 5.7: General ML train.py → Vertex AI Pipeline Conversion Workshop  
+**Focus:** High-level line-by-line exploration
 
-Map each function in train.py to its corresponding Vertex component
+- Understand how each import, parameter, and execution pattern in `train.py` maps to Vertex pipeline components  
+- Compare script-style execution to DAG-based orchestration  
+- Trace argparse usage and its replacement with pipeline parameters
 
-Explore how CSV-based logic is replaced by BigQuery artifacts
+### Lab 5.8: Component Mapping and Functionality Translation  
+**Focus:** Function-by-function deep dive
 
-Verify algorithm consistency and artifact persistence
+- Map each function in `train.py` to its corresponding Vertex component  
+- Explore how CSV-based logic is replaced by BigQuery artifacts  
+- Verify algorithm consistency and artifact persistence
 
-Lab 5.9: Pipeline Testing and Validation Framework
-Focus: Quality gates and testing patterns
+### Lab 5.9: Pipeline Testing and Validation Framework  
+**Focus:** Quality gates and testing patterns
 
-Understand how conditional logic replaces always-register behavior
+- Understand how conditional logic replaces always-register behavior  
+- Explore metrics-driven approval and rejection paths  
+- Review transformation patterns that support enterprise-grade monitoring
 
-Explore metrics-driven approval and rejection paths
+---
 
-Review transformation patterns that support enterprise-grade monitoring
+## 📚 Theory Summary
 
-📚 Theory Summary
 Vertex AI pipelines use declarative DAGs with typed artifacts, structured Metrics, and conditional branching. Migration replaces file-based I/O with cloud-native services (BigQuery), wraps logic in components, and introduces observability and quality gates while keeping core algorithm code largely unchanged.
 
-📂 File to Open
-train_to_vertex_ai_conversion.py — the single canonical conversion file for Labs 5.7–5.9.
+---
 
-Use global search (Ctrl+Shift+F / Cmd+Shift+F) inside that file to jump to each TODO marker listed below.
+## 📂 File to Open
 
-✅ Lab 5.7 — High-Level Conversion Exploration
-TODO: Lab 5.7.1 — Line-by-Line Import Exploration
+- `train_to_vertex_ai_conversion.py` — the single canonical conversion file for Labs 5.7–5.9.
 
-Find each train.py import and its pipeline equivalent.
+Use global search (Ctrl+Shift+F / Cmd+Shift+F) inside that file to jump to each `# TODO: Lab X.Y.Z` marker listed below.
+
+---
+
+## ✅ Lab 5.7 — High-Level Conversion Exploration
+
+### TODO: Lab 5.7.1 — Line-by-Line Import Exploration  
+Find each `train.py` import and its pipeline equivalent.
 
 Detailed sub-TODOs present in the file:
+- 5.7.1.1 (original imports) and sublabels 5.7.1.1a → 5.7.1.1h  
+- 5.7.1.2 (pipeline imports) and sublabels 5.7.1.2a → 5.7.1.2j
 
-5.7.1.1 (original imports) and sublabels 5.7.1.1a → 5.7.1.1h
-
-5.7.1.2 (pipeline imports) and sublabels 5.7.1.2a → 5.7.1.2j
-
-TODO: Lab 5.7.2 — High-Level Architecture
-
+### TODO: Lab 5.7.2 — High-Level Architecture  
 Compare script execution flow vs pipeline DAG structure.
 
 Detailed sub-TODOs present in the file:
+- 5.7.2.1 and sublabels 5.7.2.1a → 5.7.2.1b (pipeline metadata)  
+- 5.7.2.2 and sublabels 5.7.2.2a → 5.7.2.2b (execution environment / BASE_IMAGE & requirements)
 
-5.7.2.1 and sublabels 5.7.2.1a → 5.7.2.1b (pipeline metadata)
-
-5.7.2.2 and sublabels 5.7.2.2a → 5.7.2.2b (execution environment / BASE_IMAGE & requirements)
-
-TODO: Lab 5.7.3 — Parameter Handling Evolution
-
+### TODO: Lab 5.7.3 — Parameter Handling Evolution  
 Explore argparse lines → pipeline parameter declarations.
 
-Inspect the pipeline definition and the TODO: Lab 5.7.3 marker describing sequential main() → DAG mapping.
+- Inspect the pipeline definition and the `TODO: Lab 5.7.3` marker describing sequential main() → DAG mapping.
 
 Additional Lab 5.7 anchors to inspect in-file:
+- `TODO: Lab 5.7.1` (workflow structure exploration)  
+- `TODO: Lab 5.7.2` (execution model translation)  
+- `TODO: Lab 5.7.3` (data flow exploration in pipeline)  
+- `TODO: Lab 5.7.4` (task creation exploration)  
+- `TODO: Lab 5.7.5` (dependency management / URI parsing failure notes)
 
-TODO: Lab 5.7.1 (workflow structure exploration)
+---
 
-TODO: Lab 5.7.2 (execution model translation)
-
-TODO: Lab 5.7.3 (data flow exploration in pipeline)
-
-TODO: Lab 5.7.4 (task creation exploration)
-
-TODO: Lab 5.7.5 (dependency management / URI parsing failure notes)
