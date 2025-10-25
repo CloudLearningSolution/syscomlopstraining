@@ -1003,34 +1003,85 @@ Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted traini
 
 ---
 
-# 🧪 Lab 5.7: SageMaker → Vertex AI Pipeline Conversion Workshop (Code-Only Exploration)
-- Difficulty: Intermediate → Advanced Tools Required: GitHub Training Repo, PyCharm or VS Code, Python 3.9+, Vertex AI SDK (for reading), Kubeflow Pipelines SDK
+Learner Guide — Labs 5.7, 5.8, and 5.9: Vertex AI Pipeline Conversion and Validation
+Session Type: Explore-only (2 hours) Tools Required: PyCharm or VS Code, GitHub Training Repo with conversion file File to Open:
+
+train_to_vertex_ai_conversion.py
+
+🧠 Overview
+This guided exploration focuses on understanding how a traditional ML training script (train.py) is converted into a Vertex AI pipeline using Kubeflow components. No execution or documentation is required — your goal is to read, reason, and locate the # TODO: Lab X.Y.Z markers embedded in the single consolidated conversion file.
 
 🎯 Lab Objectives
-- Read and reason about a real SageMaker pipeline and its conversion to a Vertex AI KFP pipeline
+Lab 5.7: General ML train.py → Vertex AI Pipeline Conversion Workshop
+Focus: High-level line-by-line exploration
 
-- Map SageMaker pipeline constructs (ProcessingStep, TrainingStep, EvaluationStep, ConditionStep) to Vertex KFP equivalents
+Understand how each import, parameter, and execution pattern in train.py maps to Vertex pipeline components
 
-- Trace how a SageMaker training script (train.py) becomes a Vertex component implementation (train_model_op)
+Compare script-style execution to DAG-based orchestration
 
-- Identify operational differences: artifact semantics, caching/idempotency, resource mapping, and observability
+Trace argparse usage and its replacement with pipeline parameters
 
-- Produce a short conversion checklist and mapping notes you can apply to other pipelines
+Lab 5.8: Component Mapping and Functionality Translation
+Focus: Function-by-function deep dive
 
----
+Map each function in train.py to its corresponding Vertex component
 
-# 🧪 Lab 5.8: Component Translation Matrix, Code Stubs, and Instructor Notes (Deep Dive)
-- Difficulty: Intermediate → Advanced Tools Required: GitHub Training Repo, PyCharm or VS Code, Markdown editor, files:
+Explore how CSV-based logic is replaced by BigQuery artifacts
 
-- conversion_sagemaker_vertex-pipeline.py
+Verify algorithm consistency and artifact persistence
 
-- conversion_trainpy_vertex-pipeline.py
+Lab 5.9: Pipeline Testing and Validation Framework
+Focus: Quality gates and testing patterns
 
-- learning_stubs.py (you will create based on instructions)
+Understand how conditional logic replaces always-register behavior
 
-### 🎯 Lab Objectives
-- Produce a precise translation matrix from SageMaker constructs to Vertex KFP equivalents.
+Explore metrics-driven approval and rejection paths
 
-- Create code stubs learners can copy into the repo and complete (BigQuery query, train_model_op, evaluate_model_op).
+Review transformation patterns that support enterprise-grade monitoring
 
-- Document failure modes, observability checks, and remediation steps relevant to the two conversion files.
+📚 Theory Summary
+Vertex AI pipelines use declarative DAGs with typed artifacts, structured Metrics, and conditional branching. Migration replaces file-based I/O with cloud-native services (BigQuery), wraps logic in components, and introduces observability and quality gates while keeping core algorithm code largely unchanged.
+
+📂 File to Open
+train_to_vertex_ai_conversion.py — the single canonical conversion file for Labs 5.7–5.9.
+
+Use global search (Ctrl+Shift+F / Cmd+Shift+F) inside that file to jump to each TODO marker listed below.
+
+✅ Lab 5.7 — High-Level Conversion Exploration
+TODO: Lab 5.7.1 — Line-by-Line Import Exploration
+
+Find each train.py import and its pipeline equivalent.
+
+Detailed sub-TODOs present in the file:
+
+5.7.1.1 (original imports) and sublabels 5.7.1.1a → 5.7.1.1h
+
+5.7.1.2 (pipeline imports) and sublabels 5.7.1.2a → 5.7.1.2j
+
+TODO: Lab 5.7.2 — High-Level Architecture
+
+Compare script execution flow vs pipeline DAG structure.
+
+Detailed sub-TODOs present in the file:
+
+5.7.2.1 and sublabels 5.7.2.1a → 5.7.2.1b (pipeline metadata)
+
+5.7.2.2 and sublabels 5.7.2.2a → 5.7.2.2b (execution environment / BASE_IMAGE & requirements)
+
+TODO: Lab 5.7.3 — Parameter Handling Evolution
+
+Explore argparse lines → pipeline parameter declarations.
+
+Inspect the pipeline definition and the TODO: Lab 5.7.3 marker describing sequential main() → DAG mapping.
+
+Additional Lab 5.7 anchors to inspect in-file:
+
+TODO: Lab 5.7.1 (workflow structure exploration)
+
+TODO: Lab 5.7.2 (execution model translation)
+
+TODO: Lab 5.7.3 (data flow exploration in pipeline)
+
+TODO: Lab 5.7.4 (task creation exploration)
+
+TODO: Lab 5.7.5 (dependency management / URI parsing failure notes)
