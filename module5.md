@@ -1020,21 +1020,21 @@ This guided exploration focuses on understanding how a traditional ML training s
 
 ## 🎯 Lab Objectives
 
-### Lab 5.7: General ML train.py → Vertex AI Pipeline Conversion Workshop  
+### Lab 5.7 — General ML train.py → Vertex AI Pipeline Conversion Workshop  
 **Focus:** High-level line-by-line exploration
 
 - Understand how each import, parameter, and execution pattern in `train.py` maps to Vertex pipeline components  
 - Compare script-style execution to DAG-based orchestration  
 - Trace argparse usage and its replacement with pipeline parameters
 
-### Lab 5.8: Component Mapping and Functionality Translation  
+### Lab 5.8 — Component Mapping and Functionality Translation  
 **Focus:** Function-by-function deep dive
 
 - Map each function in `train.py` to its corresponding Vertex component  
 - Explore how CSV-based logic is replaced by BigQuery artifacts  
 - Verify algorithm consistency and artifact persistence
 
-### Lab 5.9: Pipeline Testing and Validation Framework  
+### Lab 5.9 — Pipeline Testing and Validation Framework  
 **Focus:** Quality gates and testing patterns
 
 - Understand how conditional logic replaces always-register behavior  
@@ -1059,31 +1059,184 @@ Use global search (Ctrl+Shift+F / Cmd+Shift+F) inside that file to jump to each 
 
 ## ✅ Lab 5.7 — High-Level Conversion Exploration
 
-### TODO: Lab 5.7.1 — Line-by-Line Import Exploration  
-Find each `train.py` import and its pipeline equivalent.
+- TODO: `Lab 5.7.1` — Line-by-Line Import Exploration  
+  - Search for the comment line: `# TODO: Lab 5.7.1 - Line-by-Line Import Exploration: Find each train.py import and its pipeline equivalent`  
+  - Inspect the original train.py import block (commented) and the Vertex AI imports (kfp, kfp.dsl, artifact_types). Confirm mapping and note why some imports disappear or are replaced by cloud services.
 
-Detailed sub-TODOs present in the file:
-- 5.7.1.1 (original imports) and sublabels 5.7.1.1a → 5.7.1.1h  
-- 5.7.1.2 (pipeline imports) and sublabels 5.7.1.2a → 5.7.1.2j
+- TODO: `Lab 5.7.2` — High-Level Architecture  
+  - Search for: `# TODO: Lab 5.7.2 - High-Level Architecture Exploration: How script metadata becomes pipeline configuration`  
+  - Inspect PIPELINE_NAME, PIPELINE_DESCRIPTION, BASE_IMAGE, REQUIREMENTS_PATH and compare to original script execution guard.
 
-### TODO: Lab 5.7.2 — High-Level Architecture  
-Compare script execution flow vs pipeline DAG structure.
+- TODO: `Lab 5.7.3` — Parameter Handling Evolution  
+  - Search for: `# TODO: Lab 5.7.3 - Data Flow Exploration: train.py sequential calls → pipeline DAG`  
+  - Confirm pipeline parameters in the `diabetes_training_pipeline` signature and how argparse in the __main__ block maps to pipeline parameters.
 
-Detailed sub-TODOs present in the file:
-- 5.7.2.1 and sublabels 5.7.2.1a → 5.7.2.1b (pipeline metadata)  
-- 5.7.2.2 and sublabels 5.7.2.2a → 5.7.2.2b (execution environment / BASE_IMAGE & requirements)
+- Additional Lab 5.7 anchors: `TODO: Lab 5.7.4` (task creation) and `TODO: Lab 5.7.5` (dependency management / URI parsing notes).
 
-### TODO: Lab 5.7.3 — Parameter Handling Evolution  
-Explore argparse lines → pipeline parameter declarations.
+Note: canonical parameter name used in file and README is `min_accuracy` (pipeline parameter). When reading components, some component examples use `min_accuracy_threshold` — the student should note these naming variants and record them in notes (assignments require reading only).
 
-- Inspect the pipeline definition and the `TODO: Lab 5.7.3` marker describing sequential main() → DAG mapping.
+---
 
-Additional Lab 5.7 anchors to inspect in-file:
-- `TODO: Lab 5.7.1` (workflow structure exploration)  
-- `TODO: Lab 5.7.2` (execution model translation)  
-- `TODO: Lab 5.7.3` (data flow exploration in pipeline)  
-- `TODO: Lab 5.7.4` (task creation exploration)  
-- `TODO: Lab 5.7.5` (dependency management / URI parsing failure notes)
+## ✅ Lab 5.8 — Component Mapping and Functionality Translation
+
+- TODO: `Lab 5.8.1` — Function Mapping  
+  - Search: `# TODO: Lab 5.8.1 - Function Mapping Exploration: How get_csvs_df() becomes BigQuery component`  
+  - Inspect the commented original `get_csvs_df` function and the loaded pre-built component `bigquery_query_job_op` (look for the components.load_component_from_url call). Note the function→component mapping and the versioned component URL.
+
+- TODO: `Lab 5.8.2` — Data Flow Translation  
+  - Search: `# TODO: Lab 5.8.2 - Data Source Translation: DataFrame input → BigQuery table parsing` and related `# TODO: Lab 5.8.2 - Data Splitting Translation` comments.  
+  - Inspect train_model_op and evaluate_model_op components for URI parsing regex and BigQuery client `.query(...).to_dataframe()` calls.
+
+- TODO: `Lab 5.8.3` — Parameter Evolution  
+  - Search: `# TODO: Lab 5.8.3 - Data Loading Evolution: pandas.read_csv() → BigQuery client` and `# TODO: Lab 5.8.3 - Model Loading Translation: Direct object → artifact loading`  
+  - Confirm how function args become component inputs/outputs and how joblib is used to persist/load artifacts (`joblib.dump` / `joblib.load`).
+
+- TODOs for algorithm, persistence, logging:
+  - `Lab 5.8.4` — algorithm/feature columns (search `# TODO: Lab 5.8.4`)  
+  - `Lab 5.8.5` — line-by-line training mapping (search `# TODO: Lab 5.8.5`)  
+  - `Lab 5.8.6` — model persistence (`# TODO: Lab 5.8.6` and sublabels like `5.8.6.2a` → look for `joblib.dump` & `shutil.copy`)  
+  - `Lab 5.8.7` — logging evolution (`# TODO: Lab 5.8.7` and metrics.log_metric calls)
+
+---
+
+## ✅ Lab 5.9 — Pipeline Testing and Validation Framework
+
+- TODO: `Lab 5.9.1` — Pipeline Enhancement (automated approval)  
+  - Search: `# TODO: Lab 5.9.1 - Pipeline Enhancement: Automated approval logic addition`  
+  - Inspect the `dsl.If` blocks that use `eval_task.outputs["Output"]` compared to `min_accuracy`. Confirm the conditional branch that triggers `model_approved_op` and `register_model_op`.
+
+- TODO: `Lab 5.9.2` — Quality Gates  
+  - Search: `# TODO: Lab 5.9.2 - Quality Gates: Structured approval vs always-register` and `# TODO: Lab 5.9.1 - Quality Gate Enhancement`  
+  - Inspect `model_rejected_op`, `model_approved_op`, and the register_model_op component upload_args to see enriched metadata.
+
+- Additional Lab 5.9.X markers: search for `# TODO: Lab 5.9.X` lines distributed in registration, compile/run, and __main__ compile/submit sections.
+
+---
+
+## ⏱️ Timebox & Suggested Walkthrough (2 hours)
+
+- 0–10 min: open `train_to_vertex_ai_conversion.py` and search/count `# TODO: Lab 5.7`, `# TODO: Lab 5.8`, `# TODO: Lab 5.9` markers. Note any naming variants: `min_accuracy` vs `min_accuracy_threshold` and `output_model` vs `trained_model` occurrences.  
+- 10–35 min: Lab 5.7 — imports (5.7.1.*), pipeline metadata and execution (5.7.2.*), parameters (5.7.3).  
+- 35–80 min: Lab 5.8 — data loading (5.8.1.*), train_model_op (5.8.1.2*), data parsing (5.8.2.*), model serialization (5.8.6.*), metrics (5.8.7.*).  
+- 80–105 min: Lab 5.8 continued — evaluate_model_op and evaluation metrics.  
+- 105–120 min: Lab 5.9 — conditional registration, approved/rejected behavior, register_model_op and compile/submit logic.
+
+---
+
+## 📝 Student note expectations (read-only)
+
+- Use exact in-file identifiers: `min_accuracy` (pipeline parameter), `eval_task.outputs["Output"]` (pipeline output used in dsl.If), `train_task.outputs["output_model"]` (artifact name used in register path), `bq_train_task.outputs["destination_table"]`, `joblib.dump` / `shutil.copy`, and metrics keys like `"training_accuracy"`, `"accuracy"`, `"passes_threshold"`.  
+- The student does not edit files — they map WHERE (search for the TODO comment), WHAT (what changed or was replaced), WHY (reason given in the comment).
+
+---
+
+## Student Checklist mapping each README TODO to the in-file TODO comment and purpose
+
+Below is a checklist students can use directly. For each TODO entry, search for the exact comment text shown in quotes (use Ctrl/Cmd+F), open the code immediately above and below that comment, and record the mapping in your notes. Each checklist line includes: TODO label → exact in-file TODO comment text to search → purpose.
+
+- Lab 5.7.1  
+  - Search for: "# TODO: Lab 5.7.1 - Line-by-Line Import Exploration: Find each train.py import and its pipeline equivalent"  
+  - Purpose: Examine original train.py imports (commented block) and the Vertex AI imports block to map each import and note replacements.
+
+- Lab 5.7.1.1 (original imports)  
+  - Search for: "# TODO: Lab 5.7.1.1 - ANSWER: Original train.py imports (WHAT: These are the standalone script imports)"  
+  - Purpose: Locate commented original imports (argparse, glob, os, pandas, sklearn, mlflow) and note where each was used in train.py.
+
+- Lab 5.7.1.2 (pipeline imports)  
+  - Search for: "# TODO: Lab 5.7.1.2 - ANSWER: Vertex AI Kubeflow Pipeline imports (WHAT: These are the cloud-native equivalents)"  
+  - Purpose: Inspect kfp, kfp.dsl imports and artifact_types to see cloud equivalents and understand import transformations.
+
+- Lab 5.7.2  
+  - Search for: "# TODO: Lab 5.7.2 - High-Level Architecture Exploration: How script metadata becomes pipeline configuration"  
+  - Purpose: Read PIPELINE_NAME and PIPELINE_DESCRIPTION mapping and the explanation.
+
+- Lab 5.7.2.1 (pipeline metadata)  
+  - Search for: "# TODO: Lab 5.7.2.1 - ANSWER: Pipeline Metadata (WHAT: Pipeline identification and description)"  
+  - Purpose: Confirm pipeline naming & description replaced script filename.
+
+- Lab 5.7.2.2 (execution environment)  
+  - Search for: "# TODO: Lab 5.7.2.2 - ANSWER: Execution Environment (WHAT: Container-based execution vs local Python)"  
+  - Purpose: Confirm BASE_IMAGE and REQUIREMENTS_PATH represent containerized reproducible environment.
+
+- Lab 5.7.3  
+  - Search for: "# TODO: Lab 5.7.3 - Data Flow Exploration: train.py sequential calls → pipeline DAG"  
+  - Purpose: Inspect pipeline signature (note `min_accuracy` is the pipeline parameter) and how sequential main() steps map to DAG tasks.
+
+- Lab 5.7.4  
+  - Search for: "# TODO: Lab 5.7.4 - Task Creation Exploration: Function calls → component instantiation"  
+  - Purpose: Compare get_csvs_df(...) -> bigquery_query_job_op task creation (bq_train_task / bq_test_task).
+
+- Lab 5.7.5  
+  - Search for: "# TODO: Lab 5.7.5 - Dependency Management: Sequential execution → explicit dependencies"  
+  - Purpose: Inspect train_task.after(bq_train_task) and eval_task.after(train_task) demonstrating explicit dependencies.
+
+- Lab 5.8.1  
+  - Search for: "# TODO: Lab 5.8.1 - Function Mapping Exploration: How get_csvs_df() becomes BigQuery component"  
+  - Purpose: Find the commented original get_csvs_df and the `bigquery_query_job_op = components.load_component_from_url(...)`.
+
+- Lab 5.8.1.1  
+  - Search for: "# TODO: Lab 5.8.1.1 - ANSWER: Original train.py data loading function (WHAT: Local CSV file handling)"  
+  - Purpose: Inspect the original CSV-loading logic (glob, pandas concat) in comments.
+
+- Lab 5.8.1.2  
+  - Search for: "# TODO: Lab 5.8.1.2 - ANSWER: Vertex AI BigQuery Component (WHAT: Cloud-native data access)"  
+  - Purpose: Inspect the pre-built BigQuery component and its registry URL.
+
+- Lab 5.8.1.3  
+  - Search for: "# TODO: Lab 5.8.1.3 - COMPARISON SUMMARY: Function vs Component transformation"  
+  - Purpose: Read the summary of what changed (get_csvs_df → bigquery_query_job_op).
+
+- Lab 5.8.1 (train_model mapping)  
+  - Search for: "# TODO: Lab 5.8.1 - Function Mapping Deep Dive: How train_model() becomes train_model_op component"  
+  - Purpose: Inspect the annotated original train_model function (comment) and the `@component` train_model_op definition.
+
+- Lab 5.8.1.1 (original train_model)  
+  - Search for: "# TODO: Lab 5.8.1.1 - ANSWER: Original train.py train_model function (WHAT: Core ML training logic)"  
+  - Purpose: Read commented original train_model and identify model initialization, fit, return.
+
+- Lab 5.8.1.2 (component transform)  
+  - Search for: "# TODO: Lab 5.8.1.2 - ANSWER: Component Transformation (WHAT: Function becomes distributed component)" and the `@component(... ) def train_model_op(...):` block  
+  - Purpose: Inspect component signature (train_data: Input[artifact_types.BQTable], output_model: Output[Model], metrics: Output[Metrics], reg_rate, project_id, bq_location) and return type float.
+
+- Lab 5.8.2 (data source translation)  
+  - Search for: "# TODO: Lab 5.8.2 - Data Source Translation: DataFrame input → BigQuery table parsing"  
+  - Purpose: Inspect `uri = train_data.uri` and the regex parsing `re.search(r'projects/([^/]+)/datasets/([^/]+)/tables/([^/]+)', uri)` and BigQuery query.
+
+- Lab 5.8.3 (data loading evolution / model loading)  
+  - Search for: "# TODO: Lab 5.8.3 - Data Loading Evolution: pandas.read_csv() → BigQuery client" and "# TODO: Lab 5.8.3 - Model Loading Translation: Direct object → artifact loading" in evaluate component  
+  - Purpose: Inspect bq_client.query(...).to_dataframe() and joblib.load(model.path) usages.
+
+- Lab 5.8.4 (feature consistency)  
+  - Search for: "# TODO: Lab 5.8.4 - Algorithm Consistency Exploration: Same sklearn code in both versions" and "# TODO: Lab 5.8.4.1" sublabels  
+  - Purpose: Confirm FEATURE_COLUMNS list is same as in train.py and used in train & eval.
+
+- Lab 5.8.5 (line-by-line mapping)  
+  - Search for: "# TODO: Lab 5.8.5 - Line-by-Line Algorithm Mapping: Identical sklearn training code" and sublabels 5.8.5.1 / 5.8.5.2  
+  - Purpose: Identify exact model initialization and model.fit lines and model.score usage.
+
+- Lab 5.8.6 (model persistence)  
+  - Search for: "# TODO: Lab 5.8.6 - Model Persistence Translation: return model → artifact serialization" and sublabels 5.8.6.2a / 5.8.6.2b / 5.8.6.2c (look for `joblib.dump` and `shutil.copy`)  
+  - Purpose: Trace how the model is written to model.joblib and copied to output_model.path.
+
+- Lab 5.8.7 (logging evolution)  
+  - Search for: "# TODO: Lab 5.8.7 - Logging Evolution: print() statements → structured metrics" and sublabels 5.8.7.2* (look for `metrics.log_metric(...)`)  
+  - Purpose: Identify metrics keys and how print statements were replaced.
+
+- Lab 5.8.* evaluation extraction entries  
+  - Search for: "# TODO: Lab 5.8.1 - Function Extraction Exploration: Evaluation logic separated from training" and evaluate_model_op function block  
+  - Purpose: Read evaluation extraction, enhanced metrics (precision/recall), and return accuracy.
+
+- Lab 5.9.1 (approval logic)  
+  - Search for: "# TODO: Lab 5.9.1 - Pipeline Enhancement: Automated approval logic addition" and the `with dsl.If(eval_task.outputs["Output"] >= min_accuracy, ...)` block  
+  - Purpose: Inspect approval path (model_approved_op → register_model_op).
+
+- Lab 5.9.2 (quality gates)  
+  - Search for: "# TODO: Lab 5.9.2 - Quality Gates: Structured approval vs always-register" and `model_rejected_op` component and the `with dsl.If(eval_task.outputs["Output"] < min_accuracy, ...)` block  
+  - Purpose: Inspect rejection path and error logging.
+
+- Lab 5.9.X (compile/run and advanced topics)  
+  - Search for: "# TODO: Lab 5.9.X" (multiple occurrences around pipeline compilation, register_model_component notes, and advanced topics)  
+  - Purpose: Inspect pipeline compile/submit logic in `if __name__ == "__main__":` block and CLI→pipeline parameter mapping.
 
 ---
 
