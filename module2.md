@@ -1,4 +1,4 @@
-# Machine Learning Operations Playbook Adoption Workshop – Week 2: Core Architecture - Hands-On Workshop
+# Machine Learning Operations Playbook Adoption Workshop – Phase 1: Core Architecture - Hands-On Workshop
 
 ---
 
