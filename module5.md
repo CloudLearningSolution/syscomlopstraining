@@ -1006,15 +1006,16 @@ Use `Ctrl+Shift+F` / `Cmd+Shift+F` to jump to each marker during targeted traini
 # 🧪 Learner Guide — Labs 5.7, 5.8, and 5.9: Vertex AI Pipeline Conversion and Validation
 
 **Session Type:** Explore-only (2 hours)  
-**Tools Required:** PyCharm or VS Code, GitHub Training Repo with conversion file  
+**Tools Required:** Data Science and ASE member work tools such as PyCharm.
 **File to Open:**  
 - `train_to_vertex_ai_conversion.py`
+- `hands_on_exercise.py`
 
 ---
 
 ## 🧠 Overview
 
-This guided exploration focuses on understanding how a traditional ML training script (`train.py`) is converted into a Vertex AI pipeline using Kubeflow components. No execution or documentation is required — your goal is to read, reason, and locate the `# TODO: Lab X.Y.Z` markers embedded in the single consolidated conversion file.
+This guided exploration focuses on understanding how a AWS traditional ML Model training script (`model.py`) is converted into a Vertex AI pipeline using Kubeflow components. The goal is to read, reason, and locate the `# TODO: Lab X.Y.Z` markers embedded in the single consolidated conversion file. Optionally but recommended, students convert the model.py (model training function) to a reusable vertex kubeflow pipeline component, by utilizing the hands_on_exercise.py file. The task is targeted and real world by ensuring engineers can migrate sysco model.py files essentially sysco models from AWS to Vertex pipelines.
 
 ---
 
@@ -1113,20 +1114,10 @@ Note: canonical parameter name used in file and README is `min_accuracy` (pipeli
 
 ---
 
-## ⏱️ Timebox & Suggested Walkthrough (2 hours)
-
-- 0–10 min: open `train_to_vertex_ai_conversion.py` and search/count `# TODO: Lab 5.7`, `# TODO: Lab 5.8`, `# TODO: Lab 5.9` markers. Note any naming variants: `min_accuracy` vs `min_accuracy_threshold` and `output_model` vs `trained_model` occurrences.  
-- 10–35 min: Lab 5.7 — imports (5.7.1.*), pipeline metadata and execution (5.7.2.*), parameters (5.7.3).  
-- 35–80 min: Lab 5.8 — data loading (5.8.1.*), train_model_op (5.8.1.2*), data parsing (5.8.2.*), model serialization (5.8.6.*), metrics (5.8.7.*).  
-- 80–105 min: Lab 5.8 continued — evaluate_model_op and evaluation metrics.  
-- 105–120 min: Lab 5.9 — conditional registration, approved/rejected behavior, register_model_op and compile/submit logic.
-
----
-
 ## 📝 Student note expectations (read-only)
 
 - Use exact in-file identifiers: `min_accuracy` (pipeline parameter), `eval_task.outputs["Output"]` (pipeline output used in dsl.If), `train_task.outputs["output_model"]` (artifact name used in register path), `bq_train_task.outputs["destination_table"]`, `joblib.dump` / `shutil.copy`, and metrics keys like `"training_accuracy"`, `"accuracy"`, `"passes_threshold"`.  
-- The student does not edit files — they map WHERE (search for the TODO comment), WHAT (what changed or was replaced), WHY (reason given in the comment).
+- The learner does not edit files — they map WHERE (search for the TODO comment), WHAT (what changed or was replaced), WHY (reason given in the comment).
 
 ---
 
