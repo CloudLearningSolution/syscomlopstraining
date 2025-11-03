@@ -1,4 +1,4 @@
-# Machine Learning Operations Playbook Adoption Workshop – Week 5: ML Pipeline Components and Architecture Exploration - Hands-On Workshop
+# Machine Learning Operations Playbook Adoption Workshop – Phase 2: ML Pipeline Components and Architecture Exploration - Hands-On Workshop
 
 ## 🚀 Migration Machine Learning Operations Pipeline Architecture Comparison
 ### Module Learning Objectives
