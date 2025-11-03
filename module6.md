@@ -11,7 +11,7 @@
 
 ## 🧠 Overview
 
-This Week 6 workshop examines how cloud data services are integrated into ML workflows. You will read and map conversion examples that show how local or legacy file/data patterns are migrated to cloud-native services and how those services are wired into orchestration frameworks (SageMaker Workflows and Vertex AI pipelines). No execution or editing — students only read the code, comments, and `# TODO: Lab X.Y.Z` anchors embedded in the conversion files.
+This phase in the workshop examines how cloud data services are integrated into ML workflows. You will read and map conversion examples that show how local or legacy file/data patterns are migrated to cloud-native services and how those services are wired into orchestration frameworks (SageMaker Workflows and Vertex AI pipelines). No execution or editing — students only read the code, comments, and `# TODO: Lab X.Y.Z` anchors embedded in the conversion files.
 
 ---
 
