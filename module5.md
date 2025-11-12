@@ -1106,9 +1106,42 @@ Note: canonical parameter name used in file and README is `min_accuracy` (pipeli
   - Search: `# TODO: Lab 5.9.1 - Pipeline Enhancement: Automated approval logic addition`  
   - Inspect the `dsl.If` blocks that use `eval_task.outputs["Output"]` compared to `min_accuracy`. Confirm the conditional branch that triggers `model_approved_op` and `register_model_op`.
 
+### Why  
+- Add an automated quality gate so the pipeline makes an auditable decision about whether a trained model proceeds to registration and deployment. This replaces “always-register” scripts and demonstrates an essential MLOps pattern: metric-driven gating.
+
+### What  
+- A Kubeflow conditional compares the evaluation component’s numeric accuracy output to the pipeline parameter `min_accuracy`.  
+- On pass: `model_approved_op` (notification) then `register_model_op` (registry upload).  
+- On fail: `model_rejected_op` (logs rejection, graceful completion).  
+- This pattern produces an explicit, queryable approval decision and prevents poor models from entering the registry.
+
+### Where (what to inspect)  
+- Search for: `# TODO: Lab 5.9.1 - Pipeline Enhancement: Automated approval logic addition`.  
+- Find the `dsl.If` pass block:  
+  `with dsl.If(eval_task.outputs["Output"] >= min_accuracy, name="pass-accuracy-threshold"):`
+  - Confirm `approved_task = model_approved_op(...)` exists and what args it receives.  
+  - Confirm `register_task = register_model_op(...)` exists and that it runs after `approved_task`.  
+- Find the `dsl.If` fail block:  
+  `with dsl.If(eval_task.outputs["Output"] < min_accuracy, name="fail-accuracy-threshold"):`
+  - Confirm `model_rejected_op(...)` is invoked and that it logs gracefully rather than raising.
+---
+
 - TODO: `Lab 5.9.2` — Quality Gates  
   - Search: `# TODO: Lab 5.9.2 - Quality Gates: Structured approval vs always-register` and `# TODO: Lab 5.9.1 - Quality Gate Enhancement`  
   - Inspect `model_rejected_op`, `model_approved_op`, and the register_model_op component upload_args to see enriched metadata.
+
+### Why  
+- Illustrates the difference between naive always-register behavior and production best-practice: register only models that meet policies. Adds governance, traceability, and safe automation.
+
+### What  
+- A two-branch quality gate (pass/fail) driven by evaluation metrics.  
+- `register_model_op` shows enriched metadata (labels, artifact URI, serving container image, optional parent model) replacing simple MLflow registration.  
+- `model_rejected_op` provides graceful failure logging + audit trail.
+
+### Where (what to inspect)  
+- Search for: `# TODO: Lab 5.9.2 - Quality Gates: Structured approval vs always-register`.  
+- Inspect `register_model_op` upload_args: identify `display_name`, `artifact_uri`, `serving_container_image_uri`, `labels`, `parent_model`.  
+- Inspect `model_rejected_op` to confirm it logs the failure and writes audit info instead of raising.
 
 - Additional Lab 5.9.X markers: search for `# TODO: Lab 5.9.X` lines distributed in registration, compile/run, and __main__ compile/submit sections.
 
@@ -1116,7 +1149,8 @@ Note: canonical parameter name used in file and README is `min_accuracy` (pipeli
 
 ## 📝 Student note expectations (read-only)
 
-- Use exact in-file identifiers: `min_accuracy` (pipeline parameter), `eval_task.outputs["Output"]` (pipeline output used in dsl.If), `train_task.outputs["output_model"]` (artifact name used in register path), `bq_train_task.outputs["destination_table"]`, `joblib.dump` / `shutil.copy`, and metrics keys like `"training_accuracy"`, `"accuracy"`, `"passes_threshold"`.  
+- Use exact in-file identifiers: `min_accuracy` (pipeline parameter), `eval_task.outputs["Output"]` (pipeline output used in dsl.If), `train_task.outputs["output_model"]` (artifact name used in register path), `bq_train_task.outputs["destination_table"]`, `joblib.dump` / `shutil.copy`, and metrics keys like `"training_accuracy"`, `"accuracy"`, `"passes_threshold"`.
+ 
 - The learner does not edit files — they map WHERE (search for the TODO comment), WHAT (what changed or was replaced), WHY (reason given in the comment).
 
 ---
