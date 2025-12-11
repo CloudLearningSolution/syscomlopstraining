@@ -167,4 +167,153 @@ Each task maps directly to commented sections in `ingest_model.py`. Use VSCode/P
 
 ---
 
+### Module Learning Objectives
+
+- Understand Cloud Storage integration with Vertex AI workflows  
+- Learn how BigQuery ML can train models directly using SQL   
+
+---
+
+### Prerequisites
+
+- GCP project with Vertex AI, BigQuery, and Cloud Storage enabled  
+- Service account with `Storage Admin`, `BigQuery Admin`, and `Vertex AI Admin` roles  
+- Python 3.9+ environment with `google-cloud-aiplatform`, `google-cloud-bigquery`, `google-cloud-storage` installed  
+- Access to BigQuery public datasets (e.g., Penguins dataset)  
+- GitHub Training Repo containing starter notebook code  
+
+---
+
+# 🧪 Lab 6.4: Cloud Storage Integration with Vertex AI Workflows
+
+**Difficulty:** Intermediate  
+**Tools Required:** Google Cloud Console, Cloud Storage, Vertex AI SDK for Python  
+
+---
+
+## 🎯 Lab Objectives
+
+- Install and configure Vertex AI and BigQuery SDKs  
+- Authenticate and set up project information  
+- Create and configure a Cloud Storage bucket for ML artifacts  
+- Assign service accounts for pipeline execution  
+- Initialize Vertex AI SDK with Cloud Storage staging bucket  
+- Compare Cloud Storage integration to Amazon S3 workflows from Lab 6.1  
+
+---
+
+## 1. Prerequisites
+
+- GCP project with Vertex AI and Cloud Storage enabled  
+- Service account with `Storage Admin` and `Vertex AI Admin` roles  
+- Python environment with required SDKs installed  
+
+---
+
+## 2. Theory Overview
+
+Cloud Storage is the **artifact backbone** for Vertex AI workflows.  
+- Buckets store datasets, intermediate files, and exported models  
+- Vertex AI pipelines reference GCS URIs (`gs://bucket-name/path`) for inputs and outputs  
+- IAM roles control access to buckets, ensuring reproducibility and governance  
+- Cloud Storage replaces S3 in AWS workflows, but the integration pattern is nearly identical  
+
+---
+
+## 3. Sequential Lab Tasks
+
+- **Task 6.4.1 — Install SDKs**  
+  - Command: `! pip3 install --upgrade --quiet pyarrow google-cloud-aiplatform google-cloud-bigquery google-cloud-bigquery-storage db-dtypes`  
+  - WHY: Enable Python environment to interact with Vertex AI and BigQuery  
+
+- **Task 6.4.2 — Authenticate Environment**  
+  - Code: `auth.authenticate_user()` (Colab only)  
+  - WHY: Ensure secure access to GCP resources  
+
+- **Task 6.4.3 — Set Project Information**  
+  - Code: `PROJECT_ID = "..."`, `LOCATION = "us-east1"`  
+  - WHY: Required for all GCP API calls  
+
+- **Task 6.4.4 — Create Cloud Storage Bucket**  
+  - Code: `BUCKET_URI = f"gs://churn-user19-{PROJECT_ID}-unique"`  
+  - Command: `! gsutil mb -l {LOCATION} {BUCKET_URI}`  
+  - WHY: Buckets store datasets and exported models  
+
+- **Task 6.4.5 — Configure Service Account**  
+  - Code: `SERVICE_ACCOUNT = "vertex-pipeline-executor@..."`  
+  - WHY: Service accounts provide secure, auditable access  
+
+- **Task 6.4.6 — Initialize SDKs**  
+  - Code:  
+    ```python
+    aiplatform.init(project=PROJECT_ID, staging_bucket=BUCKET_URI)
+    bqclient = bigquery.Client(project=PROJECT_ID)
+    ```  
+  - WHY: Required for pipeline jobs and queries  
+
+---
+
+# 🧪 Lab 6.5: BigQuery ML and Vertex AI Integration Patterns
+
+**Difficulty:** Intermediate to Advanced  
+**Tools Required:** Google Cloud Console, BigQuery, Vertex AI SDK for Python  
+
+---
+
+## 🎯 Lab Objectives
+
+- Train ML models directly in BigQuery using SQL  
+- Evaluate BigQuery ML models with SQL functions  
+
+---
+
+## 1. Prerequisites
+
+- GCP project with BigQuery and Vertex AI enabled  
+- Service account with `BigQuery Admin` and `Vertex AI Admin` roles  
+- Python environment with required SDKs installed  
+- Access to BigQuery public datasets (e.g., Penguins dataset)  
+
+---
+
+## 2. Theory Overview
+
+BigQuery ML allows you to **train ML models directly in SQL**.  
+- Models are stored as BigQuery resources  
+- Evaluation uses SQL functions like `ML.EVALUATE`  
+- Exported models can be uploaded to Vertex AI for deployment  
+- Integration pattern: BigQuery ML → Cloud Storage → Vertex AI Model Registry → Endpoint deployment  
+
+---
+
+## 3. Sequential Lab Tasks
+
+- **Task 6.5.1 — Create BigQuery Dataset**  
+  - SQL: `CREATE SCHEMA penguins`  
+  - WHY: Organize tables and models in BigQuery  
+
+- **Task 6.5.2 — Train BigQuery ML Model**  
+  - SQL:  
+    ```sql
+    CREATE OR REPLACE MODEL penguins
+    OPTIONS(model_type='DNN_CLASSIFIER', labels=['species'])
+    AS SELECT * FROM `bigquery-public-data.ml_datasets.penguins`
+    ```  
+  - WHY: Learn SQL‑based ML training  
+
+- **Task 6.5.3 — Evaluate Model**  
+  - SQL:  
+    ```sql
+    SELECT * FROM ML.EVALUATE(MODEL penguins)
+    ORDER BY roc_auc DESC LIMIT 1
+    ```  
+  - WHY: Validate model performance  
+
+---
+
+## ✅ Summary
+
+- **Lab 6.4** teaches Cloud Storage integration with Vertex AI workflows, mirroring S3 integration 
+- **Lab 6.5** teaches BigQuery ML integration with Vertex AI, mirroring Redshift + AWS ML workflows  
+- Both labs use the **scavenger hunt style** with `# TODO` anchors, guiding learners to record WHERE, WHAT, and WHY for each integration step.  
 
