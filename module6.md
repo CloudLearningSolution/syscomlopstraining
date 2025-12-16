@@ -313,7 +313,16 @@ BigQuery ML allows you to **train ML models directly in SQL**.
 
 ## ✅ Summary
 
-- **Lab 6.4** teaches Cloud Storage integration with Vertex AI workflows, mirroring S3 integration 
+- ## **Lab 6.4** teaches Cloud Storage integration with Vertex AI workflows, mirroring S3 integration 
 - **Lab 6.5** teaches BigQuery ML integration with Vertex AI, mirroring Redshift + AWS ML workflows  
-- Both labs use the **scavenger hunt style** with `# TODO` anchors, guiding learners to record WHERE, WHAT, and WHY for each integration step.  
+- Both labs use the **scavenger hunt style** with `# TODO` anchors, guiding learners to record WHERE, WHAT, and WHY for each integration step.
 
+---
+
+- **Lab 6.6: Google Cloud Data and Analytics Architecture for ML is a hands‑on exercise that teaches how to design and implement an end‑to‑end machine learning workflow using Google Cloud’s data and analytics services. It focuses on connecting BigQuery, Vertex AI,
+
+- ### Data ingestion and storage
+
+- ### Using BigQuery as the central data warehouse for structured datasets.
+- ### Model training in BigQuery ML
+- ### Model registration in Vertex AI
