@@ -319,7 +319,7 @@ BigQuery ML allows you to **train ML models directly in SQL**.
 
 ---
 
-- **Lab 6.6: Google Cloud Data and Analytics Architecture for ML is a hands‑on exercise that teaches how to design and implement an end‑to‑end machine learning workflow using Google Cloud’s data and analytics services. It focuses on connecting BigQuery, Vertex AI,
+- # **Lab 6.6: Google Cloud Data and Analytics Architecture for ML is a hands‑on exercise that teaches how to design and implement an end‑to‑end machine learning workflow using Google Cloud’s data and analytics services. It focuses on connecting BigQuery, Vertex AI,
 
 - ### Data ingestion and storage
 
